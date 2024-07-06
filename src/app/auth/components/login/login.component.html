@@ -1,0 +1,104 @@
+<div class="flex h-full">
+  <div class="surface-section w-full lg:w-6 p-6 lg:p-8 relative">
+    <!-- <div class="mb-5">
+      <img
+        src="../../../../assets/logo.png"
+        alt="Image"
+        height="50"
+        class="mb-3"
+      />
+    </div> -->
+    <div class="flex absolute top-0 left-0 sm:ml-[-1rem] lg:ml-0 mt-6" @slideIn>
+      <div class="colorDiv w-8rem lg:min-w-full h-6rem"></div>
+      <img
+        src="../../../../assets/logo.png"
+        alt="fractal-logo"
+        class="bg-cover w-6rem border-round-right-2xl"
+      />
+    </div>
+    <div
+      class="text-900 text-3xl font-bold mb-3 sm:ml-0 xl:ml-8"
+      style="margin-top: 6.5rem"
+    >
+      Inicia sesión
+    </div>
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="sm:ml-0 xl:ml-8"
+    >
+      <span class="p-input-icon-left w-full lg:w-10 mb-3">
+        <i class="pi pi-user"></i>
+        <input
+          type="text"
+          pInputText
+          class="w-full py-3"
+          formControlName="username"
+          placeholder="Username"
+        />
+      </span>
+      <div
+        @fadeInOut
+        class="p-fluid mb-3 -mt-2 fade-in"
+        *ngIf="
+          loginForm.get('username')?.touched &&
+          loginForm.get('username')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="loginForm.get('username')?.errors?.['required']"
+        >
+          <small>El username es requerido.</small>
+        </div>
+      </div>
+      <span class="p-input-icon-left w-full lg:w-10 mb-3">
+        <i class="pi pi-lock"></i>
+        <input
+          type="password"
+          pInputText
+          class="w-full py-3"
+          formControlName="password"
+          placeholder="Contraseña"
+        />
+      </span>
+
+      <div
+        @fadeInOut
+        class="p-fluid mb-3 -mt-2 fade-in"
+        *ngIf="
+          loginForm.get('password')?.touched &&
+          loginForm.get('password')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="loginForm.get('password')?.errors?.['required']"
+        >
+          <small>La contraseña es requerida.</small>
+        </div>
+      </div>
+      <button
+        [disabled]="loginForm.invalid"
+        [class.disabled]="loginForm.invalid"
+        pbutton=""
+        pripple=""
+        label="Sign In"
+        type="submit"
+        class="p-element p-ripple w-full lg:w-10 p-3 p-button p-component colorButton"
+      >
+        <span class="p-button-label">Continuar</span>
+        <i class="pi pi-arrow-right"></i>
+      </button>
+    </form>
+  </div>
+  <div class="h-screen hidden lg:block">
+    <div class="flex justify-center items-center mx-auto h-full">
+      <img
+        src="../../../../assets/Line pattern.svg"
+        alt="image"
+        class="w-full h-full"
+      />
+    </div>
+  </div>
+</div>
