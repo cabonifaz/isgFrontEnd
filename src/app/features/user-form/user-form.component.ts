@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RoleResponse} from "../../shared/models/role.interface";
 import {RoleService} from "../../services/role/role.service";
+import {HeaderService} from "../../shared/components/layout/header/header.service";
 
 @Component({
   selector: 'app-user-form',
@@ -10,12 +11,15 @@ import {RoleService} from "../../services/role/role.service";
 export class UserFormComponent implements OnInit {
   roles: RoleResponse[] = [];
 
-  constructor(private roleService: RoleService) {
+  constructor(
+    private headerService: HeaderService,
+    private roleService: RoleService) {
   }
 
   ngOnInit(): void {
+    // Cargar título
+    this.headerService.setTitle('Usuarios');
     this.roleService.getRoles().subscribe(roles => this.roles = roles);
-    console.log('roles: ', this.roles);
   }
 
 }

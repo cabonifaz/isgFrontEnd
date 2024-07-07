@@ -1,89 +1,28 @@
-<header
-  class="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-20"
->
-  <nav
-    class="max-w-[118rem] w-full flex flex-wrap basis-full items-center justify-between"
-    aria-label="Global"
-  >
-    <div class="flex items-center">
-      <div class="bg-[#ff7600] lg:min-w-full h-24"></div>
-      <img
-        src="../../../../../assets/logo.png"
-        alt="fractal-logo"
-        class="bg-cover w-24 rounded-r-2xl"
-      />
-      <a class="sm:order-1 flex-none text-2xl font-bold ml-2"
-        ><svg
-          class="inline-block mr-2.5 w-8 h-8"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="#000000"
-        >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            <title></title>
-            <g id="Complete">
-              <g id="arrow-left">
-                <g>
-                  <polyline
-                    data-name="Right"
-                    fill="none"
-                    id="Right-2"
-                    points="7.6 7 2.5 12 7.6 17"
-                    stroke="#000000"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2.4"
-                  ></polyline>
-                  <line
-                    fill="none"
-                    stroke="#000000"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2.4"
-                    x1="21.5"
-                    x2="4.8"
-                    y1="12"
-                    y2="12"
-                  ></line>
-                </g>
-              </g>
-            </g>
-          </g>
-        </svg>
-        Máquinas</a
-      >
+<header>
+  <nav class="mt-6 flex align-items-center justify-content-between">
+    <div class="flex align-items-center gap-3">
+      <span class="flex sm:w-14rem md:w-20rem h-6rem justify-content-end border-round-right-2xl"
+            style="background-color: #ff7600;">
+        <img alt="app-logo" src="assets/logo-upscaled.png" width="96" height="96">
+      </span>
+      <button pButton pRipple type="button" icon="pi pi-arrow-left"
+              class="p-button-secondary p-button-text p-button-lg">
+      </button>
+      <h1 class="text-lg md:text-2xl font-bold">{{ title }}</h1>
     </div>
-    <div class="sm:order-last flex items-center gap-x-2 px-2 md:px-5">
-      <button
-        (click)="backToLogin()"
-        type="button"
-        class="inline-flex transition-colors items-center justify-center text-sm font-medium text-black hover:bg-[#ff7600] hover:text-white rounded-full size-[40px]"
-      >
-        <svg
-          class="w-6 h-6"
-          fill="currentColor"
-          viewBox="0 0 16 16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M12.207 9H5V7h7.136L11.05 5.914 12.464 4.5 16 8.036l-3.536 3.535-1.414-1.414L12.207 9zM10 4H8V2H2v12h6v-2h2v4H0V0h10v4z"
-              fill-rule="evenodd"
-            ></path>
-          </g>
-        </svg>
+    <div class="flex align-items-center gap-2">
+      <button *ngIf="user.idRol == 1 || user.idRol == 2"
+              type="button"
+              pButton
+              class="p-button-warning p-button-sm"
+              [style]="{'background-color': '#ff7600', 'border-color': '#ff7600'}"
+              icon="pi pi-user"
+              (click)="menu.toggle($event)">
+      </button>
+      <p-menu #menu [popup]="true" [model]="items"></p-menu>
+      <button pButton pRipple type="button" icon="pi pi-sign-out"
+              class="p-button-secondary p-button-text p-button-lg mr-3 md:mr-6"
+              (click)="backToLogin()">
       </button>
     </div>
   </nav>
