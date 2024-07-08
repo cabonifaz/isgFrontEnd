@@ -14,14 +14,14 @@ export class UserService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getUsers(userFilterRequest: UserFilterRequest): Observable<UsersResponse> {
+  getUsers(usuarioFilterRequest: UserFilterRequest): Observable<UsersResponse> {
     return this.httpClient.post<UsersResponse>(
-      `${this.uri}/${USER_API_ENDPOINTS.GET_USERS}`, userFilterRequest
+      `${this.uri}/${USER_API_ENDPOINTS.GET_USERS}`, usuarioFilterRequest
     );
   }
 
-  addUser(newUserRequet: UserRequest) {
-    this.httpClient.post(`${this.uri}/${USER_API_ENDPOINTS.GET_USERS}`, newUserRequet);
+  addUser(usuarioRequest: UserRequest): Observable<{ message: string }> {
+    return this.httpClient.post<{ message: string }>(`${this.uri}/${USER_API_ENDPOINTS.ADD_USER}`, usuarioRequest);
   }
 
   getUserById(id: number): Observable<UserResponse> {

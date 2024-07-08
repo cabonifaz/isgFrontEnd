@@ -22,8 +22,10 @@
         </div>
         <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
-          <input pInputText type="text" placeholder="Filtrar por rol"
+          <input pInputText type="text" placeholder="Filtrar por rol" class="mr-2"
                  (input)="usersTable.filterGlobal($any($event.target).value, 'contains')"/>
+          <button pButton class="p-button-secondary p-button-outlined"
+                  routerLink="/main/user-form">Crear usuario</button>
         </span>
       </div>
     </ng-template>
