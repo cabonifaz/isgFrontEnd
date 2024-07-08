@@ -1,10 +1,9 @@
+<!--
 <div class="max-w-1xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-  <!-- Card -->
   <div class="flex flex-col">
     <div class="-m-1.5 overflow-x-auto">
       <div class="p-1.5 min-w-full inline-block align-middle">
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-          <!-- Header -->
           <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
             <div class="flex gap-2">
               <h2 class="text-xl font-semibold text-gray-800">Eventos</h2>
@@ -43,9 +42,6 @@
               </button>
             </div>
           </div>
-          <!-- End Header -->
-
-          <!-- Table -->
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
             <tr>
@@ -93,9 +89,6 @@
             </tr>
             </tbody>
           </table>
-          <!-- End Table -->
-
-          <!-- Footer -->
           <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
             <div>
               <button
@@ -183,11 +176,42 @@
               </div>
             </div>
           </div>
-          <!-- End Footer -->
         </div>
       </div>
     </div>
   </div>
-  <!-- End Card -->
-</div>
-<!-- End Table Section -->
+</div>-->
+
+<p-table #machineEventsTable
+         [value]="machine.events"
+         [rows]="10" [paginator]="true" [globalFilterFields]="['date','hour']"
+         styleClass="mx-8 p-datatable-sm"
+         responsiveLayout="scroll">
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <h5 class="m-0 text-xl">Lista de eventos</h5>
+      <span class="p-input-icon-left ml-auto mr-2">
+        <i class="pi pi-search"></i>
+          <input pInputText type="text" class="p-inputtext-sm"
+                 (input)="machineEventsTable.filterGlobal($any($event.target).value, 'contains')"
+                 placeholder="Ingrese la fecha u hora"/>
+      </span>
+      <button pButton class="p-button-secondary p-button-outlined p-button-sm" (click)="exportExcel()">
+        <i class="pi pi-file-excel"></i>
+        &nbsp;Exportar a Excel
+      </button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Fecha</th>
+      <th>Hora</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-event>
+    <tr>
+      <td>{{ event.date }}</td>
+      <td>{{ event.hour }}</td>
+    </tr>
+  </ng-template>
+</p-table>
