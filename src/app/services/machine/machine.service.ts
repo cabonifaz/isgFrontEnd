@@ -35,8 +35,8 @@ export class MachineService {
     });
   }
 
-  disableMachine(idEquipo: number): Observable<MachineResponse> {
-    return this.httpClient.put<MachineResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.DISABLE_MACHINE}`, {
+  disableMachine(idEquipo: number): Observable<EditMachineResponse> {
+    return this.httpClient.put<EditMachineResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.DISABLE_MACHINE}`, {
       idEquipo: idEquipo
     });
   }

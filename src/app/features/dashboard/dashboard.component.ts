@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 import { HeaderService } from "../../shared/components/layout/header/header.service";
 import { Equipo, EquipoById, MachineResponse } from 'src/app/shared/models/machine.interface';
 import { MachineService } from 'src/app/services/machine/machine.service';
@@ -25,6 +25,12 @@ import { catchError, throwError } from 'rxjs';
           border-bottom-left-radius: 0.75rem;
           border-bottom-right-radius: 0.75rem;
       }
+      :host ::ng-deep .p-paginator .p-paginator-prev  {
+          display: none;
+      }
+      :host ::ng-deep .p-paginator .p-paginator-next  {
+          display: none;
+      }
     `
   ],
   providers: [ConfirmationService]
@@ -34,7 +40,6 @@ export class DashboardComponent implements OnInit {
   equipos: Equipo[] = [];
   selectedProducts!: Equipo[];
   visibleEditModal: boolean = false;
-
   editMachineForm!: FormGroup;
   constructor(
     private headerService: HeaderService,
@@ -53,11 +58,10 @@ export class DashboardComponent implements OnInit {
     this.editMachineInitForm();
   }
 
-  getMachinesState() {
-    this.machineStateService.loadProducts(1, '');
+  getMachiesData() {
     this.machineStateService.machines$.pipe(
       catchError((error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar los productos' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las maquinas' });
         return throwError(() => error);
       })
     ).subscribe((machines: MachineResponse) => {
@@ -67,8 +71,9 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  openModal() {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
+  getMachinesState() {
+    this.machineStateService.loadProducts(1, '');
+    this.getMachiesData();
   }
 
   editMachineInitForm() {
@@ -109,17 +114,8 @@ export class DashboardComponent implements OnInit {
     const idEquipo = this.currentMachineId;
     this.machineStateService.updateMachine(nombreEquipo, idEquipo).subscribe(
       (response) => {
-        this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Has actualizado la máquina' });
-        this.machineStateService.machines$.pipe(
-          catchError((error) => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar los productos' });
-            return throwError(() => error);
-          })
-        ).subscribe((machines: MachineResponse) => {
-          // console.log(response);
-          this.equipment = machines;
-          this.equipos = machines.equipos;
-        })
+        this.messageService.add({ severity: 'success', summary: 'Exito', detail: response.message });
+        this.getMachiesData();
         this.closeEditDialog();
       },
       (error) => {
@@ -128,37 +124,37 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  // onDeleteProduct(product: MachineResponse) {
-  //   this.productStateService.deleteProduct(product.id).subscribe(
-  //     (response) => {
-  //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto eliminado correctamente' });
-  //     },
-  //     (error) => {
-  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar el producto' });
-  //     }
-  //   );
-  // }
-
-  // confirmDelete(product: MachineResponse) {
-  //   this.confirmationService.confirm({
-  //     message: 'Estas seguro de querer eliminar este producto?',
-  //     header: 'Confirmación de eliminación',
-  //     icon: 'pi pi-info-circle',
-  //     accept: () => {
-  //       this.onDeleteProduct(product);
-  //     },
-  //     reject: (type: ConfirmEventType) => {
-  //       switch (type) {
-  //         case ConfirmEventType.REJECT:
-  //           this.messageService.add({ severity: 'error', summary: 'Rechazada', detail: 'Has rechazado la eliminación' });
-  //           break;
-  //         case ConfirmEventType.CANCEL:
-  //           this.messageService.add({ severity: 'warn', summary: 'Cancelada', detail: 'Has cancelado la elimincación' });
-  //           break;
-  //       }
-  //     }
-  //   });
-  // }
+  confirmDisable(idEquipo: number) {
+    this.confirmationService.confirm({
+      message: 'Estas seguro de querer deshabilitar esta máquina?',
+      header: 'Confirmación de deshabilitación',
+      icon: 'pi pi-info-circle',
+      acceptLabel: 'Deshabilitar',
+      rejectLabel: 'Cancelar',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.machineStateService.disableMachine(idEquipo).subscribe(
+          (response) => {
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
+            this.getMachiesData();
+          },
+          (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al deshabilitar la máquina.' });
+          }
+        );
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            // this.messageService.add({ severity: 'error', summary: 'Rechazada', detail: 'Has rechazado la eliminación' });
+            break;
+          case ConfirmEventType.CANCEL:
+            // this.messageService.add({ severity: 'warn', summary: 'Cancelada', detail: 'Has cancelado la elimincación' });
+            break;
+        }
+      }
+    });
+  }
 
   openModalEdit() {
     this.visibleEditModal = true;

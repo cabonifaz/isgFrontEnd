@@ -38,9 +38,21 @@ export class MachineStateService {
     );
   }
 
-  disableMachine(idEquipo: number): void {
-    this.machineService.disableMachine(idEquipo).subscribe(() => {
-
-    });
+  disableMachine(idEquipo: number): Observable<EditMachineResponse> {
+    return this.machineService.disableMachine(idEquipo).pipe(
+      tap(() => {
+        const currentValue = this.machineSubject.getValue();
+        const updatedValue = {
+          ...currentValue,
+          equipos: currentValue.equipos.map(equipo =>
+            equipo.idEquipo === idEquipo ? { ...equipo, idEstadoRegistro: 0 } : equipo
+          ).filter(equipo => equipo.idEstadoRegistro !== 0) // Filtra para excluir equipos con idEstadoRegistro 0
+        };
+        this.machineSubject.next(updatedValue);
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    );
   }
 }

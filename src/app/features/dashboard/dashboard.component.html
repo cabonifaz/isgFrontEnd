@@ -1,9 +1,10 @@
-<div class="min-w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-14 mx-auto">
+<div class="min-w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-14 mx-auto mt-8">
   <p-table
     #dt
     [value]="equipos"
     [rows]="equipment.totalCount"
     [paginator]="true"
+    [showFirstLastIcon]="false"
     [tableStyle]="{
       'min-width': '100%',
       border: '1px solid #e7eaed',
@@ -45,7 +46,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-equipo>
-      <tr>
+      <tr class="overflow-y-auto">
         <td class="p-selectable-row">
           <p-tableCheckbox [value]="equipo"></p-tableCheckbox>
         </td>
@@ -87,6 +88,7 @@
             type="button"
             icon="pi pi-trash"
             class="p-button-rounded p-button-secondary p-button-text"
+            (click)="confirmDisable(equipo.idEquipo)"
           ></button>
           <button
             pButton
