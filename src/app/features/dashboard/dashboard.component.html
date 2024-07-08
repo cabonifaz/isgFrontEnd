@@ -2,18 +2,22 @@
   <p-table
     #dt
     [value]="equipos"
-    [rows]="5"
+    [rows]="equipment.totalCount"
     [paginator]="true"
-    [globalFilterFields]="['status']"
-    [tableStyle]="{ 'min-width': '100%', 'border-radius': '50%' }"
-    styleClass=""
+    [tableStyle]="{
+      'min-width': '100%',
+      border: '1px solid #e7eaed',
+      'border-top': 'none'
+    }"
     dataKey="nombreModelo"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [(selection)]="selectedProducts"
     [breakpoint]="'1170px'"
   >
     <ng-template pTemplate="caption">
-      <div class="flex align-items-center justify-content-between">
+      <div
+        class="flex align-items-center justify-content-center gap-2 md:gap-0 md:justify-content-between flex-wrap"
+      >
         <div class="flex align-items-center gap-2">
           <h5 class="m-0 text-xl font-semibold text-gray-800">Máquinas</h5>
           <span
@@ -32,11 +36,10 @@
         <th style="width: 4rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th>Image</th>
 
-        <th style="min-width: 45rem">Name</th>
-        <th pSortableColumn="inventoryStatus" style="width: fit-content">
-          Status <p-sortIcon field="inventoryStatus"></p-sortIcon>
+        <th style="min-width: 45rem">Máquina</th>
+        <th pSortableColumn="idEstadoRegistro" style="width: fit-content">
+          Estado <p-sortIcon field="idEstadoRegistro"></p-sortIcon>
         </th>
         <th></th>
       </tr>
@@ -47,26 +50,19 @@
           <p-tableCheckbox [value]="equipo"></p-tableCheckbox>
         </td>
         <td>
-          <img
-            src="../../../../../assets/machine.png"
-            [alt]="equipo.nombreModelo"
-            width="50"
-          />
+          <div class="flex align-items-center gap-2">
+            <img
+              src="../../../../../assets/machine.png"
+              [alt]="equipo.nombreEquipo + ' - ' + equipo.modelo"
+              width="50"
+            />
+            {{ equipo.nombreEquipo }} - {{ equipo.modelo }}
+          </div>
         </td>
-        <td>{{ equipo.nombreModelo }}</td>
-        <!-- <td>
-          <p-tag
-            [value]="
-              equipo.idEstadoRegistro === 1 ? 'Habilitado' : 'Deshabilitado'
-            "
-            icon="pi pi-circle-fill"
-            [severity]="getSeverity(equipo.idEstadoRegistro)"
-          ></p-tag>
-        </td> -->
         <td>
           <div class="w-min">
             <span
-              class="py-1 px-2 flex align-items-center justify-content-center items-center gap-2 text-sm font-medium bg-green-200 text-green-500 border-round-2xl"
+              class="py-1 px-2 flex align-items-center justify-content-center items-center gap-2 text-sm font-medium bg-tag-span text-tag-span border-round-2xl"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -88,14 +84,17 @@
           <button
             pButton
             pRipple
+            type="button"
             icon="pi pi-trash"
-            class="p-button-rounded p-button-secondary"
+            class="p-button-rounded p-button-secondary p-button-text"
           ></button>
           <button
             pButton
             pRipple
+            type="button"
             icon="pi pi-pencil"
-            class="p-button-rounded p-button-success mr-2"
+            class="p-button-rounded p-button-secondary p-button-text"
+            (click)="getMachineDataById(equipo)"
           ></button>
         </td>
       </tr>
@@ -119,3 +118,88 @@
     </ng-template>
   </p-table>
 </div>
+<!-- Edit modal-->
+<p-dialog
+  header="Editar la maquina"
+  [(visible)]="visibleEditModal"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '960px': '75vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="closeEditDialog()"
+>
+  <form class="grid formgrid p-fluid" [formGroup]="editMachineForm">
+    <div class="col-12">
+      <div class="field grid">
+        <label class="col-12 md:col-2">Nombre del equipo</label>
+        <div class="col-12 md:col-10">
+          <input
+            pInputText
+            type="text"
+            placeholder="Sensor x"
+            formControlName="nombreModelo"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="field grid">
+        <label class="col-12 md:col-2">Modelo</label>
+        <div class="col-12 md:col-10">
+          <input
+            pInputText
+            type="text"
+            placeholder="Sensor modelo x"
+            formControlName="modelo"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="field grid">
+        <label class="col-12 md:col-2">Serie</label>
+        <div class="col-12 md:col-10">
+          <input
+            pInputText
+            type="text"
+            placeholder="Sensor series x"
+            formControlName="serie"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="field grid">
+        <label class="col-12 md:col-2">Tipo del equipo</label>
+        <div class="col-12 md:col-10">
+          <input
+            pInputText
+            type="text"
+            placeholder="Sensor"
+            formControlName="tipoEquipo"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-12 p-fluid flex flex-column gap-1 md:flex-row md:gap-2">
+      <button
+        pButton
+        type="button"
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-primary field"
+        (click)="onUpdateMachine()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-secondary field"
+        (click)="closeEditDialog()"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+<p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>

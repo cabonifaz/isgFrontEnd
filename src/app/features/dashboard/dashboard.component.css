@@ -9,3 +9,11 @@ input[type=checkbox] {
 .text-span {
   color: #ff9b33;
 }
+
+.bg-tag-span {
+  background-color: #ecfdf3;
+}
+
+.text-tag-span {
+  color: #027a48;
+}

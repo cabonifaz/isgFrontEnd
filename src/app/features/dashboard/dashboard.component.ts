@@ -1,29 +1,68 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { HeaderService } from "../../shared/components/layout/header/header.service";
-import { Equipo, MachineResponse } from 'src/app/shared/models/machine.interface';
+import { Equipo, EquipoById, MachineResponse } from 'src/app/shared/models/machine.interface';
 import { MachineService } from 'src/app/services/machine/machine.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CustomValidators } from 'src/app/shared/components/utils/Validations/CustomValidators';
+import { MachineStateService } from '../services/machine-state.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  styles: [
+    `
+      :host ::ng-deep .p-datatable .p-datatable-header  {
+          border-width: 1px 1px 0px 1px;
+          background: #fff;
+          border-top-left-radius: 0.75rem;
+          border-top-right-radius: 0.75rem;
+      }
+      :host ::ng-deep .p-datatable .p-paginator-bottom  {
+          border-width: 0px 1px 1px 1px;
+          border-bottom-left-radius: 0.75rem;
+          border-bottom-right-radius: 0.75rem;
+      }
+    `
+  ],
+  providers: [ConfirmationService]
 })
 export class DashboardComponent implements OnInit {
   equipment!: MachineResponse
-  equipos!: Equipo[];
+  equipos: Equipo[] = [];
   selectedProducts!: Equipo[];
+  visibleEditModal: boolean = false;
+
+  editMachineForm!: FormGroup;
   constructor(
     private headerService: HeaderService,
     private messageService: MessageService,
-    private machineService: MachineService) {
+    private machineService: MachineService,
+    private formBuilder: FormBuilder,
+    private confirmationService: ConfirmationService,
+    private machineStateService: MachineStateService
+  ) {
   }
 
   ngOnInit(): void {
     // Cargar título
     this.headerService.setTitle('Máquinas');
-    this.machineService.getMachines(1, '').subscribe(machines => {
-      // console.log('machines: ', machines);
+    this.getMachinesState();
+    this.editMachineInitForm();
+  }
+
+  getMachinesState() {
+    this.machineStateService.loadProducts(1, '');
+    this.machineStateService.machines$.pipe(
+      catchError((error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar los productos' });
+        return throwError(() => error);
+      })
+    ).subscribe((machines: MachineResponse) => {
+      // console.log(response);
+      this.equipment = machines;
       this.equipos = machines.equipos;
     })
   }
@@ -32,8 +71,102 @@ export class DashboardComponent implements OnInit {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
   }
 
+  editMachineInitForm() {
+    this.editMachineForm = this.formBuilder.group({
+      nombreModelo: ['', [CustomValidators.required, CustomValidators.minLength(3)]],
+      modelo: ['', [CustomValidators.required, CustomValidators.minLength(3)]],
+      serie: ['', [CustomValidators.required, CustomValidators.minLength(3)]],
+      tipoEquipo: ['', [CustomValidators.required]]
+    });
+  }
+
+  currentMachineId!: number;
+
+  getMachineDataById(machine: EquipoById) {
+    this.machineService.getMachineById(machine.idEquipo).subscribe(
+      (response) => {
+        this.currentMachineId = machine.idEquipo;
+        this.editMachineForm.setValue({
+          nombreModelo: response.nombreEquipo,
+          modelo: response.modelo,
+          serie: response.serie,
+          tipoEquipo: response.descripcionTipoEquipo
+        });
+        this.editMachineForm.get('modelo')?.disable();
+        this.editMachineForm.get('serie')?.disable();
+        this.editMachineForm.get('tipoEquipo')?.disable();
+        this.openModalEdit();
+      }
+    )
+  }
+
+  onUpdateMachine() {
+    if (this.editMachineForm.invalid) {
+      this.editMachineForm.markAllAsTouched();
+      return;
+    }
+    const nombreEquipo = this.editMachineForm.get('nombreModelo')?.value;
+    const idEquipo = this.currentMachineId;
+    this.machineStateService.updateMachine(nombreEquipo, idEquipo).subscribe(
+      (response) => {
+        this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Has actualizado la máquina' });
+        this.machineStateService.machines$.pipe(
+          catchError((error) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar los productos' });
+            return throwError(() => error);
+          })
+        ).subscribe((machines: MachineResponse) => {
+          // console.log(response);
+          this.equipment = machines;
+          this.equipos = machines.equipos;
+        })
+        this.closeEditDialog();
+      },
+      (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al actualizar la máquina' });
+      }
+    );
+  }
+
+  // onDeleteProduct(product: MachineResponse) {
+  //   this.productStateService.deleteProduct(product.id).subscribe(
+  //     (response) => {
+  //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto eliminado correctamente' });
+  //     },
+  //     (error) => {
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar el producto' });
+  //     }
+  //   );
+  // }
+
+  // confirmDelete(product: MachineResponse) {
+  //   this.confirmationService.confirm({
+  //     message: 'Estas seguro de querer eliminar este producto?',
+  //     header: 'Confirmación de eliminación',
+  //     icon: 'pi pi-info-circle',
+  //     accept: () => {
+  //       this.onDeleteProduct(product);
+  //     },
+  //     reject: (type: ConfirmEventType) => {
+  //       switch (type) {
+  //         case ConfirmEventType.REJECT:
+  //           this.messageService.add({ severity: 'error', summary: 'Rechazada', detail: 'Has rechazado la eliminación' });
+  //           break;
+  //         case ConfirmEventType.CANCEL:
+  //           this.messageService.add({ severity: 'warn', summary: 'Cancelada', detail: 'Has cancelado la elimincación' });
+  //           break;
+  //       }
+  //     }
+  //   });
+  // }
+
   openModalEdit() {
-    this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Message Content' });
+    this.visibleEditModal = true;
+    // this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Message Content' });
+  }
+
+  closeEditDialog() {
+    this.visibleEditModal = false;
   }
 
   getSeverity(status: number) {

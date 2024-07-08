@@ -24,4 +24,18 @@ export interface Equipo {
   tipoEquipo: string;
   idEstadoRegistro: number;
   nombreModelo: string;
+  idEquipo: number;
+}
+
+export interface EquipoById {
+  descripcionTipoEquipo: string;
+  idEquipo: number;
+  idTipoEquipo: number;
+  modelo: string;
+  nombreEquipo: string;
+  serie: string;
+}
+
+export interface EditMachineResponse {
+  message: string;
 }
