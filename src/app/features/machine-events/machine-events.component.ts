@@ -3,6 +3,7 @@ import {Machine} from "../../shared/models/machine.interface";
 import {ActivatedRoute} from "@angular/router";
 import {MACHINES} from "../../mocks/mock-data";
 import {saveAs} from "file-saver";
+import {HeaderService} from "../../shared/components/layout/header/header.service";
 
 @Component({
   selector: 'app-machine-events',
@@ -14,13 +15,16 @@ export class MachineEventsComponent implements OnInit {
   machineId!: number;
   machine: Machine = MACHINES.filter(machine => machine.id === 1)[0];
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private headerService: HeaderService,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.machineId = +params.get('machine-id')!;
     });
+    this.headerService.setTitle(this.machine.name);
   }
 
   exportExcel() {
