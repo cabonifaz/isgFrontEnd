@@ -30,6 +30,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { MenuModule } from 'primeng/menu';
 import { PaginatorModule } from 'primeng/paginator';
+import {ChipModule} from 'primeng/chip';
 
 @NgModule({
   exports: [
@@ -63,7 +64,8 @@ import { PaginatorModule } from 'primeng/paginator';
     DataViewModule,
     DynamicDialogModule,
     MenuModule,
-    PaginatorModule
+    PaginatorModule,
+    ChipModule
   ]
 })
 export class PrimeNgModule {

@@ -8,7 +8,7 @@ export interface UserRequest {
 }
 
 export interface UserResponse {
-  id: number;
+  //id: number;
   nombres: string;
   apellidos: string;
   usuario: string;

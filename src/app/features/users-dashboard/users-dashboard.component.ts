@@ -32,6 +32,7 @@ import {RoleService} from "../../services/role/role.service";
       }
     `
   ],
+  styleUrls: ['./users-dashboard.component.css']
 })
 export class UsersDashboardComponent implements OnInit {
   users: PartialUserResponse[] = [];
