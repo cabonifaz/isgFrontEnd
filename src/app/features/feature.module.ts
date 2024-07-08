@@ -1,9 +1,10 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {MachineEventsComponent} from './machine-events/machine-events.component';
-import {UserFormComponent} from './user-form/user-form.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { MachineEventsComponent } from './machine-events/machine-events.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [
     DashboardComponent
