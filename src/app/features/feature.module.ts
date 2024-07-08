@@ -22,10 +22,7 @@ import {SharedModule} from "../shared/shared.module";
     SharedModule
   ],
   exports: [
-    DashboardComponent,
-    MachineEventsComponent,
-    UserFormComponent,
-    UsersDashboardComponent
+    DashboardComponent
   ]
 })
 export class FeatureModule {
