@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +11,10 @@ import { MessageService } from 'primeng/api';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
 import { FeatureModule } from './features/feature.module';
 import { SharedModule } from './shared/shared.module';
-import { CoreModule } from './core/global/core.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { CoreModule } from './core/core.module';
+import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
+import { ServerErrorsInterceptor } from './core/interceptors/server-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,16 +30,27 @@ import { CoreModule } from './core/global/core.module';
     AuthModule,
     SharedModule,
     FeatureModule,
-    CoreModule
+    CoreModule,
+    NgxSpinnerModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true
+    }, {
+      provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerErrorsInterceptor,
       multi: true
     },
     MessageService
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
