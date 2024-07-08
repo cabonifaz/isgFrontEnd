@@ -16,3 +16,21 @@ export interface UserResponse {
   idRol: number;
   rol: string;
 }
+
+export interface PartialUserResponse {
+  idUsuario: number;
+  usuario: string;
+  idEstado: number;
+  idRol: number;
+  rol: string;
+}
+
+export interface UsersResponse {
+  usuarios: PartialUserResponse[];
+  total: number;
+}
+
+export interface UserFilterRequest {
+  usuario: string | "";
+  idRol: number | 0;
+}

@@ -29,6 +29,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import {DataViewModule} from 'primeng/dataview';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {MenuModule} from 'primeng/menu';
+import {ChipModule} from 'primeng/chip';
 
 @NgModule({
   exports: [
@@ -61,7 +62,8 @@ import {MenuModule} from 'primeng/menu';
     TooltipModule,
     DataViewModule,
     DynamicDialogModule,
-    MenuModule
+    MenuModule,
+    ChipModule
   ]
 })
 export class PrimeNgModule {

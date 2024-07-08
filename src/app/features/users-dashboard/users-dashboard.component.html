@@ -1,0 +1,52 @@
+<!--<table>
+  <tr>
+    <th>Nombre de usuario</th>
+    <th>Rol</th>
+    <th>Estado</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr *ngFor="let user of users">
+    <td>{{ user.usuario }}</td>
+    <td>{{ user.rol }}</td>
+    <td>{{ user.idEstado }}</td>
+    <td>
+      <button pButton pRipple class="p-button-secondary p-button-text" icon="pi pi-pencil"></button>
+    </td>
+    <td>
+      <button pButton pRipple class="p-button-secondary p-button-text" icon="pi pi-trash"></button>
+    </td>
+</table>-->
+<p-table #usersTable [value]="users" [rows]="10" [paginator]="true" styleClass="mx-8" responsiveLayout="scroll">
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <h5 class="m-0 text-xl">Lista de usuarios</h5>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nombre de usuario</th>
+      <th>Rol</th>
+      <th>Estado</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{ user.usuario }}</td>
+      <td>
+        <p-chip label="{{ user.rol }}" styleClass="custom-chip text-xs font-bold"></p-chip>
+      </td>
+      <td>
+        <p-chip label="{{ user.idEstado == 1 ? 'Habilitado' : 'Inhabilitado' }}"
+                styleClass="{{ user.idEstado == 1 ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}} custom-chip text-xs font-bold">
+        </p-chip>
+      </td>
+      <td class="text-right">
+        <button pButton pRipple class="p-button-secondary p-button-text mr-2" icon="pi pi-pencil"></button>
+        <button pButton pRipple class="p-button-secondary p-button-text" icon="pi pi-trash"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
