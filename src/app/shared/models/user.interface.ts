@@ -8,7 +8,7 @@ export interface UserRequest {
 }
 
 export interface UserResponse {
-  id: number;
+  //id: number;
   nombres: string;
   apellidos: string;
   usuario: string;
@@ -33,4 +33,19 @@ export interface UsersResponse {
 export interface UserFilterRequest {
   usuario: string | "";
   idRol: number | 0;
+}
+
+export interface UpdateUserRequest {
+  idUsuario: number
+  usuario: string
+  nombres: string
+  apellidos: string
+  usuarioCreador: string
+  idEstado: number
+  idRol: number
+}
+
+export interface UpdatePasswordRequest {
+  idUsuario: number;
+  clave: string;
 }

@@ -4,6 +4,7 @@ import {RoleService} from "../../services/role/role.service";
 import {HeaderService} from "../../shared/components/layout/header/header.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-form',
@@ -12,24 +13,29 @@ import {UserService} from "../../services/user/user.service";
 })
 export class UserFormComponent implements OnInit {
   roles: RoleResponse[] = [];
+  userId: number = 0;
   userFormGroup: FormGroup = new FormGroup({});
 
   constructor(
-    private userService: UserService,
-    private headerService: HeaderService,
-    private roleService: RoleService,
-    private formBuilder: FormBuilder) {
+    private userService: UserService, private headerService: HeaderService,
+    private roleService: RoleService, private formBuilder: FormBuilder, private router: Router
+  ) {
   }
 
   ngOnInit(): void {
-    // Cargar título
-    this.headerService.setTitle('Usuarios');
+    this.userId = this.userService.userId;
+    this.headerService.setTitle(this.userId == 0 ? 'Registro de usuario' : 'Actualización de usuario');
     this.roleService.getRoles().subscribe(roles => this.roles = roles);
+    this.loadUpdateUserRequest();
     this.initForm();
+    console.log(this.userId);
   }
 
   initForm() {
     this.userFormGroup = this.formBuilder.group({
+      idUsuario: [''],
+      idEstado: [''],
+
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
       usuario: ['', Validators.required],
@@ -37,6 +43,33 @@ export class UserFormComponent implements OnInit {
       usuarioCreador: [this.getUsuarioCreador()],
       idRol: ['', Validators.required]
     });
+
+  }
+
+  saveUser(): void {
+    let user = this.userFormGroup.value;
+    if (this.userId == 0) {
+      this.userService.addUser(user).subscribe(
+        response => {
+          alert(response.message);
+          this.userFormGroup.reset();
+          this.router.navigate(['/main/users-dashboard']);
+        },
+      );
+    } else {
+      this.userService.updateUser(user).subscribe(
+        response => alert(response.message),
+      );
+    }
+  }
+
+  updatePassword(): void {
+    this.userService.updatePassword(
+      {idUsuario: this.userId, clave: this.userFormGroup.get('clave')!.value}
+    ).subscribe(
+      response => alert(response.message),
+    );
+    this.userFormGroup.get('clave')?.setValue('');
   }
 
   getUsuarioCreador(): string {
@@ -45,17 +78,14 @@ export class UserFormComponent implements OnInit {
     return decodedPayload.sub;
   }
 
-  saveUser() {
-    let nuevoUsuario = this.userFormGroup.value;
-    this.userService.addUser(nuevoUsuario).subscribe(
-      response => alert(response.message),
-    );
-    this.userFormGroup.reset();
-    /*.subscribe(user => {
-      this.toastr.success('Usuario creado exitosamente');
-      this.router.navigate(['/users']);
-    });*/
-    //console.log(nuevoUsuario);
+
+  loadUpdateUserRequest(): void {
+    if (this.userId != 0) {
+      this.userService.getUserById(this.userId).subscribe(user => {
+        this.userFormGroup.patchValue(user);
+        this.userFormGroup.get('idUsuario')!.setValue(this.userId);
+      });
+    }
   }
 
 }

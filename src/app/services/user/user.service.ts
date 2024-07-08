@@ -2,7 +2,14 @@ import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {UserFilterRequest, UserRequest, UserResponse, UsersResponse} from "../../shared/models/user.interface";
+import {
+  UpdatePasswordRequest,
+  UpdateUserRequest,
+  UserFilterRequest,
+  UserRequest,
+  UserResponse,
+  UsersResponse
+} from "../../shared/models/user.interface";
 import {USER_API_ENDPOINTS} from "../../core/global/constants/api-endpoints";
 
 @Injectable({
@@ -10,8 +17,13 @@ import {USER_API_ENDPOINTS} from "../../core/global/constants/api-endpoints";
 })
 export class UserService {
   private uri = environment.url;
+  public userId: number = 0;
 
   constructor(private httpClient: HttpClient) {
+  }
+
+  setUserId(id: number): void {
+    this.userId = id;
   }
 
   getUsers(usuarioFilterRequest: UserFilterRequest): Observable<UsersResponse> {
@@ -30,6 +42,18 @@ export class UserService {
       {
         idUsuario: id
       });
+  }
+
+  updateUser(updateUserRequest: UpdateUserRequest): Observable<{ message: string }> {
+    return this.httpClient.put<{
+      message: string
+    }>(`${this.uri}/${USER_API_ENDPOINTS.UPDATE_USER}`, updateUserRequest);
+  }
+
+  updatePassword(updatePasswordRequest: UpdatePasswordRequest): Observable<{ message: string }> {
+    return this.httpClient.put<{
+      message: string
+    }>(`${this.uri}/${USER_API_ENDPOINTS.UPDATE_PASSWORD}`, updatePasswordRequest);
   }
 
 

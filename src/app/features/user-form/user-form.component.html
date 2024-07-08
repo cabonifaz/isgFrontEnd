@@ -14,16 +14,33 @@
                 class="col-12 md:col-10">
     </p-dropdown>
 
+    <label for="idEstado" class="col-12 md:col-2 text-xl font-medium text-gray-800">Estado:</label>
+    <p-dropdown formControlName="idEstado" id="idEstado" name="idEstado"
+                [options]="[{name: 'Habilitado', code: 1}, {name: 'Inhabilitado', code: 0}]"
+                optionLabel="name"
+                optionValue="code"
+                class="col-12 md:col-10"
+                [disabled]="userId == 0">
+    </p-dropdown>
+
     <label for="usuario"
            class="col-12 md:col-2 text-xl font-medium text-gray-800">Usuario:</label>
     <input formControlName="usuario" pInputText id="usuario" type="text" class="col-12 md:col-10" placeholder="Usuario">
 
     <label for="clave"
            class="col-12 md:col-2 text-xl font-medium text-gray-800">Contraseña:</label>
-    <input formControlName="clave" pInputText id="clave" type="password" class="col-12 md:col-10"
+    <input formControlName="clave" pInputText id="clave" type="password"
+           class=" col-10 {{userId == 0 ? 'md:col-10' : 'md:col-8'}}"
            placeholder="Contraseña">
 
-    <button pButton type="submit" label="Crear" class="p-button-warning col-12 md:col-6"
+    <button type="button" pButton pRipple class="p-button-warning col-2 md:col-2"
+            label="Cambiar contraseña"
+            style="background-color: #FF7600; border-color: #FF7600; {{userId==0 ? 'display: none': ''}}"
+            (click)="updatePassword()">
+    </button>
+
+    <button pButton type="submit" [label]="userId == 0 ? 'Registrar' : 'Actualizar'"
+            class="p-button-warning col-12 md:col-6"
             style="background-color: #FF7600; border-color: #FF7600"></button>
   </form>
 </div>
