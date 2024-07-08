@@ -1,55 +1,46 @@
-<!--
-<div class="max-w-1xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-  <div>
-    <label for="username" class="block text-base font-medium text-gray-700">Nombre de usuario</label>
-    <input
-      id="username"
-      name="username"
-      type="text"
-      class="transition-colors mb-2 bg-gray-50 pr-14 border focus:outline-none border-gray-300 text-gray-900 text-base rounded-lg focus:ring-2 focus:ring-gray-200 block w-full py-2 px-3"
-      placeholder="Nombre de usuario"
-      autocomplete="on"
-      formControlName="username"
-    />
-  </div>
-  <div>
-    <label for="name" class="block text-base font-medium text-gray-700">Nombres</label>
-    <input
-      id="name"
-      name="name"
-      type="text"
-      class="transition-colors mb-2 bg-gray-50 pr-14 border focus:outline-none border-gray-300 text-gray-900 text-base rounded-lg focus:ring-2 focus:ring-gray-200 block w-full py-2 px-3"
-      placeholder="Nombres"
-      autocomplete="on"
-      formControlName="username"
-    />
-  </div>
-  <div>
-    <label for="lastName" class="block text-base font-medium text-gray-700">Apellidos</label>
-    <input
-      id="lastName"
-      name="lastName"
-      type="text"
-      class="transition-colors mb-2 bg-gray-50 pr-14 border focus:outline-none border-gray-300 text-gray-900 text-base rounded-lg focus:ring-2 focus:ring-gray-200 block w-full py-2 px-3"
-      placeholder="Apellidos"
-      autocomplete="on"
-      formControlName="username"
-    />
-  </div>
-  <div>
-    <label for="password" class="block text-base font-medium text-gray-700">Contraseña</label>
-    <input
-      id="password"
-      name="password"
-      type="text"
-      class="transition-colors mb-2 bg-gray-50 pr-14 border focus:outline-none border-gray-300 text-gray-900 text-base rounded-lg focus:ring-2 focus:ring-gray-200 block w-full py-2 px-3"
-      placeholder="Contraseña"
-      autocomplete="on"
-      formControlName="username"
-    />
-  </div>
-  <div>
-    <select name=""></select>
-  </div>
+<div class="min-w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-14 mx-auto">
+  <form [formGroup]="userFormGroup" (ngSubmit)="saveUser()"
+        class="grid align-items-center justify-content-center row-gap-2 md:mx-8 md:row-gap-4">
+    <label for="nombres" class="col-12 md:col-2 text-xl font-medium text-gray-800">Nombres:</label>
+    <input formControlName="nombres" pInputText id="nombres" type="text" class="col-12 md:col-10" placeholder="Nombres"
+           autofocus>
+
+    <label for="apellidos" class="col-12 md:col-2 text-xl font-medium text-gray-800">Apellidos:</label>
+    <input formControlName="apellidos" pInputText id="apellidos" type="text" class="col-12 md:col-10"
+           placeholder="Apellidos">
+
+    <label for="idRol" class="col-12 md:col-2 text-xl font-medium text-gray-800">Rol:</label>
+    <p-dropdown formControlName="idRol" id="idRol" [options]="roles" optionLabel="rol" optionValue="idRol"
+                class="col-12 md:col-10">
+    </p-dropdown>
+
+    <label for="idEstado" class="col-12 md:col-2 text-xl font-medium text-gray-800">Estado:</label>
+    <p-dropdown formControlName="idEstado" id="idEstado" name="idEstado"
+                [options]="[{name: 'Habilitado', code: 1}, {name: 'Inhabilitado', code: 0}]"
+                optionLabel="name"
+                optionValue="code"
+                class="col-12 md:col-10"
+                [disabled]="userId == 0">
+    </p-dropdown>
+
+    <label for="usuario"
+           class="col-12 md:col-2 text-xl font-medium text-gray-800">Usuario:</label>
+    <input formControlName="usuario" pInputText id="usuario" type="text" class="col-12 md:col-10" placeholder="Usuario">
+
+    <label for="clave"
+           class="col-12 md:col-2 text-xl font-medium text-gray-800">Contraseña:</label>
+    <input formControlName="clave" pInputText id="clave" type="password"
+           class=" col-10 {{userId == 0 ? 'md:col-10' : 'md:col-8'}}"
+           placeholder="Contraseña">
+
+    <button type="button" pButton pRipple class="p-button-warning col-2 md:col-2"
+            label="Cambiar contraseña"
+            style="background-color: #FF7600; border-color: #FF7600; {{userId==0 ? 'display: none': ''}}"
+            (click)="updatePassword()">
+    </button>
+
+    <button pButton type="submit" [label]="userId == 0 ? 'Registrar' : 'Actualizar'"
+            class="p-button-warning col-12 md:col-6"
+            style="background-color: #FF7600; border-color: #FF7600"></button>
+  </form>
 </div>
--->

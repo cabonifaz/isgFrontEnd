@@ -1,0 +1,91 @@
+<div class="min-w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-14 mx-auto">
+  <p-table
+    #usersTable
+    [value]="users"
+    [rows]="5"
+    [paginator]="true"
+    [showFirstLastIcon]="false"
+    [globalFilterFields]="['rol']"
+    [tableStyle]="{
+      'min-width': '100%',
+      border: '1px solid #e7eaed',
+      'border-top': 'none'
+    }"
+    styleClass=""
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [breakpoint]="'1170px'"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <div class="flex align-items-center gap-2">
+          <h5 class="m-0 text-xl font-semibold text-gray-800">Lista de usuarios</h5>
+          <span
+            class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-span text-span"
+          >{{ users.length }} usuarios</span
+          >
+        </div>
+        <span class="p-input-icon-left">
+          <label for="idRol" class="font-medium text-gray-800">Filtrar por rol:</label>
+          <p-dropdown id="idRol" [options]="roles" optionLabel="rol" optionValue="idRol"
+                      class="col-12 md:col-10" placeholder="Roles" [(ngModel)]="selectedRoleId"
+                      (onChange)="onChange($event);loadUsers()">
+          </p-dropdown>
+          <button pButton class="p-button-secondary p-button-outlined"
+                  routerLink="/main/user-form" (click)="clearUserId()">Crear usuario</button>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col">Nombre de usuario</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Estado</th>
+        <th scope="col"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{ user.usuario }}</td>
+        <td>
+          <span class="bg-gray-200 text-gray-800 font-medium px-2 py-1 border-round-3xl">
+            {{ user.rol }}
+          </span>
+        </td>
+        <td>
+          <span
+            class="font-medium px-2 py-1 border-round-3xl {{user.idEstado == 1 ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}}">
+            {{ user.idEstado == 1 ? '● Habilitado' : ' ● Inhabilitado' }}
+          </span>
+        </td>
+        <td class="text-center">
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-secondary p-button-text"
+            (click)="setUserId(user.idUsuario)"
+            routerLink="/main/user-form"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button
+        type="button"
+        icon="pi pi-arrow-left"
+        label="Volver"
+        styleClass="p-button-outlined border-gray-300 text-gray-800"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+      <p-button
+        type="button"
+        label="Siguiente"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        styleClass="p-button-outlined border-gray-300 text-gray-800"
+      ></p-button>
+    </ng-template>
+  </p-table>
+</div>

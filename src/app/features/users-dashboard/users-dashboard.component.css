@@ -1,0 +1,19 @@
+input[type=checkbox] {
+  transform: scale(1.5);
+}
+
+.bg-span {
+  background-color: #ffe5ca;
+}
+
+.text-span {
+  color: #ff9b33;
+}
+
+.bg-tag-span {
+  background-color: #ecfdf3;
+}
+
+.text-tag-span {
+  color: #027a48;
+}
