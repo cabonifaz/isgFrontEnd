@@ -15,6 +15,7 @@ export class UserFormComponent implements OnInit {
   roles: RoleResponse[] = [];
   userId: number = 0;
   userFormGroup: FormGroup = new FormGroup({});
+  passwordFormGroup: FormGroup = new FormGroup({});
 
   constructor(
     private userService: UserService, private headerService: HeaderService,
@@ -31,19 +32,33 @@ export class UserFormComponent implements OnInit {
     console.log(this.userId);
   }
 
-  initForm() {
-    this.userFormGroup = this.formBuilder.group({
-      idUsuario: [''],
-      idEstado: [''],
+  initForm(): void {
+    if (this.userId == 0) {
+      this.userFormGroup = this.formBuilder.group({
+        nombres: ['', Validators.required],
+        apellidos: ['', Validators.required],
+        usuario: ['', Validators.required],
+        clave: ['', Validators.required],
+        usuarioCreador: [this.getUsuarioCreador()],
+        idRol: ['', Validators.required]
+      });
+    } else {
+      this.userFormGroup = this.formBuilder.group({
+        idUsuario: [''],
+        idEstado: [''],
 
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      usuario: ['', Validators.required],
-      clave: ['', Validators.required],
-      usuarioCreador: [this.getUsuarioCreador()],
-      idRol: ['', Validators.required]
+        nombres: ['', Validators.required],
+        apellidos: ['', Validators.required],
+        usuario: ['', Validators.required],
+        //clave: ['', Validators.required],
+        usuarioCreador: [this.getUsuarioCreador()],
+        idRol: ['', Validators.required]
+      });
+    }
+    this.passwordFormGroup = this.formBuilder.group({
+      idUsuario: [this.userId],
+      clave: ['', Validators.required]
     });
-
   }
 
   saveUser(): void {
@@ -61,15 +76,19 @@ export class UserFormComponent implements OnInit {
         response => alert(response.message),
       );
     }
+    this.router.navigate(['/main/users-dashboard']);
   }
 
   updatePassword(): void {
+    let updatePasswordRequest = this.passwordFormGroup.value;
     this.userService.updatePassword(
-      {idUsuario: this.userId, clave: this.userFormGroup.get('clave')!.value}
+      //{idUsuario: this.userId, clave: this.userFormGroup.get('clave')!.value}
+      updatePasswordRequest
     ).subscribe(
       response => alert(response.message),
     );
-    this.userFormGroup.get('clave')?.setValue('');
+    this.passwordFormGroup.reset();
+    this.router.navigate(['/main/users-dashboard']);
   }
 
   getUsuarioCreador(): string {
