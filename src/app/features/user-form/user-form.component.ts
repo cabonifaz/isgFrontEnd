@@ -36,21 +36,21 @@ export class UserFormComponent implements OnInit {
     if (this.userId == 0) {
       //FormGroup para registrar usuario
       this.userFormGroup = this.formBuilder.group({
-        nombres: ['', Validators.required],
-        apellidos: ['', Validators.required],
-        usuario: ['', Validators.required],
-        clave: ['', Validators.required],
+        nombres: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+        apellidos: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+        usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z_1234567890]*$')]],
+        clave: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(200)]],
         usuarioCreador: [this.getUsuarioCreador()],
-        idRol: ['', Validators.required]
+        idRol: ['', [Validators.required]]
       });
     } else {
       //FormGroup para actualizar usuario
       this.userFormGroup = this.formBuilder.group({
         idUsuario: [''],
         idEstado: [''],
-        nombres: ['', Validators.required],
-        apellidos: ['', Validators.required],
-        usuario: ['', Validators.required],
+        nombres: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+        apellidos: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+        usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z_1234567890]*$')]],
         usuarioCreador: [this.getUsuarioCreador()],
         idRol: ['', Validators.required]
       });
@@ -58,7 +58,7 @@ export class UserFormComponent implements OnInit {
     //FormGroup para actualizar contraseña
     this.passwordFormGroup = this.formBuilder.group({
       idUsuario: [this.userId],
-      clave: ['', Validators.required]
+      clave: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(200)]],
     });
   }
 
