@@ -1,16 +1,3 @@
-export interface Machine {
-  id: number,
-  name: string,
-  state: string,
-  events: Event[]
-}
-
-interface Event {
-  id: number,
-  date: string,
-  hour: string
-}
-
 export interface MachineResponse {
   equipos: Equipo[];
   totalCount: number;
@@ -40,7 +27,12 @@ export interface EditMachineResponse {
   message: string;
 }
 
-export interface MachineEventsResponse {
-  fecha: string;
+export interface MachineEventResponse {
+  eventos: MachineEvent[];
+  total: number;
+}
+
+export interface MachineEvent {
+  fecha: Date;
   hora: string;
 }

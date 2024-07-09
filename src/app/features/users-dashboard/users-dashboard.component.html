@@ -48,13 +48,13 @@
       <tr>
         <td>{{ user.usuario }}</td>
         <td>
-          <span class="bg-gray-200 text-gray-800 font-medium px-2 py-1 border-round-3xl">
+          <span class="bg-gray-200 text-gray-800 font-medium text-sm px-2 py-1 border-round-3xl">
             {{ user.rol }}
           </span>
         </td>
         <td>
           <span
-            class="font-medium px-2 py-1 border-round-3xl {{user.idEstado == 1 ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}}">
+            class="font-medium text-sm px-2 py-1 border-round-3xl {{user.idEstado == 1 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}}">
             {{ user.idEstado == 1 ? '● Habilitado' : ' ● Inhabilitado' }}
           </span>
         </td>

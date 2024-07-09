@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Equipo, MachineEventsResponse} from "../../shared/models/machine.interface";
+import {Equipo, MachineEventResponse} from "../../shared/models/machine.interface";
 import {ActivatedRoute} from "@angular/router";
 import {saveAs} from "file-saver";
 import {HeaderService} from "../../shared/components/layout/header/header.service";
@@ -35,10 +35,9 @@ import {formatDate} from "@angular/common";
   ],
 })
 export class MachineEventsComponent implements OnInit {
-
   machineId: number = 14;
   machine!: Equipo;
-  machineEvents: MachineEventsResponse[] = [];
+  machineEvents!: MachineEventResponse;
   desde: Date = new Date();
   hasta: Date = new Date();
   filter = {
@@ -62,7 +61,6 @@ export class MachineEventsComponent implements OnInit {
       this.machineId = +params.get('machine-id')!;
     });
     this.headerService.setTitle("Máquina 1");
-
   }
 
   getEvents() {
@@ -83,7 +81,7 @@ export class MachineEventsComponent implements OnInit {
 
   exportExcel() {
     import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.machineEvents);
+      const worksheet = xlsx.utils.json_to_sheet(this.machineEvents.eventos);
       const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
       const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
       this.saveAsExcelFile(excelBuffer, "products");
@@ -98,4 +96,6 @@ export class MachineEventsComponent implements OnInit {
     });
     saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
+
+  protected readonly formatDate = formatDate;
 }

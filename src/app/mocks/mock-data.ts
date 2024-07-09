@@ -1,4 +1,4 @@
-import {Machine} from "../shared/models/machine.interface";
+/*import {Machine} from "../shared/models/machine.interface";
 
 export const MACHINES: Machine[] = [
   {
@@ -250,3 +250,4 @@ export const MACHINES: Machine[] = [
     ]
   }
 ]
+*/

@@ -1,7 +1,7 @@
 <div class="min-w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-14 mx-auto">
   <p-table
     #machineEventsTable
-    [value]="machineEvents"
+    [value]="machineEvents.eventos"
     [rows]="5"
     [paginator]="true"
     [globalFilterFields]="['date','hour']"
@@ -21,17 +21,17 @@
           <h5 class="m-0 text-xl font-semibold text-gray-800">Máquinas</h5>
           <span
             class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-span text-span"
-          >{{ machineEvents.length }} eventos</span
+          >{{ machineEvents.total }} eventos</span
           >
         </div>
         <span class="p-input-icon-left">
           <label for="desde" class="font-medium text-sm text-gray-800">Desde:&nbsp;</label>
-          <p-calendar id="desde" [(ngModel)]="desde" [showTime]="true" [showSeconds]="true"
+          <p-calendar id="desde" [(ngModel)]="desde" [showTime]="true" [showSeconds]="true" dateFormat="dd/mm/yy"
                       inputId="time"
                       class="mr-2">
           </p-calendar>
           <label for="hasta" class="font-medium text-sm text-gray-800">Hasta:&nbsp;</label>
-          <p-calendar id="hasta" [(ngModel)]="hasta" [showTime]="true" [showSeconds]="true"
+          <p-calendar id="hasta" [(ngModel)]="hasta" [showTime]="true" [showSeconds]="true" dateFormat="dd/mm/yy"
                       inputId="time"
                       class="mr-2">
           </p-calendar>
@@ -52,8 +52,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-event>
       <tr>
-        <td>{{ event.fecha }}</td>
-        <td>{{ event.hora }}</td>
+        <td class="font-medium">{{ event.fecha | date: 'dd/MM/yyyy' }}</td>
+        <td class="font-medium">{{ event.hora }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft">

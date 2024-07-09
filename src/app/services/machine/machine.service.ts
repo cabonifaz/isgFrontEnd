@@ -5,7 +5,7 @@ import {MACHINE_API_ENDPOINTS} from 'src/app/core/global/constants/api-endpoints
 import {
   EditMachineResponse,
   EquipoById,
-  MachineEventsResponse,
+  MachineEventResponse,
   MachineResponse
 } from 'src/app/shared/models/machine.interface';
 import {environment} from 'src/environments/environment';
@@ -53,7 +53,7 @@ export class MachineService {
     horaDesde: string,
     horaHasta: string,
     idEquipo: number
-  }): Observable<MachineEventsResponse[]> {
-    return this.httpClient.post<MachineEventsResponse[]>(`${this.uri}/${MACHINE_API_ENDPOINTS.GET_MACHINE_EVENTS}`, filter);
+  }): Observable<MachineEventResponse> {
+    return this.httpClient.post<MachineEventResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.GET_MACHINE_EVENTS}`, filter);
   }
 }
