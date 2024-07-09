@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Machine} from "../../shared/models/machine.interface";
+import {Equipo, MachineEventsResponse} from "../../shared/models/machine.interface";
 import {ActivatedRoute} from "@angular/router";
-import {MACHINES} from "../../mocks/mock-data";
 import {saveAs} from "file-saver";
 import {HeaderService} from "../../shared/components/layout/header/header.service";
+import {MachineService} from "../../services/machine/machine.service";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-machine-events',
@@ -35,24 +36,54 @@ import {HeaderService} from "../../shared/components/layout/header/header.servic
 })
 export class MachineEventsComponent implements OnInit {
 
-  machineId!: number;
-  machine: Machine = MACHINES.filter(machine => machine.id === 1)[0];
+  machineId: number = 14;
+  machine!: Equipo;
+  machineEvents: MachineEventsResponse[] = [];
+  desde: Date = new Date();
+  hasta: Date = new Date();
+  filter = {
+    fechaDesde: '',
+    fechaHasta: '',
+    horaDesde: '',
+    horaHasta: '',
+    idEquipo: this.machineId
+  }
 
   constructor(
     private headerService: HeaderService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private machineService: MachineService,
+  ) {
   }
 
   ngOnInit(): void {
+    this.getEvents();
     this.route.paramMap.subscribe(params => {
       this.machineId = +params.get('machine-id')!;
     });
-    this.headerService.setTitle(this.machine.name);
+    this.headerService.setTitle("Máquina 1");
+
+  }
+
+  getEvents() {
+    this.machineService.getMachineEvents(this.filter).subscribe(machineEvents => {
+      this.machineEvents = machineEvents;
+    });
+  }
+
+  setDates(): void {
+    this.filter = {
+      fechaDesde: formatDate(this.desde, 'yyyy-MM-dd', 'en-US'),
+      fechaHasta: formatDate(this.hasta, 'yyyy-MM-dd', 'en-US'),
+      horaDesde: formatDate(this.desde, 'HH:mm:ss', 'en-US'),
+      horaHasta: formatDate(this.hasta, 'HH:mm:ss', 'en-US'),
+      idEquipo: 14
+    }
   }
 
   exportExcel() {
     import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.machine.events);
+      const worksheet = xlsx.utils.json_to_sheet(this.machineEvents);
       const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
       const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
       this.saveAsExcelFile(excelBuffer, "products");

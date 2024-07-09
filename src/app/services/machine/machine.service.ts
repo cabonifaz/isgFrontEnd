@@ -17,7 +17,8 @@ export class MachineService {
 
   private uri = environment.url;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient) {
   }
 
   getMachines(idTipoEquipo: number, equipo: string): Observable<MachineResponse> {
@@ -46,7 +47,7 @@ export class MachineService {
     });
   }
 
-  filterMachineEvents(filter: {
+  getMachineEvents(filter: {
     fechaDesde: string,
     fechaHasta: string,
     horaDesde: string,

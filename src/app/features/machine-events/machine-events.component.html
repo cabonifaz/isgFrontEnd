@@ -1,7 +1,7 @@
 <div class="min-w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-14 mx-auto">
   <p-table
     #machineEventsTable
-    [value]="machine.events"
+    [value]="machineEvents"
     [rows]="5"
     [paginator]="true"
     [globalFilterFields]="['date','hour']"
@@ -21,16 +21,25 @@
           <h5 class="m-0 text-xl font-semibold text-gray-800">Máquinas</h5>
           <span
             class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-span text-span"
-          >{{ machine.events.length }} eventos</span
+          >{{ machineEvents.length }} eventos</span
           >
         </div>
         <span class="p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" placeholder="Buscar por fecha u hora" class="mr-2"
-                 (input)="machineEventsTable.filterGlobal($any($event.target).value, 'contains')"/>
-          <button pButton class="p-button-secondary p-button-outlined" (click)="exportExcel()">
-            <i class="pi pi-file-excel"></i>
-            &nbsp;Exportar a Excel
+          <label for="desde" class="font-medium text-sm text-gray-800">Desde:&nbsp;</label>
+          <p-calendar id="desde" [(ngModel)]="desde" [showTime]="true" [showSeconds]="true"
+                      inputId="time"
+                      class="mr-2">
+          </p-calendar>
+          <label for="hasta" class="font-medium text-sm text-gray-800">Hasta:&nbsp;</label>
+          <p-calendar id="hasta" [(ngModel)]="hasta" [showTime]="true" [showSeconds]="true"
+                      inputId="time"
+                      class="mr-2">
+          </p-calendar>
+          <button pButton class="p-button-secondary p-button-outlined mr-2" icon="pi pi-filter-fill"
+                  pTooltip="Filtrar" tooltipPosition="top" (click)="setDates();getEvents()">
+          </button>
+          <button pButton class="p-button-secondary p-button-outlined" icon="pi pi-file-excel"
+                  pTooltip="Exportar a Excel" tooltipPosition="top" (click)="exportExcel()">
           </button>
         </span>
       </div>
@@ -43,8 +52,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-event>
       <tr>
-        <td>{{ event.date }}</td>
-        <td>{{ event.hour }}</td>
+        <td>{{ event.fecha }}</td>
+        <td>{{ event.hora }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft">
