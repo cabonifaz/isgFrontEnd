@@ -39,3 +39,8 @@ export interface EquipoById {
 export interface EditMachineResponse {
   message: string;
 }
+
+export interface MachineEventsResponse {
+  fecha: string;
+  hora: string;
+}

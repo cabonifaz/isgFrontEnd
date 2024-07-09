@@ -1,9 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { MACHINE_API_ENDPOINTS } from 'src/app/core/global/constants/api-endpoints';
-import { EditMachineResponse, Equipo, EquipoById, MachineResponse } from 'src/app/shared/models/machine.interface';
-import { environment } from 'src/environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {MACHINE_API_ENDPOINTS} from 'src/app/core/global/constants/api-endpoints';
+import {
+  EditMachineResponse,
+  EquipoById,
+  MachineEventsResponse,
+  MachineResponse
+} from 'src/app/shared/models/machine.interface';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +44,15 @@ export class MachineService {
     return this.httpClient.put<EditMachineResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.DISABLE_MACHINE}`, {
       idEquipo: idEquipo
     });
+  }
+
+  filterMachineEvents(filter: {
+    fechaDesde: string,
+    fechaHasta: string,
+    horaDesde: string,
+    horaHasta: string,
+    idEquipo: number
+  }): Observable<MachineEventsResponse[]> {
+    return this.httpClient.post<MachineEventsResponse[]>(`${this.uri}/${MACHINE_API_ENDPOINTS.GET_MACHINE_EVENTS}`, filter);
   }
 }

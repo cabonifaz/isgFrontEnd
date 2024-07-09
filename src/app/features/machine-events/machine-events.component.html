@@ -5,7 +5,11 @@
     [rows]="5"
     [paginator]="true"
     [globalFilterFields]="['date','hour']"
-    [tableStyle]="{ 'min-width': '100%', 'border-radius': '50%' }"
+    [tableStyle]="{
+      'min-width': '100%',
+      border: '1px solid #e7eaed',
+      'border-top': 'none'
+    }"
     styleClass=""
     dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
