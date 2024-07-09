@@ -97,6 +97,10 @@
             icon="pi pi-trash"
             class="p-button-rounded p-button-secondary p-button-text"
             (click)="confirmDisable(equipo.idEquipo)"
+            *ngIf="
+              currentUser?.rol !== 'Data User' ||
+              currentUser?.rol !== 'Operador'
+            "
           ></button>
           <button
             pButton
@@ -105,6 +109,10 @@
             icon="pi pi-pencil"
             class="p-button-rounded p-button-secondary p-button-text"
             (click)="getMachineDataById(equipo)"
+            *ngIf="
+              currentUser?.rol !== 'Data User' ||
+              currentUser?.rol !== 'Operador'
+            "
           ></button>
         </td>
       </tr>
@@ -152,6 +160,27 @@
           />
         </div>
       </div>
+      <div
+        *ngIf="
+          editMachineForm.get('nombreModelo')?.touched &&
+          editMachineForm.get('nombreModelo')?.errors
+        "
+        @fadeInOut
+        class="p-fluid mb-3 -mt-2 fade-in flex align-items-center gap-2"
+      >
+        <div
+          *ngIf="editMachineForm.get('nombreModelo')?.errors?.['required']"
+          class="p-error"
+        >
+          <small>El nombre del equipo es requerido.</small>
+        </div>
+        <div
+          *ngIf="editMachineForm.get('nombreModelo')?.errors?.['minLength']"
+          class="p-error"
+        >
+          <small>Debes ingresar como mínimo 2 caracteres.</small>
+        </div>
+      </div>
     </div>
     <div class="col-12">
       <div class="field grid">
@@ -194,6 +223,8 @@
     </div>
     <div class="col-12 p-fluid flex flex-column gap-1 md:flex-row md:gap-2">
       <button
+        [class.disabled]="editMachineForm.invalid"
+        [disabled]="editMachineForm.invalid"
         pButton
         type="button"
         label="Guardar"
