@@ -6,7 +6,8 @@ import { MachineService } from 'src/app/services/machine/machine.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/components/utils/Validations/CustomValidators';
 import { MachineStateService } from '../services/machine-state.service';
-import { catchError, throwError } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, throwError } from 'rxjs';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,7 +32,26 @@ import { catchError, throwError } from 'rxjs';
       :host ::ng-deep .p-paginator .p-paginator-next  {
           display: none;
       }
+      :host ::ng-deep .p-button-primary {
+        background-color: #ff7600;
+        border-color: #ff7600;
+      }
+      :host ::ng-deep .p-button-primary:hover {
+        background-color: #ff5500;
+        border-color: #ff5500;
+      }
+      :host ::ng-deep .p-button-primary:focus {
+        background-color: #ff5500;
+        border-color: #ff5500;
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ff9b33, 0 1px 2px 0 black;
+      }
     `
+  ],
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({ opacity: 0 })),
+      transition('void <=> *', animate(300)),
+    ]),
   ],
   providers: [ConfirmationService]
 })
@@ -41,6 +61,8 @@ export class DashboardComponent implements OnInit {
   selectedProducts!: Equipo[];
   visibleEditModal: boolean = false;
   editMachineForm!: FormGroup;
+  searchForm!: FormGroup;
+
   constructor(
     private headerService: HeaderService,
     private messageService: MessageService,
@@ -56,6 +78,8 @@ export class DashboardComponent implements OnInit {
     this.headerService.setTitle('Máquinas');
     this.getMachinesState();
     this.editMachineInitForm();
+    this.initSearchForm();
+    this.subscribeToMachines();
   }
 
   getMachiesData() {
@@ -71,9 +95,40 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  subscribeToMachines(): void {
+    this.machineStateService.machines$.pipe(
+      catchError((error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las máquinas' });
+        return throwError(() => error);
+      })
+    ).subscribe((machines: MachineResponse) => {
+      this.equipment = machines;
+      this.equipos = machines.equipos;
+    });
+  }
+
   getMachinesState() {
     this.machineStateService.loadProducts(1, '');
     this.getMachiesData();
+  }
+
+  initSearchForm(): void {
+    this.searchForm = this.formBuilder.group({
+      searchInput: ['']
+    });
+
+    this.searchForm.get('searchInput')!.valueChanges
+      .pipe(
+        debounceTime(800), // Agrega un retraso de 800ms
+        distinctUntilChanged() // Evita llamadas a la API si el valor no ha cambiado
+      )
+      .subscribe(value => {
+        if (value.length >= 3) {
+          this.machineStateService.loadProducts(1, value);
+        } else if (value.length === 0) {
+          this.machineStateService.loadProducts(1, '');
+        }
+      });
   }
 
   editMachineInitForm() {
@@ -131,7 +186,8 @@ export class DashboardComponent implements OnInit {
       icon: 'pi pi-info-circle',
       acceptLabel: 'Deshabilitar',
       rejectLabel: 'Cancelar',
-      acceptButtonStyleClass: 'p-button-danger',
+      rejectButtonStyleClass: 'p-button-secondary',
+      acceptButtonStyleClass: 'p-button-primary',
       accept: () => {
         this.machineStateService.disableMachine(idEquipo).subscribe(
           (response) => {
