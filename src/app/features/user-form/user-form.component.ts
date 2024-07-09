@@ -5,6 +5,7 @@ import {HeaderService} from "../../shared/components/layout/header/header.servic
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user/user.service";
 import {Router} from "@angular/router";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-user-form',
@@ -18,7 +19,7 @@ export class UserFormComponent implements OnInit {
   passwordFormGroup: FormGroup = new FormGroup({});
 
   constructor(
-    private userService: UserService, private headerService: HeaderService,
+    private userService: UserService, private headerService: HeaderService, private messageService: MessageService,
     private roleService: RoleService, private formBuilder: FormBuilder, private router: Router
   ) {
   }
@@ -28,12 +29,12 @@ export class UserFormComponent implements OnInit {
     this.headerService.setTitle(this.userId == 0 ? 'Registro de usuario' : 'Actualización de usuario');
     this.roleService.getRoles().subscribe(roles => this.roles = roles);
     this.loadUpdateUserRequest();
-    this.initForm();
-    console.log(this.userId);
+    this.initForms();
   }
 
-  initForm(): void {
+  initForms(): void {
     if (this.userId == 0) {
+      //FormGroup para registrar usuario
       this.userFormGroup = this.formBuilder.group({
         nombres: ['', Validators.required],
         apellidos: ['', Validators.required],
@@ -43,18 +44,18 @@ export class UserFormComponent implements OnInit {
         idRol: ['', Validators.required]
       });
     } else {
+      //FormGroup para actualizar usuario
       this.userFormGroup = this.formBuilder.group({
         idUsuario: [''],
         idEstado: [''],
-
         nombres: ['', Validators.required],
         apellidos: ['', Validators.required],
         usuario: ['', Validators.required],
-        //clave: ['', Validators.required],
         usuarioCreador: [this.getUsuarioCreador()],
         idRol: ['', Validators.required]
       });
     }
+    //FormGroup para actualizar contraseña
     this.passwordFormGroup = this.formBuilder.group({
       idUsuario: [this.userId],
       clave: ['', Validators.required]
@@ -66,17 +67,20 @@ export class UserFormComponent implements OnInit {
     if (this.userId == 0) {
       this.userService.addUser(user).subscribe(
         response => {
-          alert(response.message);
+          this.messageService.add({severity: 'success', summary: 'Éxito', detail: response.message});
           this.userFormGroup.reset();
           this.router.navigate(['/main/users-dashboard']);
         },
       );
     } else {
       this.userService.updateUser(user).subscribe(
-        response => alert(response.message),
+        response => {
+          this.messageService.add({severity: 'success', summary: 'Éxito', detail: response.message});
+          this.userFormGroup.reset();
+          this.router.navigate(['/main/users-dashboard']);
+        },
       );
     }
-    this.router.navigate(['/main/users-dashboard']);
   }
 
   updatePassword(): void {
