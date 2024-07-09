@@ -47,7 +47,10 @@ export class HeaderComponent implements OnInit {
 
   loadUserData(): void {
     this.userService.getUserById(1).subscribe(
-      response => this.user = response
+      response => {
+        this.user = response;
+        this.headerService.sharedUser(this.user);
+      }
     );
   }
 }

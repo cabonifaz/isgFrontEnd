@@ -8,6 +8,7 @@ import { CustomValidators } from 'src/app/shared/components/utils/Validations/Cu
 import { MachineStateService } from '../services/machine-state.service';
 import { catchError, debounceTime, distinctUntilChanged, throwError } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { UserResponse } from 'src/app/shared/models/user.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -62,6 +63,8 @@ export class DashboardComponent implements OnInit {
   visibleEditModal: boolean = false;
   editMachineForm!: FormGroup;
   searchForm!: FormGroup;
+  currentUser: UserResponse | null = null;
+  currentMachineId!: number;
 
   constructor(
     private headerService: HeaderService,
@@ -80,6 +83,9 @@ export class DashboardComponent implements OnInit {
     this.editMachineInitForm();
     this.initSearchForm();
     this.subscribeToMachines();
+    this.headerService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
   }
 
   getMachiesData() {
@@ -133,14 +139,13 @@ export class DashboardComponent implements OnInit {
 
   editMachineInitForm() {
     this.editMachineForm = this.formBuilder.group({
-      nombreModelo: ['', [CustomValidators.required, CustomValidators.minLength(3)]],
+      nombreModelo: ['', [CustomValidators.required, CustomValidators.minLength(2)]],
       modelo: ['', [CustomValidators.required, CustomValidators.minLength(3)]],
       serie: ['', [CustomValidators.required, CustomValidators.minLength(3)]],
       tipoEquipo: ['', [CustomValidators.required]]
     });
   }
 
-  currentMachineId!: number;
 
   getMachineDataById(machine: EquipoById) {
     this.machineService.getMachineById(machine.idEquipo).subscribe(
@@ -219,6 +224,7 @@ export class DashboardComponent implements OnInit {
 
   closeEditDialog() {
     this.visibleEditModal = false;
+    this.editMachineForm.reset();
   }
 
   getSeverity(status: number) {

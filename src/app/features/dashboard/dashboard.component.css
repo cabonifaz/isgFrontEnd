@@ -18,29 +18,12 @@ input[type=checkbox] {
   color: #027a48;
 }
 
-/* Estilos base para el paginador */
-.p-paginator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+button.disabled {
+  background-color: var(--gray-500); /* Color de fondo para el botón deshabilitado */
+  border-color: var(--gray-500);
 }
 
-/* Media query para pantallas pequeñas (sm) */
-@media (max-width: 576px) {
-  .p-paginator {
-      flex-direction: column;
-  }
-  .p-paginator .p-button {
-      width: 100%; /* Hacer que los botones ocupen todo el ancho */
-      margin-bottom: 10px; /* Añadir un poco de margen entre los botones */
-  }
-}
-
-/* Ajustes para pantallas medianas y grandes */
-@media (min-width: 577px) {
-  .p-paginator .p-button {
-      padding: 10px 20px; /* Ajustar el relleno para hacer los botones más grandes */
-      font-size: 16px; /* Aumentar el tamaño de la fuente para una mejor legibilidad */
-  }
+button.disabled:hover {
+  background-color: var(--gray-500); /* Color de fondo para el botón deshabilitado */
+  border-color: var(--gray-500);
 }

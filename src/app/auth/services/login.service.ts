@@ -23,7 +23,6 @@ export class LoginService {
     return this.http.post<LoginResponse>(`${this.uri}/${LOGIN_API_ENDPOINTS.LOGIN}`, loginRequest)
       .pipe(tap(loginResponse => {
         sessionStorage.setItem(this.token, loginResponse.token);
-        sessionStorage.setItem(this.userKey, JSON.stringify(loginResponse));
       }))
   }
 
