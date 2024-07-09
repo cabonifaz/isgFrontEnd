@@ -69,9 +69,10 @@
           </div>
         </td>
         <td>
-          <div class="w-min">
+          <div class="w-max">
             <span
-              class="py-1 px-2 flex align-items-center justify-content-center items-center gap-2 text-sm font-medium bg-tag-span text-tag-span border-round-2xl"
+              class="py-1 px-2 flex align-items-center justify-content-center items-center gap-2 text-sm font-medium border-round-2xl"
+              [ngClass]="getSeverity(equipo.tipoEvento)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -83,9 +84,7 @@
               >
                 <circle cx="8" cy="8" r="8" />
               </svg>
-              {{
-                equipo.idEstadoRegistro === 1 ? "Habilitado" : "Deshabilitado"
-              }}
+              {{ equipo.tipoEvento }}
             </span>
           </div>
         </td>

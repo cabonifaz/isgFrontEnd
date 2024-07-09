@@ -11,6 +11,7 @@ export interface Equipo {
   tipoEquipo: string;
   idEstadoRegistro: number;
   nombreModelo: string;
+  tipoEvento: string;
   idEquipo: number;
 }
 

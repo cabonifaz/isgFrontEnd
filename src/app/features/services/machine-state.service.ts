@@ -20,14 +20,14 @@ export class MachineStateService {
     });
   }
 
-  updateMachine(nombreEquipo: string, idEquipo: number): Observable<EditMachineResponse> {
-    return this.machineService.editMachine(idEquipo, nombreEquipo).pipe(
+  updateMachine(nombreEquipo: string, idEquipo: number, serieEquipo: string): Observable<EditMachineResponse> {
+    return this.machineService.editMachine(idEquipo, nombreEquipo, serieEquipo).pipe(
       tap(() => {
         const currentValue = this.machineSubject.getValue();
         const updatedValue = {
           ...currentValue,
           equipos: currentValue.equipos.map(equipo =>
-            equipo.idEquipo === idEquipo ? { ...equipo, nombreEquipo: nombreEquipo } : equipo
+            equipo.idEquipo === idEquipo ? { ...equipo, nombreEquipo: nombreEquipo, serie: serieEquipo } : equipo
           )
         };
         this.machineSubject.next(updatedValue);
