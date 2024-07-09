@@ -158,7 +158,6 @@ export class DashboardComponent implements OnInit {
           tipoEquipo: response.descripcionTipoEquipo
         });
         this.editMachineForm.get('modelo')?.disable();
-        this.editMachineForm.get('serie')?.disable();
         this.editMachineForm.get('tipoEquipo')?.disable();
         this.openModalEdit();
       }
@@ -171,8 +170,9 @@ export class DashboardComponent implements OnInit {
       return;
     }
     const nombreEquipo = this.editMachineForm.get('nombreModelo')?.value;
+    const serie = this.editMachineForm.get('serie')?.value;
     const idEquipo = this.currentMachineId;
-    this.machineStateService.updateMachine(nombreEquipo, idEquipo).subscribe(
+    this.machineStateService.updateMachine(nombreEquipo, idEquipo, serie).subscribe(
       (response) => {
         this.messageService.add({ severity: 'success', summary: 'Exito', detail: response.message });
         this.getMachiesData();
@@ -227,12 +227,14 @@ export class DashboardComponent implements OnInit {
     this.editMachineForm.reset();
   }
 
-  getSeverity(status: number) {
+  getSeverity(status: string) {
     switch (status) {
-      case 1:
-        return 'success';
-      case 0:
-        return 'danger';
+      case 'En curso':
+        return 'bg-span-success text-span-success';
+      case 'Detenido':
+        return 'bg-span-danger text-span-danger';
+      case 'Sin señal':
+        return 'bg-span-warning text-span-warning';
       default:
         return 'info';
     }

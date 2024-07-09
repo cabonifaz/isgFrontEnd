@@ -1,14 +1,14 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {MACHINE_API_ENDPOINTS} from 'src/app/core/global/constants/api-endpoints';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { MACHINE_API_ENDPOINTS } from 'src/app/core/global/constants/api-endpoints';
 import {
   EditMachineResponse,
   EquipoById,
   MachineEventResponse,
   MachineResponse
 } from 'src/app/shared/models/machine.interface';
-import {environment} from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -34,10 +34,11 @@ export class MachineService {
     });
   }
 
-  editMachine(idEquipo: number, nombreEquipo: string): Observable<EditMachineResponse> {
+  editMachine(idEquipo: number, nombreEquipo: string, serieEquipo: string): Observable<EditMachineResponse> {
     return this.httpClient.put<EditMachineResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.EDIT_MACHINE}`, {
       idEquipo: idEquipo,
-      nombreEquipo: nombreEquipo
+      nombreEquipo: nombreEquipo,
+      serieEquipo: serieEquipo
     });
   }
 
