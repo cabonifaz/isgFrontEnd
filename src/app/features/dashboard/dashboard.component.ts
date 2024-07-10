@@ -37,27 +37,18 @@ import {UserResponse} from 'src/app/shared/models/user.interface';
         display: none;
       }
 
-      :host ::ng-deep .p-button-primary {
-        background-color: #ff7600;
-        border-color: #ff7600;
-      }
-
-      :host ::ng-deep .p-button-primary:hover {
-        background-color: #ff5500;
-        border-color: #ff5500;
-      }
-
-      :host ::ng-deep .p-button-primary:focus {
-        background-color: #ff5500;
-        border-color: #ff5500;
-        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ff9b33, 0 1px 2px 0 black;
-      }
-
       :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
         border-radius: 0.75rem;
-        background: #ffe5ca;
-        color: #d8601d;
-        border-color: #ff9b33;
+        background: #FFE5CA;
+        color: #D8601D;
+        border-color: #FF9B33;
+      }
+
+      :host ::ng-deep .p-paginator:hover .p-paginator-pages:hover .p-paginator-page:hover {
+        border-radius: 0.75rem;
+        background: #FFE5CA;
+        color: #D8601D;
+        border-color: #FF9B33;
       }
     `
   ],

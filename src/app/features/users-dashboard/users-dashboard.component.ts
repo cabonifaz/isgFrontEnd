@@ -30,6 +30,20 @@ import {RoleService} from "../../services/role/role.service";
       :host ::ng-deep .p-paginator .p-paginator-next {
         display: none;
       }
+
+      :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+        border-radius: 0.75rem;
+        background: #FFE5CA;
+        color: #D8601D;
+        border-color: #FF9B33;
+      }
+
+      :host ::ng-deep .p-paginator:hover .p-paginator-pages:hover .p-paginator-page:hover {
+        border-radius: 0.75rem;
+        background: #FFE5CA;
+        color: #D8601D;
+        border-color: #FF9B33;
+      }
     `
   ],
   styleUrls: ['./users-dashboard.component.css']

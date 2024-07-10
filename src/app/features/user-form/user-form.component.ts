@@ -21,13 +21,18 @@ export class UserFormComponent implements OnInit {
   passwordFormGroup: FormGroup = new FormGroup({});
 
   constructor(
-    private userService: UserService, private headerService: HeaderService, private messageService: MessageService,
-    private roleService: RoleService, private formBuilder: FormBuilder, private router: Router
+    private userService: UserService,
+    private headerService: HeaderService,
+    private messageService: MessageService,
+    private roleService: RoleService,
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
     this.userId = this.userService.userId;
+    this.userId == 0 ? this.router.navigate(['/main/users-dashboard']) : {};
     this.headerService.setBackTo('/main/users-dashboard');
     this.headerService.setTitle(this.userId == 0 ? 'Registro de usuario' : 'Actualización de usuario');
     this.roleService.getRoles().subscribe(roles => this.roles = roles);
