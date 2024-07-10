@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Equipo, MachineEventResponse} from "../../shared/models/machine.interface";
-import {ActivatedRoute} from "@angular/router";
+import {MachineEventResponse} from "../../shared/models/machine.interface";
 import {saveAs} from "file-saver";
 import {HeaderService} from "../../shared/components/layout/header/header.service";
 import {MachineService} from "../../services/machine/machine.service";
 import {formatDate} from "@angular/common";
+import {MessageService} from "primeng/api";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-machine-events',
@@ -35,8 +36,7 @@ import {formatDate} from "@angular/common";
   ],
 })
 export class MachineEventsComponent implements OnInit {
-  machineId: number = 14;
-  machine!: Equipo;
+  machineId: number = 0;
   machineEvents!: MachineEventResponse;
   desde: Date = new Date();
   hasta: Date = new Date();
@@ -45,22 +45,28 @@ export class MachineEventsComponent implements OnInit {
     fechaHasta: '',
     horaDesde: '',
     horaHasta: '',
-    idEquipo: this.machineId
+    idEquipo: 0
   }
 
   constructor(
+    private messageService: MessageService,
     private headerService: HeaderService,
-    private route: ActivatedRoute,
     private machineService: MachineService,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
-    this.getEvents();
-    this.route.paramMap.subscribe(params => {
+    /*this.route.paramMap.subscribe(params => {
       this.machineId = +params.get('machine-id')!;
-    });
+    });*/
     this.headerService.setTitle("Máquina 1");
+    this.headerService.setBackTo("/main");
+    this.machineService.idEquipo$.subscribe(idEquipo => {
+      this.machineId = idEquipo;
+      this.filter.idEquipo = this.machineId;
+      this.machineId != 0 ? this.getEvents() : this.router.navigate(['/main']);
+    });
   }
 
   getEvents() {
@@ -70,12 +76,20 @@ export class MachineEventsComponent implements OnInit {
   }
 
   setDates(): void {
-    this.filter = {
-      fechaDesde: formatDate(this.desde, 'yyyy-MM-dd', 'en-US'),
-      fechaHasta: formatDate(this.hasta, 'yyyy-MM-dd', 'en-US'),
-      horaDesde: formatDate(this.desde, 'HH:mm:ss', 'en-US'),
-      horaHasta: formatDate(this.hasta, 'HH:mm:ss', 'en-US'),
-      idEquipo: 14
+    if (this.desde && this.hasta && this.desde.getTime() < this.hasta.getTime()) {
+      this.filter = {
+        fechaDesde: formatDate(this.desde, 'yyyy-MM-dd', 'en-US'),
+        fechaHasta: formatDate(this.hasta, 'yyyy-MM-dd', 'en-US'),
+        horaDesde: formatDate(this.desde, 'HH:mm:ss', 'en-US'),
+        horaHasta: formatDate(this.hasta, 'HH:mm:ss', 'en-US'),
+        idEquipo: this.machineId
+      }
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'La fecha de inicio debe ser anterior a la de fin'
+      });
     }
   }
 

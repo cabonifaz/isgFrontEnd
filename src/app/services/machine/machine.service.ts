@@ -1,14 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { MACHINE_API_ENDPOINTS } from 'src/app/core/global/constants/api-endpoints';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {MACHINE_API_ENDPOINTS} from 'src/app/core/global/constants/api-endpoints';
 import {
   EditMachineResponse,
   EquipoById,
   MachineEventResponse,
   MachineResponse
 } from 'src/app/shared/models/machine.interface';
-import { environment } from 'src/environments/environment';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,12 @@ import { environment } from 'src/environments/environment';
 export class MachineService {
 
   private uri = environment.url;
+  private idEquipo = new BehaviorSubject<number>(0);
+  public idEquipo$ = this.idEquipo.asObservable();
+
+  setIdEquipo(idEquipo: number) {
+    this.idEquipo.next(idEquipo);
+  }
 
   constructor(
     private httpClient: HttpClient) {

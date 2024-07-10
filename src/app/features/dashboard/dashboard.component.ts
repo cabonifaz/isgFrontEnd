@@ -246,4 +246,8 @@ export class DashboardComponent implements OnInit {
         return 'info';
     }
   }
+
+  setIdEquipo(idEquipo: number) {
+    this.machineService.setIdEquipo(idEquipo);
+  }
 }
