@@ -16,7 +16,15 @@ export class HeaderComponent implements OnInit {
   title: string = '';
   backTo: string = '';
   items: MenuItem[] = [];
-  user!: UserResponse;
+  user: UserResponse = {
+    idEstado: 0,
+    idRol: 0,
+    nombres: '',
+    apellidos: '',
+    usuario: '',
+    rol: ''
+  };
+  idRol: number = 0;
 
   constructor(
     private route: Router,
@@ -48,9 +56,10 @@ export class HeaderComponent implements OnInit {
   }
 
   loadUserData(): void {
-    this.userService.getUserById(1).subscribe(
+    this.userService.getUserById(this.headerService.getUserId()).subscribe(
       response => {
         this.user = response;
+        this.idRol = this.user.idRol;
         this.headerService.sharedUser(this.user);
       }
     );

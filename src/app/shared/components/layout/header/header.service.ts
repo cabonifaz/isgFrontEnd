@@ -28,6 +28,12 @@ export class HeaderService {
     return decodedPayload.id;
   }
 
+  getRolId(): number {
+    let token: string = sessionStorage.getItem('token')!;
+    let decodedPayload = JSON.parse(atob(token.split('.')[1]));
+    return decodedPayload.id;
+  }
+
   sharedUser(user: UserResponse) {
     this.currentUser.next(user);
   }
