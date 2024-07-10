@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { HeaderService } from "./header.service";
-import { MenuItem } from "primeng/api";
-import { UserService } from "../../../../services/user/user.service";
-import { UserResponse } from "../../../models/user.interface";
-import { LoginService } from 'src/app/auth/services/login.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {HeaderService} from "./header.service";
+import {MenuItem} from "primeng/api";
+import {UserService} from "../../../../services/user/user.service";
+import {UserResponse} from "../../../models/user.interface";
+import {LoginService} from 'src/app/auth/services/login.service';
 
 
 @Component({
@@ -14,6 +14,7 @@ import { LoginService } from 'src/app/auth/services/login.service';
 })
 export class HeaderComponent implements OnInit {
   title: string = '';
+  backTo: string = '';
   items: MenuItem[] = [];
   user!: UserResponse;
 
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     // Cargar el título
     this.headerService.title$.subscribe(title => this.title = title);
+    this.headerService.backTo$.subscribe(backTo => this.backTo = backTo);
     this.items = [
       {
         label: 'Opciones',

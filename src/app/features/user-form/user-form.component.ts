@@ -28,6 +28,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.userService.userId;
+    this.headerService.setBackTo('/main/users-dashboard');
     this.headerService.setTitle(this.userId == 0 ? 'Registro de usuario' : 'Actualización de usuario');
     this.roleService.getRoles().subscribe(roles => this.roles = roles);
     this.loadUpdateUserRequest();
