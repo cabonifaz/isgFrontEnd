@@ -57,13 +57,12 @@
     <ng-template pTemplate="body" let-equipo>
       <tr class="overflow-y-auto hover:bg-black-alpha-10"
           style="cursor: pointer"
-          (click)="setEquipo(equipo.idEquipo, equipo.nombreEquipo)"
-          routerLink="/main/machine-events"
           @fadeInOut>
         <td class="p-selectable-row">
           <p-tableCheckbox [value]="equipo"></p-tableCheckbox>
         </td>
-        <td>
+        <td (click)="setEquipo(equipo.idEquipo, equipo.nombreEquipo)"
+            routerLink="/main/machine-events">
           <div class="flex align-items-center gap-2">
             <img
               src="../../../../../assets/machine.png"
