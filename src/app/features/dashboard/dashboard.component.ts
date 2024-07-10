@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
-import {HeaderService} from "../../shared/components/layout/header/header.service";
-import {Equipo, EquipoById, MachineResponse} from 'src/app/shared/models/machine.interface';
-import {MachineService} from 'src/app/services/machine/machine.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {CustomValidators} from 'src/app/shared/components/utils/Validations/CustomValidators';
-import {MachineStateService} from '../services/machine-state.service';
-import {catchError, debounceTime, distinctUntilChanged, throwError} from 'rxjs';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {UserResponse} from 'src/app/shared/models/user.interface';
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { HeaderService } from "../../shared/components/layout/header/header.service";
+import { Equipo, EquipoById, MachineResponse } from 'src/app/shared/models/machine.interface';
+import { MachineService } from 'src/app/services/machine/machine.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CustomValidators } from 'src/app/shared/components/utils/Validations/CustomValidators';
+import { MachineStateService } from '../services/machine-state.service';
+import { catchError, debounceTime, distinctUntilChanged, throwError } from 'rxjs';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { UserResponse } from 'src/app/shared/models/user.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,6 +37,28 @@ import {UserResponse} from 'src/app/shared/models/user.interface';
         display: none;
       }
 
+      :host ::ng-deep .p-button-primary {
+        background-color: #ff7600;
+        border-color: #ff7600;
+      }
+
+      :host ::ng-deep .p-button-primary:hover {
+        background-color: #ff5500;
+        border-color: #ff5500;
+      }
+
+      :host ::ng-deep .p-button-primary:focus {
+        background-color: #ff5500;
+        border-color: #ff5500;
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ff9b33, 0 1px 2px 0 black;
+      }
+      :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+        border-radius: 0.75rem;
+        background: #ffe5ca;
+        color: #d8601d;
+        border-color: #ff9b33;
+      }
+
       :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
         border-radius: 0.75rem;
         background: #FFE5CA;
@@ -54,7 +76,7 @@ import {UserResponse} from 'src/app/shared/models/user.interface';
   ],
   animations: [
     trigger('fadeInOut', [
-      state('void', style({opacity: 0})),
+      state('void', style({ opacity: 0 })),
       transition('void <=> *', animate(300)),
     ]),
   ],
@@ -69,6 +91,10 @@ export class DashboardComponent implements OnInit {
   searchForm!: FormGroup;
   currentUser: UserResponse | null = null;
   currentMachineId!: number;
+
+  first = 0;
+
+  rows = 0;
 
   constructor(
     private headerService: HeaderService,
@@ -96,20 +122,21 @@ export class DashboardComponent implements OnInit {
   getMachiesData() {
     this.machineStateService.machines$.pipe(
       catchError((error) => {
-        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al cargar las maquinas'});
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las maquinas' });
         return throwError(() => error);
       })
     ).subscribe((machines: MachineResponse) => {
       // console.log(response);
       this.equipment = machines;
       this.equipos = machines.equipos;
+      // this.rows = this.equipment.totalCount;
     })
   }
 
   subscribeToMachines(): void {
     this.machineStateService.machines$.pipe(
       catchError((error) => {
-        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al cargar las máquinas'});
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las máquinas' });
         return throwError(() => error);
       })
     ).subscribe((machines: MachineResponse) => {
@@ -179,12 +206,12 @@ export class DashboardComponent implements OnInit {
     const idEquipo = this.currentMachineId;
     this.machineStateService.updateMachine(nombreEquipo, idEquipo, modelo).subscribe(
       (response) => {
-        this.messageService.add({severity: 'success', summary: 'Exito', detail: response.message});
+        this.messageService.add({ severity: 'success', summary: 'Exito', detail: response.message });
         this.getMachiesData();
         this.closeEditDialog();
       },
       (error) => {
-        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al actualizar la máquina'});
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al actualizar la máquina' });
       }
     );
   }
@@ -201,11 +228,11 @@ export class DashboardComponent implements OnInit {
       accept: () => {
         this.machineStateService.disableMachine(idEquipo).subscribe(
           (response) => {
-            this.messageService.add({severity: 'success', summary: 'Éxito', detail: response.message});
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
             this.getMachiesData();
           },
           (error) => {
-            this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al deshabilitar la máquina.'});
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al deshabilitar la máquina.' });
           }
         );
       },
@@ -221,6 +248,27 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  // next() {
+  //   this.first = this.first + this.rows;
+  // }
+
+  // prev() {
+  //   this.first = this.first - this.rows;
+  // }
+
+  // pageChange(event: any) {
+  //   this.first = event.first;
+  //   this.rows = event.rows;
+  // }
+
+  // isLastPage(): boolean {
+  //   return this.equipos ? this.first === this.equipos.length - this.rows : true;
+  // }
+
+  // isFirstPage(): boolean {
+  //   return this.equipos ? this.first === 0 : true;
+  // }
 
   openModalEdit() {
     this.visibleEditModal = true;
