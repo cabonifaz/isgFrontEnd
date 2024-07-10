@@ -47,12 +47,18 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
+        <th scope="col">Molde</th>
+        <th scope="col">Tipo de Evento</th>
         <th scope="col">Fecha</th>
         <th scope="col">Hora</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-event>
       <tr>
+        <td class="font-medium">{{ machineEvents.equipoInfo.molde != '' ? machineEvents.equipoInfo.molde : '-' }}</td>
+        <td class="font-medium">
+          {{ event.tipoEvento }}
+        </td>
         <td class="font-medium">{{ event.fecha | date: 'dd/MM/yyyy' }}</td>
         <td class="font-medium">{{ event.hora }}</td>
       </tr>

@@ -107,12 +107,22 @@ export class MachineEventsComponent implements OnInit {
     }
   }
 
-  exportExcel() {
+  exportExcel(): void {
+    let data: { EQUIPO: string; MOLDE: string; TIPO_EVENTO: string; FECHA: string; HORA: string }[] = [];
+    this.machineEvents.eventos.forEach(event => {
+      data.push({
+        'EQUIPO': this.machineEvents.equipoInfo.nombreEquipo,
+        'MOLDE': this.machineEvents.equipoInfo.molde,
+        'TIPO_EVENTO': event.tipoEvento,
+        'FECHA': event.fecha.toString(),
+        'HORA': event.hora
+      });
+    });
     import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.machineEvents.eventos);
-      const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = {Sheets: {'EVENTOS': worksheet}, SheetNames: ['EVENTOS']};
       const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
-      this.saveAsExcelFile(excelBuffer, "products");
+      this.saveAsExcelFile(excelBuffer, "EVENTOS");
     });
   }
 

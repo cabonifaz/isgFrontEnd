@@ -29,6 +29,12 @@ export interface EditMachineResponse {
 }
 
 export interface MachineEventResponse {
+  equipoInfo: {
+    nombreEquipo: string;
+    modelo: string;
+    serie: string;
+    molde: string;
+  };
   eventos: MachineEvent[];
   total: number;
 }
@@ -36,4 +42,5 @@ export interface MachineEventResponse {
 export interface MachineEvent {
   fecha: Date;
   hora: string;
+  tipoEvento: string;
 }
