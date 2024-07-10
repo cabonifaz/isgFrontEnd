@@ -18,9 +18,11 @@ export class MachineService {
   private uri = environment.url;
   private idEquipo = new BehaviorSubject<number>(0);
   public idEquipo$ = this.idEquipo.asObservable();
+  public nombreEquipo: string = "Cargando...";
 
-  setIdEquipo(idEquipo: number) {
+  setEquipo(idEquipo: number, nombreEquipo: string) {
     this.idEquipo.next(idEquipo);
+    this.nombreEquipo = nombreEquipo;
   }
 
   constructor(
@@ -59,7 +61,8 @@ export class MachineService {
     fechaHasta: string,
     horaDesde: string,
     horaHasta: string,
-    idEquipo: number
+    idEquipo: number,
+    idUsuario: number
   }): Observable<MachineEventResponse> {
     return this.httpClient.post<MachineEventResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.GET_MACHINE_EVENTS}`, filter);
   }

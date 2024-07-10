@@ -47,7 +47,7 @@
         </th>
 
         <th style="min-width: 45rem">Máquina</th>
-        <th pSortableColumn="tipoEvento" style="width: fit-content">
+        <th scope="col" pSortableColumn="tipoEvento" style="width: fit-content">
           Estado
           <p-sortIcon field="tipoEvento"></p-sortIcon>
         </th>
@@ -57,7 +57,7 @@
     <ng-template pTemplate="body" let-equipo>
       <tr class="overflow-y-auto hover:bg-black-alpha-10"
           style="cursor: pointer"
-          (click)="setIdEquipo(equipo.idEquipo)"
+          (click)="setEquipo(equipo.idEquipo, equipo.nombreEquipo)"
           routerLink="/main/machine-events"
           @fadeInOut>
         <td class="p-selectable-row">

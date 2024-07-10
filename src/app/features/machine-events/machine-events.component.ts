@@ -45,7 +45,8 @@ export class MachineEventsComponent implements OnInit {
     fechaHasta: '',
     horaDesde: '',
     horaHasta: '',
-    idEquipo: 0
+    idEquipo: 0,
+    idUsuario: 0
   }
 
   constructor(
@@ -57,14 +58,12 @@ export class MachineEventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*this.route.paramMap.subscribe(params => {
-      this.machineId = +params.get('machine-id')!;
-    });*/
-    this.headerService.setTitle("Máquina 1");
+    this.headerService.setTitle(this.machineService.nombreEquipo);
     this.headerService.setBackTo("/main");
     this.machineService.idEquipo$.subscribe(idEquipo => {
       this.machineId = idEquipo;
       this.filter.idEquipo = this.machineId;
+      this.filter.idUsuario = this.headerService.getUserId();
       this.machineId != 0 ? this.getEvents() : this.router.navigate(['/main']);
     });
   }
@@ -82,7 +81,8 @@ export class MachineEventsComponent implements OnInit {
         fechaHasta: formatDate(this.hasta, 'yyyy-MM-dd', 'en-US'),
         horaDesde: formatDate(this.desde, 'HH:mm:ss', 'en-US'),
         horaHasta: formatDate(this.hasta, 'HH:mm:ss', 'en-US'),
-        idEquipo: this.machineId
+        idEquipo: this.machineId,
+        idUsuario: this.headerService.getUserId()
       }
     } else {
       this.messageService.add({
