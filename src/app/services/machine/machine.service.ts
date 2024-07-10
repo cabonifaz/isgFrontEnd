@@ -34,11 +34,11 @@ export class MachineService {
     });
   }
 
-  editMachine(idEquipo: number, nombreEquipo: string, serieEquipo: string): Observable<EditMachineResponse> {
+  editMachine(idEquipo: number, nombreEquipo: string, modeloEquipo: string): Observable<EditMachineResponse> {
     return this.httpClient.put<EditMachineResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.EDIT_MACHINE}`, {
       idEquipo: idEquipo,
       nombreEquipo: nombreEquipo,
-      serieEquipo: serieEquipo
+      modeloEquipo: modeloEquipo
     });
   }
 
