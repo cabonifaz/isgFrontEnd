@@ -47,6 +47,7 @@ export class UsersDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.headerService.setTitle('Usuarios');
+    this.headerService.setBackTo('/main');
     this.loadUsers();
     this.roleService.getRoles().subscribe(roles => this.roles = roles);
   }

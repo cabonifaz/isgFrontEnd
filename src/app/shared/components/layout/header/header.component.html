@@ -11,8 +11,10 @@
         pButton
         pRipple
         type="button"
-        icon="pi pi-arrow-left"
+        icon="{{ backTo == '' ? '' : 'pi pi-arrow-left' }}"
         class="p-button-secondary p-button-text p-button-lg"
+        routerLink="{{ backTo }}"
+        [disabled]="backTo == ''"
       ></button>
       <h1 class="text-lg md:text-2xl font-bold">{{ title }}</h1>
     </div>

@@ -13,8 +13,10 @@ import {MessageService} from "primeng/api";
   styleUrls: ['./user-form.component.css']
 })
 export class UserFormComponent implements OnInit {
-  roles: RoleResponse[] = [];
+  //Si el userId es diferente de cero, es porque se está actualizando un usuario
+  //Si el userId es igual a cero, es porque se está registrando un nuevo usuario
   userId: number = 0;
+  roles: RoleResponse[] = [];
   userFormGroup: FormGroup = new FormGroup({});
   passwordFormGroup: FormGroup = new FormGroup({});
 
@@ -26,6 +28,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.userService.userId;
+    this.headerService.setBackTo('/main/users-dashboard');
     this.headerService.setTitle(this.userId == 0 ? 'Registro de usuario' : 'Actualización de usuario');
     this.roleService.getRoles().subscribe(roles => this.roles = roles);
     this.loadUpdateUserRequest();
@@ -89,7 +92,9 @@ export class UserFormComponent implements OnInit {
       //{idUsuario: this.userId, clave: this.userFormGroup.get('clave')!.value}
       updatePasswordRequest
     ).subscribe(
-      response => alert(response.message),
+      response => {
+        this.messageService.add({severity: 'success', summary: 'Contraseña actualizada', detail: response.message});
+      },
     );
     this.passwordFormGroup.reset();
     this.router.navigate(['/main/users-dashboard']);

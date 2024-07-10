@@ -1,57 +1,72 @@
-<div class="min-w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-14 mx-auto">
-  <form [formGroup]="userFormGroup" (ngSubmit)="saveUser()"
-        class="grid align-items-center justify-content-center row-gap-2 md:mx-8 md:row-gap-4">
-    <label for="nombres" class="col-12 md:col-2 text-xl font-medium text-gray-800">Nombres:</label>
-    <input formControlName="nombres" pInputText id="nombres" type="text" class="col-12 md:col-10" placeholder="Nombres"
-           autofocus>
-
-    <label for="apellidos" class="col-12 md:col-2 text-xl font-medium text-gray-800">Apellidos:</label>
-    <input formControlName="apellidos" pInputText id="apellidos" type="text" class="col-12 md:col-10"
-           placeholder="Apellidos">
-
-    <label for="idRol" class="col-12 md:col-2 text-xl font-medium text-gray-800">Rol:</label>
-    <p-dropdown formControlName="idRol" id="idRol" [options]="roles" optionLabel="rol" optionValue="idRol"
-                class="col-12 md:col-10">
-    </p-dropdown>
-
-    <label for="idEstado" class="col-12 md:col-2 text-xl font-medium text-gray-800">Estado:</label>
-    <p-dropdown formControlName="idEstado" id="idEstado" name="idEstado"
-                [options]="[{name: 'Habilitado', code: 1}, {name: 'Inhabilitado', code: 0}]"
-                optionLabel="name"
-                optionValue="code"
-                class="col-12 md:col-10"
-                [disabled]="userId == 0">
-    </p-dropdown>
-
-    <label for="usuario"
-           class="col-12 md:col-2 text-xl font-medium text-gray-800">Usuario:</label>
-    <input formControlName="usuario" pInputText id="usuario" type="text" class="col-12 md:col-10"
-           placeholder="Usuario">
-
-    <form *ngIf="userId != 0" [formGroup]="passwordFormGroup" class="col-12 justify-content-between">
-      <label for="nuevaClave"
-             class="col-12 md:col-2 text-xl font-medium text-gray-800 text-left">Contraseña:</label>
-      <input formControlName="clave" pInputText id="nuevaClave" type="password"
-             class=" col-10 {{userId == 0 ? 'md:col-10' : 'md:col-8'}}"
-             placeholder="Contraseña">
-      <button type="button" pButton pRipple class="p-button-warning col-2 md:col-2"
-              label="Cambiar contraseña"
-              style="background-color: #FF7600; border-color: #FF7600; {{userId==0 ? 'display: none': ''}}"
-              [disabled]="passwordFormGroup.invalid"
-              (click)="updatePassword()">
-      </button>
+<section class="p-fluid grid justify-content-center">
+  <div class="p-card md:w-6 h-2">
+    <form [formGroup]="userFormGroup" (ngSubmit)="saveUser()" class="p-fluid grid m-4">
+      <div class="field col-12 lg:col-6">
+        <label for="nombres" class="font-medium">Nombres:</label>
+        <input formControlName="nombres" type="text" id="nombres" pInputText placeholder="Ingrese los nombres"
+               autofocus>
+      </div>
+      <div class="field col-12 lg:col-6">
+        <label for="apellidos" class="font-medium">Apellidos:</label>
+        <input formControlName="apellidos" type="text" id="apellidos" pInputText placeholder="Ingrese los apellidos">
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="idEstado" class="font-medium">Estado:</label>
+        <p-dropdown
+          formControlName="idEstado"
+          id="idEstado"
+          [autoDisplayFirst]="true"
+          [options]="[{estado: 'Habilitado', idEstado: 1}, {estado: 'Inhabilitado', idEstado: 0}]"
+          optionLabel="estado"
+          optionValue="idEstado"
+          [disabled]="userId == 0">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="idRol" class="font-medium">Rol:</label>
+        <p-dropdown
+          formControlName="idRol"
+          id="idRol"
+          [options]="roles"
+          optionLabel="rol"
+          optionValue="idRol">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-12">
+        <label for="usuario" class="font-medium">Usuario:</label>
+        <input formControlName="usuario" type="text" id="usuario" pInputText
+               placeholder="Ingrese el usuario">
+      </div>
+      <div *ngIf="userId == 0" class="field col-12 md:col-12">
+        <label for="clave" class="font-medium">Contraseña:</label>
+        <input formControlName="clave" type="password" id="clave" pInputText placeholder="Ingrese la contraseña">
+      </div>
+      <div *ngIf="userId != 0" class="field col-12 md:col-12">
+        <label for="clave" class="font-medium">Contraseña:</label>
+        <form class="p-inputgroup" [formGroup]="passwordFormGroup">
+          <input formControlName="clave" type="password" pInputText placeholder="Ingrese la contraseña">
+          <button type="button" pButton pRipple label="Cambiar contraseña" class="p-button-warning"
+                  [disabled]="passwordFormGroup.invalid"
+                  (click)="updatePassword()"
+                  style="background-color: #ff7600">
+          </button>
+        </form>
+      </div>
+      <div class="field col-12 md:col-6">
+        <button pButton pRipple label="{{userId == 0 ? 'Registrar' : 'Actualizar'}}"
+                type="submit"
+                class="p-button-warning"
+                [disabled]="userFormGroup.invalid"
+                style="background-color: #ff7600">
+        </button>
+      </div>
+      <div class="field col-12 md:col-6">
+        <button pButton pRipple label="Cancelar"
+                type="button"
+                class="text-center p-button-secondary p-button-outlined"
+                routerLink="/main/users-dashboard">
+        </button>
+      </div>
     </form>
-
-    <label *ngIf="userId == 0" for="clave"
-           class="col-12 md:col-2 text-xl font-medium text-gray-800 text-left">Contraseña:</label>
-    <input *ngIf="userId == 0" formControlName="clave" pInputText id="clave" type="password"
-           class=" col-10 {{userId == 0 ? 'md:col-10' : 'md:col-8'}}"
-           placeholder="Contraseña">
-
-    <button pButton type="submit" [label]="userId == 0 ? 'Registrar' : 'Actualizar'"
-            class="p-button-warning col-12 md:col-6"
-            style="background-color: #FF7600; border-color: #FF7600"
-            [disabled]="userFormGroup.invalid"
-    ></button>
-  </form>
-</div>
+  </div>
+</section>
