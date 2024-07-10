@@ -108,10 +108,20 @@ export class MachineEventsComponent implements OnInit {
   }
 
   exportExcel(): void {
-    let data: { EQUIPO: string; MOLDE: string; TIPO_EVENTO: string; FECHA: string; HORA: string }[] = [];
+    let data: {
+      EQUIPO: string;
+      MODELO: string;
+      SERIE: string;
+      MOLDE: string;
+      TIPO_EVENTO: string;
+      FECHA: string;
+      HORA: string
+    }[] = [];
     this.machineEvents.eventos.forEach(event => {
       data.push({
         'EQUIPO': this.machineEvents.equipoInfo.nombreEquipo,
+        'MODELO': this.machineEvents.equipoInfo.modelo,
+        'SERIE': this.machineEvents.equipoInfo.serie,
         'MOLDE': this.machineEvents.equipoInfo.molde,
         'TIPO_EVENTO': event.tipoEvento,
         'FECHA': event.fecha.toString(),
