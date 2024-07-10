@@ -5,6 +5,7 @@
     [rows]="equipment.totalCount"
     [paginator]="true"
     [showFirstLastIcon]="false"
+    [globalFilterFields]="['tipoEvento']"
     [tableStyle]="{
       'min-width': '100%',
       border: '1px solid #e7eaed',
@@ -46,9 +47,9 @@
         </th>
 
         <th style="min-width: 45rem">Máquina</th>
-        <th pSortableColumn="idEstadoRegistro" style="width: fit-content">
+        <th pSortableColumn="tipoEvento" style="width: fit-content">
           Estado
-          <p-sortIcon field="idEstadoRegistro"></p-sortIcon>
+          <p-sortIcon field="tipoEvento"></p-sortIcon>
         </th>
         <th></th>
       </tr>
