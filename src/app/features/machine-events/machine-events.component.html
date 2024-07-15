@@ -2,18 +2,17 @@
   <p-table
     #machineEventsTable
     [value]="machineEvents.eventos"
-    [rows]="5"
+    [rows]="rows"
     [paginator]="true"
+    [(first)]="first"
+    [showFirstLastIcon]="false"
     [globalFilterFields]="['date','hour']"
     [tableStyle]="{
       'min-width': '100%',
       border: '1px solid #e7eaed',
       'border-top': 'none'
     }"
-    styleClass=""
     dataKey="id"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [breakpoint]="'1170px'"
   >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
@@ -69,6 +68,8 @@
         icon="pi pi-arrow-left"
         label="Volver"
         styleClass="p-button-outlined border-gray-300 text-gray-800"
+        (click)="prev()"
+        [disabled]="isFirstPage()"
       ></p-button>
     </ng-template>
     <ng-template pTemplate="paginatorright">
@@ -78,6 +79,8 @@
         icon="pi pi-arrow-right"
         iconPos="right"
         styleClass="p-button-outlined border-gray-300 text-gray-800"
+        (click)="next()"
+        [disabled]="isLastPage()"
       ></p-button>
     </ng-template>
   </p-table>

@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-machine-events',
   templateUrl: './machine-events.component.html',
+  styleUrls: ['./machine-events.component.css'],
   styles: [
     `
       :host ::ng-deep .p-datatable .p-datatable-header {
@@ -33,11 +34,27 @@ import {Router} from "@angular/router";
         display: none;
       }
 
-      :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+      :host ::ng-deep .p-button-primary {
+        background-color: #ff7600;
+        border-color: #ff7600;
+      }
+
+      :host ::ng-deep .p-button-primary:hover {
+        background-color: #ff5500;
+        border-color: #ff5500;
+      }
+
+      :host ::ng-deep .p-button-primary:focus {
+        background-color: #ff5500;
+        border-color: #ff5500;
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ff9b33, 0 1px 2px 0 black;
+      }
+
+      :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
         border-radius: 0.75rem;
-        background: #FFE5CA;
-        color: #D8601D;
-        border-color: #FF9B33;
+        background: #ffe5ca;
+        color: #d8601d;
+        border-color: #ff9b33;
       }
 
       :host ::ng-deep .p-paginator:hover .p-paginator-pages:hover .p-paginator-page:hover {
@@ -63,6 +80,9 @@ export class MachineEventsComponent implements OnInit {
     idUsuario: 0
   }
 
+  first: number = 0;
+  rows: number = 0;
+
   constructor(
     private messageService: MessageService,
     private headerService: HeaderService,
@@ -85,6 +105,7 @@ export class MachineEventsComponent implements OnInit {
   getEvents() {
     this.machineService.getMachineEvents(this.filter).subscribe(machineEvents => {
       this.machineEvents = machineEvents;
+      this.rows = 5;
     });
   }
 
@@ -146,4 +167,24 @@ export class MachineEventsComponent implements OnInit {
   }
 
   protected readonly formatDate = formatDate;
+
+  next(): void {
+    if (!this.isLastPage()) {
+      this.first = this.first + this.rows;
+    }
+  }
+
+  prev(): void {
+    if (!this.isFirstPage()) {
+      this.first = this.first - this.rows;
+    }
+  }
+
+  isLastPage(): boolean {
+    return this.machineEvents.eventos ? this.first + this.rows >= this.machineEvents.eventos.length : true;
+  }
+
+  isFirstPage(): boolean {
+    return this.machineEvents.eventos ? this.first === 0 : true;
+  }
 }

@@ -31,11 +31,27 @@ import {RoleService} from "../../services/role/role.service";
         display: none;
       }
 
-      :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+      :host ::ng-deep .p-button-primary {
+        background-color: #ff7600;
+        border-color: #ff7600;
+      }
+
+      :host ::ng-deep .p-button-primary:hover {
+        background-color: #ff5500;
+        border-color: #ff5500;
+      }
+
+      :host ::ng-deep .p-button-primary:focus {
+        background-color: #ff5500;
+        border-color: #ff5500;
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ff9b33, 0 1px 2px 0 black;
+      }
+
+      :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
         border-radius: 0.75rem;
-        background: #FFE5CA;
-        color: #D8601D;
-        border-color: #FF9B33;
+        background: #ffe5ca;
+        color: #d8601d;
+        border-color: #ff9b33;
       }
 
       :host ::ng-deep .p-paginator:hover .p-paginator-pages:hover .p-paginator-page:hover {
@@ -53,6 +69,9 @@ export class UsersDashboardComponent implements OnInit {
   roles: RoleResponse[] = [];
   selectedRoleId: number = 0;
 
+  first: number = 0;
+  rows: number = 0;
+
   constructor(
     private userService: UserService,
     private roleService: RoleService,
@@ -66,9 +85,10 @@ export class UsersDashboardComponent implements OnInit {
     this.roleService.getRoles().subscribe(roles => this.roles = roles);
   }
 
-  loadUsers() {
+  loadUsers(): void {
     this.userService.getUsers({usuario: '', idRol: this.selectedRoleId}).subscribe(res => {
       this.users = res.usuarios;
+      this.rows = 5;
     });
   }
 
@@ -80,8 +100,28 @@ export class UsersDashboardComponent implements OnInit {
     this.userService.setUserId(0);
   }
 
-  onChange(event: any) {
+  onChange(event: any): void {
     this.selectedRoleId = event.value;
+  }
+
+  next(): void {
+    if (!this.isLastPage()) {
+      this.first = this.first + this.rows;
+    }
+  }
+
+  prev(): void {
+    if (!this.isFirstPage()) {
+      this.first = this.first - this.rows;
+    }
+  }
+
+  isLastPage(): boolean {
+    return this.users ? this.first + this.rows >= this.users.length : true;
+  }
+
+  isFirstPage(): boolean {
+    return this.users ? this.first === 0 : true;
   }
 
 }
