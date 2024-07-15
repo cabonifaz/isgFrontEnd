@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {MACHINE_API_ENDPOINTS} from 'src/app/core/global/constants/api-endpoints';
 import {
   EditMachineResponse,
@@ -16,12 +16,11 @@ import {environment} from 'src/environments/environment';
 export class MachineService {
 
   private uri = environment.url;
-  private idEquipo = new BehaviorSubject<number>(0);
-  public idEquipo$ = this.idEquipo.asObservable();
+  public idEquipo = 0;
   public nombreEquipo: string = "Cargando...";
 
   setEquipo(idEquipo: number, nombreEquipo: string) {
-    this.idEquipo.next(idEquipo);
+    this.idEquipo = idEquipo;
     this.nombreEquipo = nombreEquipo;
   }
 

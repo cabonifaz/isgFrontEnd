@@ -93,11 +93,9 @@ export class MachineEventsComponent implements OnInit {
   ngOnInit(): void {
     this.headerService.setTitle(this.machineService.nombreEquipo);
     this.headerService.setBackTo("/main");
-    this.machineService.idEquipo$.subscribe(idEquipo => {
-      this.machineId = idEquipo;
-      this.filter.idEquipo = this.machineId;
-      this.machineId != 0 ? this.getEvents() : this.router.navigate(['/main']);
-    });
+    this.machineId = this.machineService.idEquipo;
+    this.filter.idEquipo = this.machineId;
+    this.machineId != 0 ? this.getEvents() : this.router.navigate(['/main']);
   }
 
   getEvents() {
