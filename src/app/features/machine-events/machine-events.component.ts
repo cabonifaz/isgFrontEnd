@@ -59,8 +59,7 @@ export class MachineEventsComponent implements OnInit {
     fechaHasta: '',
     horaDesde: '',
     horaHasta: '',
-    idEquipo: 0,
-    idUsuario: 0
+    idEquipo: 0
   }
 
   constructor(
@@ -77,7 +76,6 @@ export class MachineEventsComponent implements OnInit {
     this.machineService.idEquipo$.subscribe(idEquipo => {
       this.machineId = idEquipo;
       this.filter.idEquipo = this.machineId;
-      this.filter.idUsuario = this.headerService.getUserId();
       this.machineId != 0 ? this.getEvents() : this.router.navigate(['/main']);
     });
   }
@@ -96,7 +94,6 @@ export class MachineEventsComponent implements OnInit {
         horaDesde: formatDate(this.desde, 'HH:mm:ss', 'en-US'),
         horaHasta: formatDate(this.hasta, 'HH:mm:ss', 'en-US'),
         idEquipo: this.machineId,
-        idUsuario: this.headerService.getUserId()
       }
     } else {
       this.messageService.add({

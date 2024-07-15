@@ -52,6 +52,7 @@ export class UsersDashboardComponent implements OnInit {
   users: PartialUserResponse[] = [];
   roles: RoleResponse[] = [];
   selectedRoleId: number = 0;
+  username: string = '';
 
   constructor(
     private userService: UserService,
@@ -67,9 +68,19 @@ export class UsersDashboardComponent implements OnInit {
   }
 
   loadUsers() {
-    this.userService.getUsers({usuario: '', idRol: this.selectedRoleId}).subscribe(res => {
+    this.userService.getUsers(
+      {
+        usuario: this.username,
+        idRol: this.selectedRoleId
+      }
+    ).subscribe(res => {
       this.users = res.usuarios;
     });
+  }
+
+  setFilter(username: string): void {
+    this.username = username;
+    this.selectedRoleId = 0;
   }
 
   setUserId(id: number): void {

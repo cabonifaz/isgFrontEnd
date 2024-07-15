@@ -43,10 +43,21 @@ export class UserFormComponent implements OnInit {
     if (this.userId == 0) {
       //FormGroup para registrar usuario
       this.userFormGroup = this.formBuilder.group({
-        nombres: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
-        apellidos: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
-        usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z_1234567890]*$')]],
-        clave: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(200)]],
+        nombres: ['', [Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+          Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+        apellidos: ['', [Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+          Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+        usuario: ['', [Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50),
+          Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\-._]+$')]],
+        clave: ['', [Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(200)]],
         usuarioCreador: [this.getUsuarioCreador()],
         idRol: ['', [Validators.required]]
       });
@@ -55,9 +66,18 @@ export class UserFormComponent implements OnInit {
       this.userFormGroup = this.formBuilder.group({
         idUsuario: [''],
         idEstado: [''],
-        nombres: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
-        apellidos: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
-        usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z_1234567890]*$')]],
+        nombres: ['', [Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+          Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+        apellidos: ['', [Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+          Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+        usuario: ['', [Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50),
+          Validators.pattern('^[a-zA-Z_1234567890]*$')]],
         usuarioCreador: [this.getUsuarioCreador()],
         idRol: ['', Validators.required]
       });

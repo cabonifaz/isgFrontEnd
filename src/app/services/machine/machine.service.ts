@@ -61,8 +61,7 @@ export class MachineService {
     fechaHasta: string,
     horaDesde: string,
     horaHasta: string,
-    idEquipo: number,
-    idUsuario: number
+    idEquipo: number
   }): Observable<MachineEventResponse> {
     return this.httpClient.post<MachineEventResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.GET_MACHINE_EVENTS}`, filter);
   }
