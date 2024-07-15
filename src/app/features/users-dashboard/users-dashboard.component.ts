@@ -54,6 +54,9 @@ export class UsersDashboardComponent implements OnInit {
   selectedRoleId: number = 0;
   username: string = '';
 
+  first: number = 0;
+  rows: number = 0;
+
   constructor(
     private userService: UserService,
     private roleService: RoleService,
@@ -75,6 +78,7 @@ export class UsersDashboardComponent implements OnInit {
       }
     ).subscribe(res => {
       this.users = res.usuarios;
+      this.rows = 5;
     });
   }
 
@@ -93,6 +97,26 @@ export class UsersDashboardComponent implements OnInit {
 
   onChange(event: any) {
     this.selectedRoleId = event.value;
+  }
+
+  next(): void {
+    if (!this.isLastPage()) {
+      this.first = this.first + this.rows;
+    }
+  }
+
+  prev(): void {
+    if (!this.isFirstPage()) {
+      this.first = this.first - this.rows;
+    }
+  }
+
+  isLastPage(): boolean {
+    return this.users ? this.first + this.rows >= this.users.length : true;
+  }
+
+  isFirstPage(): boolean {
+    return this.users ? this.first === 0 : true;
   }
 
 }

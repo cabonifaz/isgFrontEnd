@@ -45,8 +45,8 @@ export class MachineStateService {
         const updatedValue = {
           ...currentValue,
           equipos: currentValue.equipos.map(equipo =>
-            equipo.idEquipo === idEquipo ? { ...equipo, idEstadoRegistro: 0 } : equipo
-          ).filter(equipo => equipo.idEstadoRegistro !== 0) // Filtra para excluir equipos con idEstadoRegistro 0
+            equipo.idEquipo === idEquipo ? { ...equipo, idTipoEvento: 0 } : equipo
+          ).filter(equipo => equipo.idTipoEvento !== 0) // Filtra para excluir equipos con idEstadoRegistro 0
         };
         this.machineSubject.next(updatedValue);
       }),

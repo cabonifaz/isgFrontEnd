@@ -52,18 +52,12 @@ import { UserResponse } from 'src/app/shared/models/user.interface';
         border-color: #ff5500;
         box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ff9b33, 0 1px 2px 0 black;
       }
-      :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+
+      :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight  {
         border-radius: 0.75rem;
         background: #ffe5ca;
         color: #d8601d;
         border-color: #ff9b33;
-      }
-
-      :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
-        border-radius: 0.75rem;
-        background: #FFE5CA;
-        color: #D8601D;
-        border-color: #FF9B33;
       }
 
       :host ::ng-deep .p-paginator:hover .p-paginator-pages:hover .p-paginator-page:hover {
@@ -129,7 +123,7 @@ export class DashboardComponent implements OnInit {
       // console.log(response);
       this.equipment = machines;
       this.equipos = machines.equipos;
-      // this.rows = this.equipment.totalCount;
+      this.rows = 6;
     })
   }
 
@@ -249,26 +243,30 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // next() {
-  //   this.first = this.first + this.rows;
-  // }
+  next() {
+    if (!this.isLastPage()) {
+      this.first = this.first + this.rows;
+    }
+  }
 
-  // prev() {
-  //   this.first = this.first - this.rows;
-  // }
+  prev() {
+    if (!this.isFirstPage()) {
+      this.first = this.first - this.rows;
+    }
+  }
 
-  // pageChange(event: any) {
-  //   this.first = event.first;
-  //   this.rows = event.rows;
-  // }
+  pageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+  }
 
-  // isLastPage(): boolean {
-  //   return this.equipos ? this.first === this.equipos.length - this.rows : true;
-  // }
+  isLastPage(): boolean {
+    return this.equipos ? this.first + this.rows >= this.equipos.length : true;
+  }
 
-  // isFirstPage(): boolean {
-  //   return this.equipos ? this.first === 0 : true;
-  // }
+  isFirstPage(): boolean {
+    return this.equipos ? this.first === 0 : true;
+  }
 
   openModalEdit() {
     this.visibleEditModal = true;

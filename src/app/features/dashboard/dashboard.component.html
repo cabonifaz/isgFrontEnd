@@ -2,8 +2,9 @@
   <p-table
     #dt
     [value]="equipos"
-    [rows]="equipment.totalCount"
+    [rows]="rows"
     [paginator]="true"
+    [(first)]="first"
     [showFirstLastIcon]="false"
     [globalFilterFields]="['tipoEvento']"
     [tableStyle]="{
@@ -12,7 +13,6 @@
       'border-top': 'none'
     }"
     dataKey="nombreModelo"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [(selection)]="selectedProducts"
     [breakpoint]="'1170px'"
   >
@@ -74,6 +74,7 @@
               width="50"
             />
             {{ equipo.nombreEquipo }} - {{ equipo.modelo }}
+            {{ equipo.molde ?? "-" }} {{ equipo.molde ?? equipo.molde }}
           </div>
         </td>
         <td>
@@ -130,6 +131,8 @@
         icon="pi pi-arrow-left"
         label="Volver"
         styleClass="p-button-outlined border-gray-300 text-gray-800"
+        (click)="prev()"
+        [disabled]="isFirstPage()"
       ></p-button>
     </ng-template>
     <ng-template pTemplate="paginatorright">
@@ -139,6 +142,8 @@
         icon="pi pi-arrow-right"
         iconPos="right"
         styleClass="p-button-outlined border-gray-300 text-gray-800"
+        (click)="next()"
+        [disabled]="isLastPage()"
       ></p-button>
     </ng-template>
   </p-table>

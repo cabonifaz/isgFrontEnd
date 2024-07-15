@@ -9,10 +9,11 @@ export interface Equipo {
   nombreEquipo: string;
   idTipoEquipo: number;
   tipoEquipo: string;
-  idEstadoRegistro: number;
+  idTipoEvento: number;
   nombreModelo: string;
   tipoEvento: string;
   idEquipo: number;
+  molde: string;
 }
 
 export interface EquipoById {

@@ -1,10 +1,15 @@
 <header class="w-full">
   <nav class="flex flex-wrap align-items-center justify-content-between mt-8">
     <div class="flex align-items-center gap-2">
-      <span
+      <!--<span
         class="flex justify-content-end border-round-right-2xl p-m-2 w-6rem h-6rem lg:min-w-full"
         style="background-color: #ff7600"
       >
+        <img alt="app-logo" src="assets/logo-upscaled.png" class="w-6rem"/>
+      </span>-->
+      <span
+        class="flex justify-content-end border-round-right-2xl w-4rem md:w-20rem h-4rem md:h-6rem"
+        style="background-color: #ff7600">
         <img alt="app-logo" src="assets/logo-upscaled.png" class="w-6rem"/>
       </span>
       <button
@@ -14,9 +19,9 @@
         icon="{{ backTo == '' ? '' : 'pi pi-arrow-left' }}"
         class="p-button-secondary p-button-text p-button-lg"
         routerLink="{{ backTo }}"
-        [disabled]="backTo == ''"
-      ></button>
-      <h1 class="text-lg md:text-2xl font-bold">{{ title }}</h1>
+        [disabled]="backTo == ''">
+      </button>
+      <h1 class="text-lg md:text-2xl font-bold white-space-nowrap">{{ title }}</h1>
     </div>
     <div class="flex align-items-center gap-2 p-2">
       <button
