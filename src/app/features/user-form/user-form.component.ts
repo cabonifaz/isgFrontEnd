@@ -45,7 +45,7 @@ export class UserFormComponent implements OnInit {
       this.userFormGroup = this.formBuilder.group({
         nombres: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
         apellidos: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
-        usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z_1234567890]*$')]],
+        usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z1234567890áéíóúüñÁÉÍÓÚÜÑ\\-_.]+$')]],
         clave: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(200)]],
         usuarioCreador: [this.getUsuarioCreador()],
         idRol: ['', [Validators.required]]
@@ -57,7 +57,7 @@ export class UserFormComponent implements OnInit {
         idEstado: [''],
         nombres: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
         apellidos: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
-        usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z_1234567890]*$')]],
+        usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z1234567890áéíóúüñÁÉÍÓÚÜÑ\\-_.]+$')]],
         usuarioCreador: [this.getUsuarioCreador()],
         idRol: ['', Validators.required]
       });
