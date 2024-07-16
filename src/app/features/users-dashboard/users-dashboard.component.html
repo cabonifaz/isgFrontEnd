@@ -16,29 +16,35 @@
     [breakpoint]="'1170px'"
   >
     <ng-template pTemplate="caption">
-      <div class="flex align-items-center justify-content-between">
-        <div class="flex align-items-center gap-2">
+      <div class="flex align-items-center justify-content-between flex-wrap sm:mt-0">
+        <div class="flex align-items-center gap-2 w-full sm:w-auto">
           <h5 class="m-0 text-xl font-semibold text-gray-800">Lista de usuarios</h5>
           <span
             class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-span text-span"
           >{{ users.length }} usuarios</span
           >
         </div>
-        <div class="p-input-icon-left flex" style="height: 2.9rem;">
-          <div class="p-inputgroup">
-            <input type="text" pInputText placeholder="Ingrese el nombre de usuario" [(ngModel)]="username">
+        <div class="flex flex-wrap">
+          <div class="p-inputgroup w-full sm:w-auto mt-2 sm:mt-0">
+            <input type="text" pInputText placeholder="Nombre de usuario" [(ngModel)]="username">
             <button type="button" pButton pRipple label="Buscar"
-                    class="p-button-outlined p-button-secondary mr-2"
+                    class="p-button-outlined p-button-secondary p-button-sm mr-2"
                     (click)="setFilter(username);loadUsers()"
             >
             </button>
           </div>
-          <p-dropdown id="idRol" [options]="roles" optionLabel="rol" optionValue="idRol"
-                      class="p-button-sm mr-2" placeholder="Filtrar por rol" [(ngModel)]="selectedRoleId"
+          <p-dropdown id="idRol" [options]="roles"
+                      optionLabel="rol"
+                      optionValue="idRol"
+                      styleClass="mt-2 sm:mt-0 mr-2"
+                      placeholder="Filtrar por rol" [(ngModel)]="selectedRoleId"
                       (onChange)="onChange($event);loadUsers()">
           </p-dropdown>
-          <button pButton class="p-button-secondary p-button-outlined p-button-sm"
-                  routerLink="/main/user-form" label="Crear usuario" (click)="clearUserId()">
+          <button pButton
+                  class="p-button-secondary p-button-outlined p-button-sm w-full sm:w-auto mt-2 sm:mt-0"
+                  routerLink="/main/user-form"
+                  label="Crear usuario"
+                  (click)="clearUserId()">
           </button>
         </div>
       </div>
