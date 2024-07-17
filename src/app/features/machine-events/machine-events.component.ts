@@ -99,10 +99,18 @@ export class MachineEventsComponent implements OnInit {
   }
 
   getEvents() {
-    this.machineService.getMachineEvents(this.filter).subscribe(machineEvents => {
-      this.machineEvents = machineEvents;
-      this.rows = 5;
-    });
+    this.machineService.getMachineEvents(this.filter).subscribe(
+      machineEvents => {
+        this.machineEvents = machineEvents;
+        this.rows = 5;
+      }
+    );
+  }
+
+  clearTable(): void {
+    this.machineEvents.eventos = [];
+    this.rows = 0;
+    this.first = 0;
   }
 
   setDates(): void {

@@ -5,7 +5,7 @@
     [rows]="rows"
     [paginator]="true"
     [(first)]="first"
-    [showFirstLastIcon]="false"
+    [showFirstLastIcon]="true"
     [globalFilterFields]="['tipoEvento']"
     [tableStyle]="{
       'min-width': '100%',
@@ -24,7 +24,7 @@
           <h5 class="m-0 text-xl font-semibold text-gray-800">Máquinas</h5>
           <span
             class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-span text-span"
-            >{{ equipos?.length }} máquinas</span
+          >{{ equipos?.length }} máquinas</span
           >
         </div>
         <form [formGroup]="searchForm">
@@ -91,7 +91,7 @@
                 class="bi bi-circle-fill"
                 viewBox="0 0 16 16"
               >
-                <circle cx="8" cy="8" r="8" />
+                <circle cx="8" cy="8" r="8"/>
               </svg>
               {{ equipo.tipoEvento }}
             </span>
