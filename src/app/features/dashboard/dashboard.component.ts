@@ -117,6 +117,7 @@ export class DashboardComponent implements OnInit {
     this.machineStateService.machines$.pipe(
       catchError((error) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las maquinas' });
+        this.equipos = [];
         return throwError(() => error);
       })
     ).subscribe((machines: MachineResponse) => {
@@ -131,6 +132,7 @@ export class DashboardComponent implements OnInit {
     this.machineStateService.machines$.pipe(
       catchError((error) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las máquinas' });
+        this.equipos = [];
         return throwError(() => error);
       })
     ).subscribe((machines: MachineResponse) => {
