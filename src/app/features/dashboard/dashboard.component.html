@@ -6,7 +6,7 @@
     [paginator]="true"
     [(first)]="first"
     [showFirstLastIcon]="true"
-    [globalFilterFields]="['tipoEvento']"
+    [globalFilterFields]="['estado']"
     [tableStyle]="{
       'min-width': '100%',
       border: '1px solid #e7eaed',
@@ -24,7 +24,7 @@
           <h5 class="m-0 text-xl font-semibold text-gray-800">Máquinas</h5>
           <span
             class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-span text-span"
-          >{{ equipos?.length }} máquinas</span
+            >{{ equipos?.length }} máquinas</span
           >
         </div>
         <form [formGroup]="searchForm">
@@ -47,9 +47,9 @@
         </th>
 
         <th style="min-width: 45rem">Máquina</th>
-        <th scope="col" pSortableColumn="tipoEvento" style="width: fit-content">
+        <th scope="col" pSortableColumn="estado" style="width: fit-content">
           Estado
-          <p-sortIcon field="tipoEvento"></p-sortIcon>
+          <p-sortIcon field="estado"></p-sortIcon>
         </th>
         <th></th>
       </tr>
@@ -81,7 +81,7 @@
           <div class="w-max">
             <span
               class="py-1 px-2 flex align-items-center justify-content-center items-center gap-2 text-sm font-medium border-round-2xl"
-              [ngClass]="getSeverity(equipo.tipoEvento)"
+              [ngClass]="getSeverity(equipo.estado)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -91,9 +91,9 @@
                 class="bi bi-circle-fill"
                 viewBox="0 0 16 16"
               >
-                <circle cx="8" cy="8" r="8"/>
+                <circle cx="8" cy="8" r="8" />
               </svg>
-              {{ equipo.tipoEvento }}
+              {{ equipo.estado }}
             </span>
           </div>
         </td>

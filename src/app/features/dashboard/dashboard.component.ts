@@ -107,7 +107,6 @@ export class DashboardComponent implements OnInit {
     this.getMachinesState();
     this.editMachineInitForm();
     this.initSearchForm();
-    this.subscribeToMachines();
     this.headerService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
@@ -117,33 +116,31 @@ export class DashboardComponent implements OnInit {
     this.machineStateService.machines$.pipe(
       catchError((error) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las maquinas' });
-        this.equipos = [];
         return throwError(() => error);
       })
     ).subscribe((machines: MachineResponse) => {
-      // console.log(response);
-      this.equipment = machines;
-      this.equipos = machines.equipos;
-      this.rows = 6;
-    })
-  }
-
-  subscribeToMachines(): void {
-    this.machineStateService.machines$.pipe(
-      catchError((error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las máquinas' });
-        this.equipos = [];
-        return throwError(() => error);
-      })
-    ).subscribe((machines: MachineResponse) => {
-      this.equipment = machines;
-      this.equipos = machines.equipos;
+      if (!machines.equipos || machines.equipos.length === 0) {
+        // Si no hay equipos, limpiar la tabla
+        this.clearTable();
+      } else {
+        // Si hay equipos, actualizar la tabla
+        this.equipment = machines;
+        this.equipos = machines.equipos;
+        this.rows = 6; // O cualquier lógica para determinar el número de filas
+      }
     });
   }
 
+  clearTable(): void {
+    this.equipment = { equipos: [], totalCount: 0 };
+    this.equipos = [];
+    this.rows = 0;
+    this.first = 0;
+  }
+
   getMachinesState() {
-    this.machineStateService.loadProducts(1, '');
     this.getMachiesData();
+    this.machineStateService.loadProducts(1, '');
   }
 
   initSearchForm(): void {
@@ -153,17 +150,24 @@ export class DashboardComponent implements OnInit {
 
     this.searchForm.get('searchInput')!.valueChanges
       .pipe(
-        debounceTime(800), // Agrega un retraso de 800ms
-        distinctUntilChanged() // Evita llamadas a la API si el valor no ha cambiado
+        catchError((error) => {
+          this.clearTable();
+          return throwError(() => error);
+        }),
+        debounceTime(800),
+        distinctUntilChanged()
       )
       .subscribe(value => {
         if (value.length >= 3) {
           this.machineStateService.loadProducts(1, value);
+          this.rows = 0;
+          this.first = 0;
         } else if (value.length === 0) {
           this.machineStateService.loadProducts(1, '');
         }
       });
   }
+
 
   editMachineInitForm() {
     this.editMachineForm = this.formBuilder.group({

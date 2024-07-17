@@ -11,7 +11,7 @@ export interface Equipo {
   tipoEquipo: string;
   idTipoEvento: number;
   nombreModelo: string;
-  tipoEvento: string;
+  estado: string;
   idEquipo: number;
   molde: string;
 }
