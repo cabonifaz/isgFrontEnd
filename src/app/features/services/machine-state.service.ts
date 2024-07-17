@@ -9,16 +9,26 @@ import { EditMachineResponse, Equipo, MachineResponse } from 'src/app/shared/mod
 })
 export class MachineStateService {
 
-  private machineSubject: BehaviorSubject<MachineResponse> = new BehaviorSubject<MachineResponse>({} as MachineResponse);
+  private machineSubject: BehaviorSubject<MachineResponse> = new BehaviorSubject<MachineResponse>({ equipos: [], totalCount: 0 });
   machines$: Observable<MachineResponse> = this.machineSubject.asObservable();
 
   constructor(private machineService: MachineService) { }
 
   loadProducts(idTipoEquipo: number, equipo: string): void {
-    this.machineService.getMachines(idTipoEquipo, equipo).subscribe((machine: MachineResponse) => {
-      this.machineSubject.next(machine);
+    this.machineService.getMachines(idTipoEquipo, equipo).subscribe({
+      next: (machine: MachineResponse) => {
+        if (!machine || !machine.equipos || machine.equipos.length === 0) {
+          this.machineSubject.next({ equipos: [], totalCount: 0 });
+        } else {
+          this.machineSubject.next(machine);
+        }
+      },
+      error: () => {
+        this.machineSubject.next({ equipos: [], totalCount: 0 });
+      }
     });
   }
+
 
   updateMachine(nombreEquipo: string, idEquipo: number, modeloEquipo: string): Observable<EditMachineResponse> {
     return this.machineService.editMachine(idEquipo, nombreEquipo, modeloEquipo).pipe(
