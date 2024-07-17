@@ -5,7 +5,7 @@
     [rows]="rows"
     [paginator]="true"
     [(first)]="first"
-    [showFirstLastIcon]="false"
+    [showFirstLastIcon]="true"
     [globalFilterFields]="['date','hour']"
     [tableStyle]="{
       'min-width': '100%',
@@ -41,7 +41,7 @@
                   class="p-button-secondary p-button-outlined mt-2 sm:mt-0 mr-2"
                   icon="pi pi-filter-fill"
                   pTooltip="Filtrar"
-                  tooltipPosition="top" (click)="setDates();getEvents()">
+                  tooltipPosition="top" (click)="clearTable();setDates();getEvents()">
           </button>
           <button pButton
                   class="p-button-secondary p-button-outlined"
