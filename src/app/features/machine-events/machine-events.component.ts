@@ -146,7 +146,7 @@ export class MachineEventsComponent implements OnInit {
         'EQUIPO': this.machineEvents.equipoInfo.nombreEquipo,
         'MODELO': this.machineEvents.equipoInfo.modelo,
         'SERIE': this.machineEvents.equipoInfo.serie,
-        'MOLDE': this.machineEvents.equipoInfo.molde,
+        'MOLDE': event.molde,
         'TIPO_EVENTO': event.tipoEvento,
         'FECHA': event.fecha.toString(),
         'HORA': event.hora
