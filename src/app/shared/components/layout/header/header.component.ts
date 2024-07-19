@@ -4,6 +4,7 @@ import {HeaderService} from "./header.service";
 import {MenuItem} from "primeng/api";
 import {UserService} from "../../../../services/user/user.service";
 import {UserResponse} from "../../../models/user.interface";
+import {LoginService} from 'src/app/auth/services/login.service';
 
 
 @Component({
@@ -13,19 +14,30 @@ import {UserResponse} from "../../../models/user.interface";
 })
 export class HeaderComponent implements OnInit {
   title: string = '';
+  backTo: string = '';
   items: MenuItem[] = [];
-  user!: UserResponse;
+  user: UserResponse = {
+    idEstado: 0,
+    idRol: 0,
+    nombres: '',
+    apellidos: '',
+    usuario: '',
+    rol: ''
+  };
+  idRol: number = 0;
 
   constructor(
     private route: Router,
     private headerService: HeaderService,
-    private userService: UserService
+    private userService: UserService,
+    private loginService: LoginService
   ) {
   }
 
   ngOnInit(): void {
     // Cargar el título
     this.headerService.title$.subscribe(title => this.title = title);
+    this.headerService.backTo$.subscribe(backTo => this.backTo = backTo);
     this.items = [
       {
         label: 'Opciones',
@@ -40,12 +52,16 @@ export class HeaderComponent implements OnInit {
   }
 
   backToLogin() {
-    this.route.navigate(['/login']);
+    this.loginService.logout();
   }
 
   loadUserData(): void {
-    this.userService.getUserById(1).subscribe(
-      response => this.user = response
+    this.userService.getUserById(this.headerService.getUserId()).subscribe(
+      response => {
+        this.user = response;
+        this.idRol = this.user.idRol;
+        this.headerService.sharedUser(this.user);
+      }
     );
   }
 }

@@ -1,8 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-html, body {
+html {
   height: 100vh;
+}
+
+ body {
+  height: max-content;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }

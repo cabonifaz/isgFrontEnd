@@ -1,3 +1,45 @@
 input[type=checkbox] {
   transform: scale(1.5);
 }
+
+.bg-span {
+  background-color: #ffe5ca;
+}
+
+.text-span {
+  color: #ff9b33;
+}
+
+.bg-span-success {
+  background-color: #ecfdf3;
+}
+
+.text-span-success {
+  color: #027a48;
+}
+
+.bg-span-danger {
+  background-color: #fdecec;
+}
+
+.text-span-danger{
+  color: #7a0202;
+}
+
+.bg-span-warning {
+  background-color: #ededed;
+}
+
+.text-span-warning {
+  color: #757676;
+}
+
+button.disabled {
+  background-color: var(--gray-500); /* Color de fondo para el botón deshabilitado */
+  border-color: var(--gray-500);
+}
+
+button.disabled:hover {
+  background-color: var(--gray-500); /* Color de fondo para el botón deshabilitado */
+  border-color: var(--gray-500);
+}

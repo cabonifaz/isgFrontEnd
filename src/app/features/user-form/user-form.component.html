@@ -1,55 +1,72 @@
-<!--
-<div class="max-w-1xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-  <div>
-    <label for="username" class="block text-base font-medium text-gray-700">Nombre de usuario</label>
-    <input
-      id="username"
-      name="username"
-      type="text"
-      class="transition-colors mb-2 bg-gray-50 pr-14 border focus:outline-none border-gray-300 text-gray-900 text-base rounded-lg focus:ring-2 focus:ring-gray-200 block w-full py-2 px-3"
-      placeholder="Nombre de usuario"
-      autocomplete="on"
-      formControlName="username"
-    />
+<section class="p-fluid grid justify-content-center">
+  <div class="p-card md:w-6 h-2">
+    <form [formGroup]="userFormGroup" (ngSubmit)="saveUser()" class="p-fluid grid m-4">
+      <div class="field col-12 lg:col-6">
+        <label for="nombres" class="font-medium">Nombres:</label>
+        <input formControlName="nombres" type="text" id="nombres" pInputText placeholder="Ingrese los nombres"
+               autofocus>
+      </div>
+      <div class="field col-12 lg:col-6">
+        <label for="apellidos" class="font-medium">Apellidos:</label>
+        <input formControlName="apellidos" type="text" id="apellidos" pInputText placeholder="Ingrese los apellidos">
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="idEstado" class="font-medium">Estado:</label>
+        <p-dropdown
+          formControlName="idEstado"
+          id="idEstado"
+          [autoDisplayFirst]="true"
+          [options]="[{estado: 'Habilitado', idEstado: 1}, {estado: 'Inhabilitado', idEstado: 0}]"
+          optionLabel="estado"
+          optionValue="idEstado"
+          [disabled]="userId == 0">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="idRol" class="font-medium">Rol:</label>
+        <p-dropdown
+          formControlName="idRol"
+          id="idRol"
+          [options]="roles"
+          optionLabel="rol"
+          optionValue="idRol">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-12">
+        <label for="usuario" class="font-medium">Usuario:</label>
+        <input formControlName="usuario" type="text" id="usuario" pInputText
+               placeholder="Ingrese el usuario">
+      </div>
+      <div *ngIf="userId == 0" class="field col-12 md:col-12">
+        <label for="clave" class="font-medium">Contraseña:</label>
+        <input formControlName="clave" type="password" id="clave" pInputText placeholder="Ingrese la contraseña">
+      </div>
+      <div *ngIf="userId != 0" class="field col-12 md:col-12">
+        <label for="clave" class="font-medium">Contraseña:</label>
+        <form class="p-inputgroup" [formGroup]="passwordFormGroup">
+          <input formControlName="clave" type="password" pInputText placeholder="Ingrese la contraseña">
+          <button type="button" pButton pRipple label="Cambiar contraseña" class="p-button-warning"
+                  [disabled]="passwordFormGroup.invalid"
+                  (click)="updatePassword()"
+                  style="background-color: #ff7600">
+          </button>
+        </form>
+      </div>
+      <div class="field col-12 md:col-6">
+        <button pButton pRipple label="{{userId == 0 ? 'Registrar' : 'Actualizar'}}"
+                type="submit"
+                class="p-button-warning"
+                [disabled]="userFormGroup.invalid"
+                style="background-color: #ff7600">
+        </button>
+      </div>
+      <div class="field col-12 md:col-6">
+        <button pButton pRipple label="Cancelar"
+                type="button"
+                class="text-center p-button-secondary p-button-outlined"
+                routerLink="/main/users-dashboard">
+        </button>
+      </div>
+    </form>
   </div>
-  <div>
-    <label for="name" class="block text-base font-medium text-gray-700">Nombres</label>
-    <input
-      id="name"
-      name="name"
-      type="text"
-      class="transition-colors mb-2 bg-gray-50 pr-14 border focus:outline-none border-gray-300 text-gray-900 text-base rounded-lg focus:ring-2 focus:ring-gray-200 block w-full py-2 px-3"
-      placeholder="Nombres"
-      autocomplete="on"
-      formControlName="username"
-    />
-  </div>
-  <div>
-    <label for="lastName" class="block text-base font-medium text-gray-700">Apellidos</label>
-    <input
-      id="lastName"
-      name="lastName"
-      type="text"
-      class="transition-colors mb-2 bg-gray-50 pr-14 border focus:outline-none border-gray-300 text-gray-900 text-base rounded-lg focus:ring-2 focus:ring-gray-200 block w-full py-2 px-3"
-      placeholder="Apellidos"
-      autocomplete="on"
-      formControlName="username"
-    />
-  </div>
-  <div>
-    <label for="password" class="block text-base font-medium text-gray-700">Contraseña</label>
-    <input
-      id="password"
-      name="password"
-      type="text"
-      class="transition-colors mb-2 bg-gray-50 pr-14 border focus:outline-none border-gray-300 text-gray-900 text-base rounded-lg focus:ring-2 focus:ring-gray-200 block w-full py-2 px-3"
-      placeholder="Contraseña"
-      autocomplete="on"
-      formControlName="username"
-    />
-  </div>
-  <div>
-    <select name=""></select>
-  </div>
-</div>
--->
+</section>
