@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {MachineEventResponse} from "../../shared/models/machine.interface";
-import {saveAs} from "file-saver";
-import {HeaderService} from "../../shared/components/layout/header/header.service";
-import {MachineService} from "../../services/machine/machine.service";
-import {formatDate} from "@angular/common";
-import {MessageService} from "primeng/api";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { MachineEventResponse } from "../../shared/models/machine.interface";
+import { saveAs } from "file-saver";
+import { HeaderService } from "../../shared/components/layout/header/header.service";
+import { MachineService } from "../../services/machine/machine.service";
+import { formatDate } from "@angular/common";
+import { MessageService } from "primeng/api";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-machine-events',
@@ -139,7 +139,8 @@ export class MachineEventsComponent implements OnInit {
       MOLDE: string;
       TIPO_EVENTO: string;
       FECHA: string;
-      HORA: string
+      HORA: string;
+      CANTIDAD: number;
     }[] = [];
     this.machineEvents.eventos.forEach(event => {
       data.push({
@@ -149,13 +150,14 @@ export class MachineEventsComponent implements OnInit {
         'MOLDE': event.molde,
         'TIPO_EVENTO': event.tipoEvento,
         'FECHA': event.fecha.toString(),
-        'HORA': event.hora
+        'HORA': event.hora,
+        'CANTIDAD': event.cantidad
       });
     });
     import("xlsx").then(xlsx => {
       const worksheet = xlsx.utils.json_to_sheet(data);
-      const workbook = {Sheets: {'EVENTOS': worksheet}, SheetNames: ['EVENTOS']};
-      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      const workbook = { Sheets: { 'EVENTOS': worksheet }, SheetNames: ['EVENTOS'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
       this.saveAsExcelFile(excelBuffer, "EVENTOS");
     });
   }

@@ -6,7 +6,7 @@
     [paginator]="true"
     [(first)]="first"
     [showFirstLastIcon]="true"
-    [globalFilterFields]="['date','hour']"
+    [globalFilterFields]="['date', 'hour']"
     [tableStyle]="{
       'min-width': '100%',
       border: '1px solid #e7eaed',
@@ -16,39 +16,62 @@
   >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between flex-wrap">
-        <div class="flex align-items-center gap-2 w-full sm:w-auto mb-2 sm:mt-0">
+        <div
+          class="flex align-items-center gap-2 w-full sm:w-auto mb-2 sm:mt-0"
+        >
           <h5 class="m-0 text-xl font-semibold text-gray-800">Eventos</h5>
           <span
-            class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-orange-100 text-orange-400">
+            class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-orange-100 text-orange-400"
+          >
             {{ machineEvents.total }}
             eventos
           </span>
         </div>
         <div class="w-full sm:w-auto">
-          <label for="desde" class="font-medium text-sm text-gray-800">Desde:&nbsp;</label>
-          <p-calendar id="desde" [(ngModel)]="desde" [showTime]="true" [showSeconds]="true" dateFormat="dd/mm/yy"
-                      inputId="time"
-                      class="mr-2"
-                      [style]="{'width': '20rem'}">
+          <label for="desde" class="font-medium text-sm text-gray-800"
+            >Desde:&nbsp;</label
+          >
+          <p-calendar
+            id="desde"
+            [(ngModel)]="desde"
+            [showTime]="true"
+            [showSeconds]="true"
+            dateFormat="dd/mm/yy"
+            inputId="time"
+            class="mr-2"
+            [style]="{ width: '20rem' }"
+          >
           </p-calendar>
-          <label for="hasta" class="font-medium text-sm text-gray-800">Hasta:&nbsp;</label>
-          <p-calendar id="hasta" [(ngModel)]="hasta" [showTime]="true" [showSeconds]="true" dateFormat="dd/mm/yy"
-                      inputId="time"
-                      class="mr-2"
-                      [style]="{'width': '20rem'}">
+          <label for="hasta" class="font-medium text-sm text-gray-800"
+            >Hasta:&nbsp;</label
+          >
+          <p-calendar
+            id="hasta"
+            [(ngModel)]="hasta"
+            [showTime]="true"
+            [showSeconds]="true"
+            dateFormat="dd/mm/yy"
+            inputId="time"
+            class="mr-2"
+            [style]="{ width: '20rem' }"
+          >
           </p-calendar>
-          <button pButton
-                  class="p-button-secondary p-button-outlined mt-2 sm:mt-0 mr-2"
-                  icon="pi pi-filter-fill"
-                  pTooltip="Filtrar"
-                  tooltipPosition="top" (click)="clearTable();setDates();getEvents()">
-          </button>
-          <button pButton
-                  class="p-button-secondary p-button-outlined"
-                  icon="pi pi-file-excel"
-                  pTooltip="Exportar a Excel"
-                  tooltipPosition="top" (click)="exportExcel()">
-          </button>
+          <button
+            pButton
+            class="p-button-secondary p-button-outlined mt-2 sm:mt-0 mr-2"
+            icon="pi pi-filter-fill"
+            pTooltip="Filtrar"
+            tooltipPosition="top"
+            (click)="clearTable(); setDates(); getEvents()"
+          ></button>
+          <button
+            pButton
+            class="p-button-secondary p-button-outlined"
+            icon="pi pi-file-excel"
+            pTooltip="Exportar a Excel"
+            tooltipPosition="top"
+            (click)="exportExcel()"
+          ></button>
         </div>
       </div>
     </ng-template>
@@ -58,6 +81,7 @@
         <th scope="col">Tipo de Evento</th>
         <th scope="col">Fecha</th>
         <th scope="col">Hora</th>
+        <th scope="col">Cantidad</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-event>
@@ -66,8 +90,9 @@
         <td class="font-medium">
           {{ event.tipoEvento }}
         </td>
-        <td class="font-medium">{{ event.fecha | date: 'dd/MM/yyyy' }}</td>
+        <td class="font-medium">{{ event.fecha | date : "dd/MM/yyyy" }}</td>
         <td class="font-medium">{{ event.hora }}</td>
+        <td class="font-medium">{{ event.cantidad }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft">
@@ -93,4 +118,3 @@
     </ng-template>
   </p-table>
 </div>
-

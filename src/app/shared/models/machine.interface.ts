@@ -44,10 +44,9 @@ export interface MachineEventResponse {
 }
 
 export interface MachineEvent {
-  idEvento: number
   fecha: string
   hora: string
   tipoEvento: string
   molde: string
-
+  cantidad: number
 }
