@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Router} from "@angular/router";
-import {HeaderService} from "../../shared/components/layout/header/header.service";
+import { Injectable } from '@angular/core';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Router } from "@angular/router";
+import { HeaderService } from "../../shared/components/layout/header/header.service";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   private excludedUrls: string[] = [
-    'https://jazi2uqtnj.execute-api.us-east-2.amazonaws.com/isg/auth/login'
+    'https://i6qy8cjk3j.execute-api.us-east-1.amazonaws.com/isg/auth/login'
   ];
 
   constructor(
@@ -26,7 +26,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     let intReq = request;
     if (token != null) {
-      intReq = request.clone({headers: request.headers.set('Authorization', 'Bearer ' + token)});
+      intReq = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
     }
 
     return next.handle(intReq);

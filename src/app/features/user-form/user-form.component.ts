@@ -47,12 +47,12 @@ export class UserFormComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(100),
-          Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+          Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\ ]+$')]],
         apellidos: ['', [
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(100),
-          Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\- ]+$')]],
+          Validators.pattern('^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\ ]+$')]],
         usuario: ['', [
           Validators.required,
           Validators.minLength(3),
