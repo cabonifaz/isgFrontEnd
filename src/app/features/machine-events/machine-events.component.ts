@@ -68,14 +68,27 @@ import { Router } from "@angular/router";
 })
 export class MachineEventsComponent implements OnInit {
   machineId: number = 0;
-  machineEvents!: MachineEventResponse;
-  desde: Date = new Date();
-  hasta: Date = new Date();
+  // Inicializamos machineEvents
+  machineEvents: MachineEventResponse = {
+    equipoInfo: {
+      nombreEquipo: "",
+      idEquipo: 0,
+      serie: "",
+      modelo: "",
+      idTipoEquipo: 0,
+      tipoEquipo: "",
+      moldeActual: ""
+    },
+    eventos: [],
+    total: 0
+  };
+  desde: Date = new Date(new Date().getTime() - 10 * 60000);
+  hasta: Date = new Date(new Date().getTime() + 10 * 60000);
   filter = {
-    fechaDesde: '',
-    fechaHasta: '',
-    horaDesde: '',
-    horaHasta: '',
+    fechaDesde: formatDate(this.desde, 'yyyy-MM-dd', 'en-US'),
+    fechaHasta: formatDate(this.hasta, 'yyyy-MM-dd', 'en-US'),
+    horaDesde: formatDate(this.desde, 'HH:mm:ss', 'en-US'),
+    horaHasta: formatDate(this.hasta, 'HH:mm:ss', 'en-US'),
     idEquipo: 0
   }
 
