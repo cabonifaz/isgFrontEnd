@@ -4,7 +4,7 @@ import { saveAs } from "file-saver";
 import { HeaderService } from "../../shared/components/layout/header/header.service";
 import { MachineService } from "../../services/machine/machine.service";
 import { formatDate } from "@angular/common";
-import { MessageService } from "primeng/api";
+import { LazyLoadEvent, MessageService } from "primeng/api";
 import { Router } from "@angular/router";
 
 @Component({
@@ -82,19 +82,23 @@ export class MachineEventsComponent implements OnInit {
     eventos: [],
     total: 0
   };
+
   desde: Date = new Date(new Date().getTime() - 10 * 60000);
   hasta: Date = new Date(new Date().getTime() + 10 * 60000);
+  protected readonly formatDate = formatDate;
   filter = {
     fechaDesde: formatDate(this.desde, 'yyyy-MM-dd', 'en-US'),
     fechaHasta: formatDate(this.hasta, 'yyyy-MM-dd', 'en-US'),
     horaDesde: formatDate(this.desde, 'HH:mm:ss', 'en-US'),
     horaHasta: formatDate(this.hasta, 'HH:mm:ss', 'en-US'),
-    idEquipo: 0
+    idEquipo: 0,
+    nHoja: 1,
+    cHoja: null
   }
 
   first: number = 0;
-  rows: number = 0;
-
+  rows: number = 10;
+  totalRecords: number = 0;
   constructor(
     private messageService: MessageService,
     private headerService: HeaderService,
@@ -113,16 +117,29 @@ export class MachineEventsComponent implements OnInit {
 
   getEvents() {
     this.machineService.getMachineEvents(this.filter).subscribe(
-      machineEvents => {
-        this.machineEvents = machineEvents;
-        this.rows = 5;
+      {
+        next: machineEvents => {
+          this.machineEvents = machineEvents;
+          this.totalRecords = this.machineEvents.total;
+        },
+        error: error => {
+          console.error(error);
+        }
       }
     );
   }
 
+  loadEvents(event: LazyLoadEvent) {
+    setTimeout(() => {
+      if (this.machineEvents) {
+        // this.machineEvents2 = this.machineEvents.slice(event.first, (event.first + event.rows));
+      }
+    }, 1000);
+  }
+
   clearTable(): void {
     this.machineEvents.eventos = [];
-    this.rows = 0;
+    this.rows = 10;
     this.first = 0;
   }
 
@@ -134,6 +151,8 @@ export class MachineEventsComponent implements OnInit {
         horaDesde: formatDate(this.desde, 'HH:mm:ss', 'en-US'),
         horaHasta: formatDate(this.hasta, 'HH:mm:ss', 'en-US'),
         idEquipo: this.machineId,
+        nHoja: 1,
+        cHoja: null
       }
     } else {
       this.messageService.add({
@@ -145,34 +164,43 @@ export class MachineEventsComponent implements OnInit {
   }
 
   exportExcel(): void {
-    let data: {
-      EQUIPO: string;
-      MODELO: string;
-      SERIE: string;
-      MOLDE: string;
-      TIPO_EVENTO: string;
-      FECHA: string;
-      HORA: string;
-      CANTIDAD: number;
-    }[] = [];
-    this.machineEvents.eventos.forEach(event => {
-      data.push({
-        'EQUIPO': this.machineEvents.equipoInfo.nombreEquipo,
-        'MODELO': this.machineEvents.equipoInfo.modelo,
-        'SERIE': this.machineEvents.equipoInfo.serie,
-        'MOLDE': event.molde,
-        'TIPO_EVENTO': event.tipoEvento,
-        'FECHA': event.fecha.toString(),
-        'HORA': event.hora,
-        'CANTIDAD': event.cantidad
+    const exportFilter = { ...this.filter, cHoja: 0, nHoja: 0 };
+    this.machineService.getMachineEvents(exportFilter).subscribe(
+      {
+        next: machineEvents => {
+          let data: {
+            EQUIPO: string;
+            MODELO: string;
+            SERIE: string;
+            MOLDE: string;
+            TIPO_EVENTO: string;
+            FECHA: string;
+            HORA: string;
+            CANTIDAD: number;
+          }[] = [];
+          machineEvents.eventos.forEach(event => {
+            data.push({
+              'EQUIPO': machineEvents.equipoInfo.nombreEquipo,
+              'MODELO': machineEvents.equipoInfo.modelo,
+              'SERIE': machineEvents.equipoInfo.serie,
+              'MOLDE': event.molde,
+              'TIPO_EVENTO': event.tipoEvento,
+              'FECHA': event.fecha.toString(),
+              'HORA': event.hora,
+              'CANTIDAD': event.cantidad
+            });
+          });
+          import("xlsx").then(xlsx => {
+            const worksheet = xlsx.utils.json_to_sheet(data);
+            const workbook = { Sheets: { 'EVENTOS': worksheet }, SheetNames: ['EVENTOS'] };
+            const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+            this.saveAsExcelFile(excelBuffer, "EVENTOS");
+          });
+        },
+        error: error => {
+          console.error(error);
+        }
       });
-    });
-    import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(data);
-      const workbook = { Sheets: { 'EVENTOS': worksheet }, SheetNames: ['EVENTOS'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, "EVENTOS");
-    });
   }
 
   saveAsExcelFile(buffer: any, fileName: string): void {
@@ -184,25 +212,36 @@ export class MachineEventsComponent implements OnInit {
     saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 
-  protected readonly formatDate = formatDate;
+
+  setPage(page: number) {
+    this.filter.nHoja = page; // Actualiza la página en el filtro
+    this.first = (page - 1) * this.rows; // Calcula el índice `first` para la paginación
+    this.getEvents(); // Realiza la consulta al servidor con la nueva página
+  }
 
   next(): void {
     if (!this.isLastPage()) {
-      this.first = this.first + this.rows;
+      this.setPage(this.filter.nHoja + 1); // Incrementa la página
     }
   }
 
   prev(): void {
     if (!this.isFirstPage()) {
-      this.first = this.first - this.rows;
+      this.setPage(this.filter.nHoja - 1); // Decrementa la página
     }
   }
 
+  handlePageChange(event: any) {
+    this.filter.nHoja = Math.floor(event.first / this.rows) + 1; // Calcula la página correcta
+    this.first = event.first; // Actualiza el índice first
+    this.getEvents(); // Realiza la consulta al servidor con la nueva página
+  }
+
   isLastPage(): boolean {
-    return this.machineEvents.eventos ? this.first + this.rows >= this.machineEvents.eventos.length : true;
+    return this.totalRecords <= this.first + this.rows;
   }
 
   isFirstPage(): boolean {
-    return this.machineEvents.eventos ? this.first === 0 : true;
+    return this.filter.nHoja === 1;
   }
 }

@@ -13,6 +13,10 @@
       'border-top': 'none'
     }"
     dataKey="id"
+    (onPage)="handlePageChange($event)"
+    [totalRecords]="totalRecords"
+    [lazy]="true"
+    (onLazyLoad)="loadEvents($event)"
   >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between flex-wrap">
@@ -68,7 +72,7 @@
             pButton
             class="p-button-secondary p-button-outlined"
             icon="pi pi-file-excel"
-            pTooltip="Exportar a Excel"
+            pTooltip="Exportar a Excel todos los registros"
             tooltipPosition="top"
             (click)="exportExcel()"
           ></button>
