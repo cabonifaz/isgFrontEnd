@@ -23,12 +23,13 @@
         <div
           class="flex align-items-center gap-2 w-full sm:w-auto mb-2 sm:mt-0"
         >
-          <h5 class="m-0 text-xl font-semibold text-gray-800">Eventos</h5>
           <span
             class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-orange-100 text-orange-400"
           >
-            {{ machineEvents.total }}
-            registros
+            {{ totalRecords }}
+            {{
+              totalRecords > 1 || totalRecords === 0 ? "Registros" : "Registro"
+            }}
           </span>
         </div>
         <div class="w-full sm:w-auto">
