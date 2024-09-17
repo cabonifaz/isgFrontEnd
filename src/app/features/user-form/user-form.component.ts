@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {RoleResponse} from "../../shared/models/role.interface";
-import {RoleService} from "../../services/role/role.service";
-import {HeaderService} from "../../shared/components/layout/header/header.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../services/user/user.service";
-import {Router} from "@angular/router";
-import {MessageService} from "primeng/api";
+import { Component, OnInit } from '@angular/core';
+import { RoleResponse } from "../../shared/models/role.interface";
+import { RoleService } from "../../services/role/role.service";
+import { HeaderService } from "../../shared/components/layout/header/header.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UserService } from "../../services/user/user.service";
+import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: 'app-user-form',
@@ -101,7 +101,7 @@ export class UserFormComponent implements OnInit {
     if (this.userId == 0) {
       this.userService.addUser(user).subscribe(
         response => {
-          this.messageService.add({severity: 'success', summary: 'Éxito', detail: response.message});
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
           this.userFormGroup.reset();
           this.router.navigate(['/main/users-dashboard']);
         },
@@ -109,7 +109,7 @@ export class UserFormComponent implements OnInit {
     } else {
       this.userService.updateUser(user).subscribe(
         response => {
-          this.messageService.add({severity: 'success', summary: 'Éxito', detail: response.message});
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
           this.userFormGroup.reset();
           this.router.navigate(['/main/users-dashboard']);
         },
@@ -124,7 +124,7 @@ export class UserFormComponent implements OnInit {
       updatePasswordRequest
     ).subscribe(
       response => {
-        this.messageService.add({severity: 'success', summary: 'Contraseña actualizada', detail: response.message});
+        this.messageService.add({ severity: 'success', summary: 'Contraseña actualizada', detail: response.message });
       },
     );
     this.passwordFormGroup.reset();

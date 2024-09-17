@@ -59,8 +59,9 @@ export class ServerErrorsInterceptor implements HttpInterceptor {
           this.messageService.add({ severity: 'info', summary: 'Información', detail: detail404, life: 2000 });
           return throwError(() => error);
         case 500:
-          this.messageService.add({ severity: 'error', summary: 'Error 500', detail: 'Error, intentalo más tarde', life: 2000 });
-          break;
+          let detail500 = error.error.message || error.error.error || 'Error interno del servidor';
+          this.messageService.add({ severity: 'error', summary: 'Error 500', detail: detail500, life: 2000 });
+          return throwError(() => error);
         default:
           return EMPTY;
       }

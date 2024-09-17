@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {HeaderService} from "../../shared/components/layout/header/header.service";
-import {PartialUserResponse} from "../../shared/models/user.interface";
-import {UserService} from "../../services/user/user.service";
-import {RoleResponse} from "../../shared/models/role.interface";
-import {RoleService} from "../../services/role/role.service";
+import { Component, OnInit } from '@angular/core';
+import { HeaderService } from "../../shared/components/layout/header/header.service";
+import { PartialUserResponse } from "../../shared/models/user.interface";
+import { UserService } from "../../services/user/user.service";
+import { RoleResponse } from "../../shared/models/role.interface";
+import { RoleService } from "../../services/role/role.service";
+import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-users-dashboard',
@@ -76,26 +78,51 @@ export class UsersDashboardComponent implements OnInit {
   constructor(
     private userService: UserService,
     private roleService: RoleService,
-    private headerService: HeaderService) {
+    private headerService: HeaderService,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
     this.headerService.setTitle('Usuarios');
     this.headerService.setBackTo('/main');
-    this.loadUsers();
-    this.roleService.getRoles().subscribe(roles => this.roles = roles);
+    this.handleRequest()
+  }
+
+  handleRequest() {
+    forkJoin({
+      roles: this.roleService.getRoles(),
+      users: this.userService.getUsers({
+        usuario: this.username,
+        idRol: this.selectedRoleId
+      })
+    }).subscribe(
+      ({ roles, users }) => {
+        this.roles = roles;
+        this.users = users.usuarios;
+        this.rows = 5;
+      },
+      error => {
+        console.error('Error al cargar los datos: ', error);
+        this.router.navigate(['/main']);
+      }
+    );
   }
 
   loadUsers() {
-    this.userService.getUsers(
-      {
-        usuario: this.username,
-        idRol: this.selectedRoleId
+    this.userService.getUsers({
+      usuario: this.username,
+      idRol: this.selectedRoleId
+    }).subscribe(
+      res => {
+        this.users = res.usuarios;
+        this.rows = 5;
+      },
+      error => {
+        console.error('Error al cargar los usuarios: ', error);
+        this.router.navigate(['/main']);
       }
-    ).subscribe(res => {
-      this.users = res.usuarios;
-      this.rows = 5;
-    });
+    );
   }
 
   setFilter(username: string): void {

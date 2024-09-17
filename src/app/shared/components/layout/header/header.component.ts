@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {HeaderService} from "./header.service";
-import {MenuItem} from "primeng/api";
-import {UserService} from "../../../../services/user/user.service";
-import {UserResponse} from "../../../models/user.interface";
-import {LoginService} from 'src/app/auth/services/login.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { HeaderService } from "./header.service";
+import { MenuItem } from "primeng/api";
+import { UserService } from "../../../../services/user/user.service";
+import { UserResponse } from "../../../models/user.interface";
+import { LoginService } from 'src/app/auth/services/login.service';
 
 
 @Component({
