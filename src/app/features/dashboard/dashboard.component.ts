@@ -232,7 +232,7 @@ export class DashboardComponent implements OnInit {
             this.getMachiesData();
           },
           (error) => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al deshabilitar la máquina.' });
+            console.log(error);
           }
         );
       },
