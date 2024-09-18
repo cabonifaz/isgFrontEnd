@@ -125,7 +125,9 @@ export class MachineEventsComponent implements OnInit {
         error: error => {
           console.error(error);
           this.totalRecords = 0;
-          this.router.navigate(['/main']);
+          if (error.status === 500) {
+            this.router.navigate(['/main']);
+          }
         }
       }
     );

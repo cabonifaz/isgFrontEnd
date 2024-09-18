@@ -104,7 +104,9 @@ export class UsersDashboardComponent implements OnInit {
       },
       error => {
         console.error('Error al cargar los datos: ', error);
-        this.router.navigate(['/main']);
+        if (error.status === 500) {
+          this.router.navigate(['/main']);
+        }
       }
     );
   }
@@ -120,7 +122,9 @@ export class UsersDashboardComponent implements OnInit {
       },
       error => {
         console.error('Error al cargar los usuarios: ', error);
-        this.router.navigate(['/main']);
+        if (error.status === 500) {
+          this.router.navigate(['/main']);
+        }
       }
     );
   }
