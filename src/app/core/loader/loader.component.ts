@@ -11,10 +11,12 @@ export class LoaderComponent {
   constructor(public loader: LoaderService, private spinner: NgxSpinnerService) { }
   ngOnInit() {
     /** spinner starts on init */
-    if (this.loader.isLoading$) {
-      this.spinner.show();
-    } else {
-      this.spinner.hide();
-    }
+    this.loader.isLoading$.subscribe(isLoading => {
+      if (isLoading) {
+        this.spinner.show();
+      } else {
+        this.spinner.hide();
+      }
+    });
   }
 }
