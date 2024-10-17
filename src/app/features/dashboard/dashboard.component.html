@@ -236,6 +236,36 @@
         </div>
       </div>
     </div>
+    <div class="col-12">
+      <div class="field grid">
+        <label class="col-12 md:col-2">Limite máx.</label>
+        <div class="col-12 md:col-10">
+          <p-inputNumber
+            placeholder="Límite máximo"
+            formControlName="limiteMax"
+            [minFractionDigits]="0"
+            [maxlength]="16"
+            mode="decimal"
+            [useGrouping]="false">
+          </p-inputNumber>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="field grid">
+        <label class="col-12 md:col-2">Limite mín.</label>
+        <div class="col-12 md:col-10">
+          <p-inputNumber
+            placeholder="Límite mínimo"
+            formControlName="limiteMin"
+            [minFractionDigits]="0"
+            [maxlength]="16"
+            mode="decimal"
+            [useGrouping]="false">
+          </p-inputNumber>
+        </div>
+      </div>
+    </div>
     <div class="col-12 p-fluid flex flex-column gap-1 md:flex-row md:gap-2">
       <button
         [class.disabled]="editMachineForm.invalid"
