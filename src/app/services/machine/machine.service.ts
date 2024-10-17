@@ -5,6 +5,7 @@ import { MACHINE_API_ENDPOINTS } from 'src/app/core/global/constants/api-endpoin
 import {
   EditMachineResponse,
   EquipoById,
+  MachineBaseResponse,
   MachineEventResponse,
   MachineResponse
 } from 'src/app/shared/models/machine.interface';
@@ -41,11 +42,13 @@ export class MachineService {
     });
   }
 
-  editMachine(idEquipo: number, nombreEquipo: string, modeloEquipo: string): Observable<EditMachineResponse> {
-    return this.httpClient.put<EditMachineResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.EDIT_MACHINE}`, {
+  editMachine(idEquipo: number, nombreEquipo: string, modeloEquipo: string, limiteMax: number, limiteMin: number): Observable<MachineBaseResponse> {
+    return this.httpClient.put<MachineBaseResponse>(`${this.uri}/${MACHINE_API_ENDPOINTS.EDIT_MACHINE}`, {
       idEquipo: idEquipo,
       nombreEquipo: nombreEquipo,
-      modeloEquipo: modeloEquipo
+      modeloEquipo: modeloEquipo,
+      limiteMax: limiteMax,
+      limiteMin: limiteMin
     });
   }
 

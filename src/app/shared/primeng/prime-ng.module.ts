@@ -23,7 +23,7 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { CardModule } from 'primeng/card';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { BadgeModule } from 'primeng/badge';
-import { InputNumberModule } from 'primeng/inputnumber';
+import { InputNumberModule} from 'primeng/inputnumber';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { DataViewModule } from 'primeng/dataview';
@@ -51,6 +51,7 @@ import {ChipModule} from 'primeng/chip';
     DialogModule,
     MessagesModule,
     ConfirmDialogModule,
+    InputNumberModule,
     InputTextareaModule,
     FileUploadModule,
     AvatarModule,

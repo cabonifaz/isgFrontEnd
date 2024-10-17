@@ -23,6 +23,8 @@ export interface EquipoById {
   modelo: string;
   nombreEquipo: string;
   serie: string;
+  limiteMax: number;
+  limiteMin: number;
 }
 
 export interface EditMachineResponse {
@@ -49,4 +51,9 @@ export interface MachineEvent {
   tipoEvento: string
   molde: string
   cantidad: number
+}
+
+export interface MachineBaseResponse {
+  idTipoMensaje: number;
+  mensaje: string
 }
