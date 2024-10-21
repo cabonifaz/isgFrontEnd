@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CustomValidators } from 'src/app/shared/components/utils/Validations/CustomValidators';
-import { AuthenticationService } from '../../services/authentication.service';
-import { LoginService } from '../../services/login.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {CustomValidators} from 'src/app/shared/components/utils/Validations/CustomValidators';
+import {LoginService} from '../../services/login.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {ParameterService} from "../../../services/parameter/parameter.service";
 
 @Component({
   selector: 'app-login',
@@ -12,27 +12,27 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   styleUrls: ['./login.component.css'],
   animations: [
     trigger('slideIn', [
-      state('in', style({ transform: 'translateX(0%)' })),
+      state('in', style({transform: 'translateX(0%)'})),
       transition(':enter', [
-        style({ transform: 'translateX(-100%)' }),
+        style({transform: 'translateX(-100%)'}),
         animate('0.7s')
       ]),
     ]),
     trigger('fadeInOut', [
       transition(':enter', [   // :enter es alias de 'void => *'
-        style({ opacity: 0 }),
-        animate('0.5s ease-out', style({ opacity: 1 }))
+        style({opacity: 0}),
+        animate('0.5s ease-out', style({opacity: 1}))
       ]),
       transition(':leave', [   // :leave es alias de '* => void'
-        animate('0.5s ease-in', style({ opacity: 0 }))
+        animate('0.5s ease-in', style({opacity: 0}))
       ])
     ])
   ],
   styles: [
     `
-      :host ::ng-deep p-password input  {
-          padding-top: 1rem;
-          padding-bottom: 1rem;
+      :host ::ng-deep p-password input {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
       }
     `
   ],
@@ -41,10 +41,19 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
 
-  constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService, private loginService: LoginService) { }
+  urlDownloadApp: string = '#';
+  urlDownloadGuideApp: string = '#';
+
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private loginService: LoginService,
+    private parameterService: ParameterService) {
+  }
 
   ngOnInit(): void {
     this.loginFormBuild();
+    this.loadLinks();
   }
 
   loginFormBuild() {
@@ -60,14 +69,30 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      this.loginService.login({ username, password }).subscribe(() => {
+      const {username, password} = this.loginForm.value;
+      this.loginService.login({username, password}).subscribe(() => {
         this.router.navigate(['/main']);
       });
-      // console.log('loginForm: ', this.loginForm.value);
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+
+  loadLinks() {
+    this.parameterService.getLinksDownload().subscribe({
+      next: (resp) => {
+        if (resp.baseResponse.idTipoMensaje == 2) {
+          this.urlDownloadApp = resp.lstParams[0].str1;
+          this.urlDownloadGuideApp = resp.lstParams[1].str1;
+        } else if (resp.baseResponse.idTipoMensaje == 1) {
+          console.log(resp.baseResponse);
+        }
+      },
+      error: (err) => {
+        throw new Error(err);
+      }
+    })
   }
 
 }
