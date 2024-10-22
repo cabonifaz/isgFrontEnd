@@ -33,3 +33,7 @@ button.disabled {
 .colorTextGuide {
   color: #2d3c6e;
 }
+
+.chk-remember.ng-valid:not(form).ng-touched {
+  border-left: none; /* Elimina el borde para el checkbox */
+}

@@ -3,45 +3,22 @@
     <div>
       <div class="flex absolute top-0 left-0 sm:ml-[-1rem] lg:ml-0 mt-6" @slideIn>
         <div class="colorDiv w-8rem lg:min-w-full h-6rem"></div>
-        <img
-          alt="fractal-logo"
-          class="bg-cover w-6rem border-round-right-2xl"
-          src="../../../../assets/logo.png"
-        />
+        <img alt="fractal-logo" class="bg-cover w-6rem border-round-right-2xl" src="../../../../assets/logo.png"/>
       </div>
-      <div
-        class="text-900 text-3xl font-bold mb-3 sm:ml-0 xl:ml-8"
-        style="margin-top: 6.5rem"
-      >
+      <div class="text-900 text-3xl font-bold mb-3 sm:ml-0 xl:ml-8" style="margin-top: 6.5rem">
         Inicia sesión
       </div>
-      <form
-        (ngSubmit)="onSubmit()"
-        [formGroup]="loginForm"
-        class="sm:ml-0 xl:ml-8"
-      >
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="sm:ml-0 xl:ml-8">
       <span class="p-input-icon-left w-full lg:w-10 mb-3">
         <i class="pi pi-user"></i>
-        <input
-          class="w-full py-3"
-          formControlName="username"
-          pInputText
-          placeholder="Username"
-          type="text"
-        />
+        <input class="w-full py-3" formControlName="username" pInputText placeholder="Username" type="text"/>
       </span>
-        <div
-          *ngIf="
-          loginForm.get('username')?.touched &&
-          loginForm.get('username')?.errors
-        "
-          @fadeInOut
-          class="p-fluid mb-3 -mt-2 fade-in"
-        >
+        <div *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.errors"
+             @fadeInOut
+             class="p-fluid mb-3 -mt-2 fade-in">
           <div
             *ngIf="loginForm.get('username')?.errors?.['required']"
-            class="p-error"
-          >
+            class="p-error">
             <small>El username es requerido.</small>
           </div>
         </div>
@@ -55,22 +32,25 @@
           type="password"
         />
       </span>
-
-        <div
-          *ngIf="
-          loginForm.get('password')?.touched &&
-          loginForm.get('password')?.errors
-        "
-          @fadeInOut
-          class="p-fluid mb-3 -mt-2 fade-in"
-        >
+        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors"
+             @fadeInOut
+             class="p-fluid mb-3 -mt-2 fade-in">
           <div
             *ngIf="loginForm.get('password')?.errors?.['required']"
-            class="p-error"
-          >
+            class="p-error">
             <small>La contraseña es requerida.</small>
           </div>
         </div>
+      </form>
+      <div class="pb-3">
+        <p-checkbox
+          class="chk-remember"
+          [label]="'Recordar contraseña'"
+          [(ngModel)]="rememberPass"
+          [binary]="true"
+        ></p-checkbox>
+      </div>
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
         <button
           [class.disabled]="loginForm.invalid"
           [disabled]="loginForm.invalid"
@@ -78,14 +58,13 @@
           label="Sign In"
           pbutton=""
           pripple=""
-          type="submit"
-        >
+          type="submit">
           <span class="p-button-label">Continuar</span>
           <i class="pi pi-arrow-right"></i>
         </button>
       </form>
-    </div>
 
+    </div>
 
     <div class="flex flex-column align-items-center py-6 w-full h-fit">
       <a class="p-element p-ripple w-full p-3 p-button p-component colorButton app-download no-underline"
