@@ -23,11 +23,11 @@
         <div class="flex align-items-center gap-2">
           <span
             class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-orange-100 text-orange-400"
-            >{{ equipos.length }}
+          >{{ equipos.length }}
             {{
-              equipos.length > 1 || equipos.length === 0
-                ? "Máquinas"
-                : "Máquina"
+            equipos.length > 1 || equipos.length === 0
+              ? "Máquinas"
+              : "Máquina"
             }}
           </span>
         </div>
@@ -94,7 +94,7 @@
                 class="bi bi-circle-fill"
                 viewBox="0 0 16 16"
               >
-                <circle cx="8" cy="8" r="8" />
+                <circle cx="8" cy="8" r="8"/>
               </svg>
               {{ equipo.estado }}
             </span>
@@ -113,18 +113,18 @@
               currentUser?.rol !== 'Operador'
             "
           ></button>
-          <button
-            pButton
-            pRipple
-            type="button"
-            icon="pi pi-pencil"
-            class="p-button-rounded p-button-secondary p-button-text"
-            (click)="getMachineDataById(equipo)"
-            *ngIf="
-              currentUser?.rol !== 'Data User' ||
-              currentUser?.rol !== 'Operador'
-            "
-          ></button>
+          <button pButton pRipple type="button" icon="pi pi-pencil"
+                  class="p-button-rounded p-button-secondary p-button-text"
+                  (click)="getMachineDataById(equipo)"
+                  *ngIf=" currentUser?.rol !== 'Data User' || currentUser?.rol !== 'Operador'">
+          </button>
+          <button *ngIf="equipo.hasNotifications" pButton pRipple type="button" icon="pi pi-exclamation-circle"
+                  class="p-button-rounded p-button-secondary p-button-text"
+                  style="color: red"
+                  [pTooltip]="'Ver notificaciones'"
+                  [showDelay]="500"
+          >
+          </button>
         </td>
       </tr>
     </ng-template>
