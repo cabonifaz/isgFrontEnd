@@ -82,10 +82,8 @@ export class LoginComponent implements OnInit {
       const {username, password} = this.loginForm.value;
       this.loginService.login({username, password}).subscribe((data) => {
         if (data && this.rememberPass) {
-          console.log("guardando pass");
           localStorage.setItem('x', btoa('a' + password + '0'));
         } else {
-          console.log("borrando pass");
           localStorage.removeItem('x');
         }
         this.router.navigate(['/main']);
@@ -103,7 +101,7 @@ export class LoginComponent implements OnInit {
           this.urlDownloadApp = resp.lstParams[0].str1;
           this.urlDownloadGuideApp = resp.lstParams[1].str1;
         } else if (resp.baseResponse.idTipoMensaje == 1) {
-          console.log(resp.baseResponse);
+          console.error("Error", resp.baseResponse);
         }
       },
       error: (err) => {
