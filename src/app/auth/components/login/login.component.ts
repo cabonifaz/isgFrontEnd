@@ -38,17 +38,22 @@ import {ParameterService} from "../../../services/parameter/parameter.service";
   ],
 })
 export class LoginComponent implements OnInit {
-
   loginForm!: FormGroup;
 
   urlDownloadApp: string = '#';
   urlDownloadGuideApp: string = '#';
 
+  rememberPass: boolean = false;
+  xValue: any;
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private loginService: LoginService,
-    private parameterService: ParameterService) {
+    private parameterService: ParameterService
+  ) {
+    this.xValue = localStorage.getItem('x') || '';
+    this.rememberPass = (this.xValue != '');
   }
 
   ngOnInit(): void {
@@ -61,6 +66,11 @@ export class LoginComponent implements OnInit {
       username: ['', [CustomValidators.required]],
       password: ['', [CustomValidators.required, CustomValidators.minLength(1)]],
     });
+
+    if (this.xValue != '') {
+      this.loginForm.get('password')?.setValue(atob(this.xValue).substring(1, atob(this.xValue).length - 1));
+    }
+
   }
 
   // onButtonClick() {
@@ -70,7 +80,14 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       const {username, password} = this.loginForm.value;
-      this.loginService.login({username, password}).subscribe(() => {
+      this.loginService.login({username, password}).subscribe((data) => {
+        if (data && this.rememberPass) {
+          console.log("guardando pass");
+          localStorage.setItem('x', btoa('a' + password + '0'));
+        } else {
+          console.log("borrando pass");
+          localStorage.removeItem('x');
+        }
         this.router.navigate(['/main']);
       });
     } else {
