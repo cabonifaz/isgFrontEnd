@@ -42,7 +42,7 @@
           </div>
         </div>
       </form>
-      <div class="pb-3">
+      <div class="sm:ml-0 xl:ml-8 pb-3">
         <p-checkbox
           class="chk-remember"
           [label]="'Recordar contraseña'"
@@ -50,7 +50,7 @@
           [binary]="true"
         ></p-checkbox>
       </div>
-      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="sm:ml-0 xl:ml-8">
         <button
           [class.disabled]="loginForm.invalid"
           [disabled]="loginForm.invalid"
