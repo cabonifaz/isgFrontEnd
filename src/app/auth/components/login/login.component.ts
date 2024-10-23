@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
   urlDownloadApp: string = '#';
   urlDownloadGuideApp: string = '#';
 
-  rememberPass: boolean = false;
+  rememberLogin: boolean = false;
   xValue: any;
 
   constructor(
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
     private parameterService: ParameterService
   ) {
     this.xValue = localStorage.getItem('x') || '';
-    this.rememberPass = (this.xValue != '');
+    this.rememberLogin = (this.xValue != '');
   }
 
   ngOnInit(): void {
@@ -68,7 +68,9 @@ export class LoginComponent implements OnInit {
     });
 
     if (this.xValue != '') {
-      this.loginForm.get('password')?.setValue(atob(this.xValue).substring(1, atob(this.xValue).length - 1));
+      const dataValue = JSON.parse(atob(this.xValue.substring(1, (this.xValue.length - 1))));
+      this.loginForm.get('username')?.setValue(dataValue.username);
+      this.loginForm.get('password')?.setValue(dataValue.password);
     }
 
   }
@@ -81,8 +83,8 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const {username, password} = this.loginForm.value;
       this.loginService.login({username, password}).subscribe((data) => {
-        if (data && this.rememberPass) {
-          localStorage.setItem('x', btoa('a' + password + '0'));
+        if (data && this.rememberLogin) {
+          localStorage.setItem('x', 'a' + btoa(JSON.stringify({username, password})) + '0');
         } else {
           localStorage.removeItem('x');
         }
