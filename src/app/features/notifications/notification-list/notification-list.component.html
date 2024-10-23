@@ -1,0 +1,83 @@
+<div class="">
+  <p-table
+    #machineEventsTable
+    [value]="notifications"
+    [rows]="rows"
+    [paginator]="true"
+    [(first)]="first"
+    [showFirstLastIcon]="true"
+    [globalFilterFields]="['date', 'hour']"
+    [tableStyle]="{
+      'min-width': '100%',
+      border: '1px solid #e7eaed',
+      'border-top': 'none'
+    }"
+    dataKey="id"
+    [totalRecords]="totalRecords"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between flex-wrap">
+        <div class="flex align-items-center gap-2 w-full sm:w-auto mb-2 sm:mt-0">
+          <span
+            class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base  font-medium">
+            {{ nombreEquipo }}
+          </span>
+        </div>
+        <div class="flex align-items-center gap-2 w-full sm:w-auto mb-2 sm:mt-0">
+          <span
+            class="inline-flex align-items-center px-3 py-1 border-round-2xl text-base font-medium bg-orange-100 text-orange-400">
+            {{ totalRecords }}
+            {{totalRecords > 1 || totalRecords === 0 ? "Registros" : "Registro"}}
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" class="col-1 text-center">Nro</th>
+        <th scope="col" class="col-6">Mensaje</th>
+        <th scope="col" class="col-2">Modalidad</th>
+        <th scope="col" class="col-1 text-center">Estado</th>
+        <th scope="col" class="col-2 text-center">Fecha y Hora</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-notification>
+      <tr>
+        <td class="col-1 font-medium text-center">{{ notification.idNotificacion }}</td>
+        <td class="col-6 font-medium text-sm">
+          {{ notification.mensaje }}
+        </td>
+        <td class="col-2 font-medium text-sm">
+          {{ notification.tipoEnvio }}
+        </td>
+        <td class="col-1 font-medium text-center" >
+          {{ notification.estadoEnvio }}
+        </td>
+        <td class="col-2 font-medium text-center">
+          {{ notification.fechaHoraEvaluacion | date : "dd/MM/yyyy HH:mm" }}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button
+        type="button"
+        icon="pi pi-arrow-left"
+        label="Volver"
+        styleClass="p-button-outlined border-gray-300 text-gray-800"
+        (click)="prev()"
+        [disabled]="isFirstPage()"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+      <p-button
+        type="button"
+        label="Siguiente"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        styleClass="p-button-outlined border-gray-300 text-gray-800"
+        (click)="next()"
+        [disabled]="isLastPage()"
+      ></p-button>
+    </ng-template>
+  </p-table>
+</div>

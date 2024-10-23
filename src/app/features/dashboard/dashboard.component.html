@@ -123,6 +123,7 @@
                   style="color: red"
                   [pTooltip]="'Ver notificaciones'"
                   [showDelay]="500"
+                  (click)="goToNotificationsList(equipo.idEquipo, equipo.nombreEquipo)"
           >
           </button>
         </td>

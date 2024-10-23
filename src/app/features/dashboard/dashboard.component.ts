@@ -9,6 +9,8 @@ import {MachineStateService} from '../services/machine-state.service';
 import {catchError, debounceTime, distinctUntilChanged, throwError} from 'rxjs';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {UserResponse} from 'src/app/shared/models/user.interface';
+import {Router} from "@angular/router";
+import {NotificationsService} from "../../services/notifications/notifications.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -99,7 +101,9 @@ export class DashboardComponent implements OnInit {
     private machineService: MachineService,
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService,
-    private machineStateService: MachineStateService
+    private machineStateService: MachineStateService,
+    private router: Router,
+    private notificationService: NotificationsService
   ) {
   }
 
@@ -323,4 +327,10 @@ export class DashboardComponent implements OnInit {
   setEquipo(idEquipo: number, nombreEquipo: string): void {
     this.machineService.setEquipo(idEquipo, nombreEquipo);
   }
+
+  goToNotificationsList(idEquipo: number, nombreEquipo: string) {
+    this.notificationService.setIdEquipo(idEquipo, nombreEquipo);
+    this.router.navigate(["main/notification-list"]);
+  }
+
 }
