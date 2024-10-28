@@ -1,7 +1,9 @@
 export const REQUEST_MAPPING = 'isg';
-export const LOGIN_UI = 'auth'
-export const USER_UI = 'user'
-export const MACHINE_LIST_UI = 'equipment'
+export const LOGIN_UI = 'auth';
+export const USER_UI = 'user';
+export const MACHINE_LIST_UI = 'equipment';
+export const PARAMETER_UI = 'util';
+export const NOTIFICATION_UI = 'notifications'
 
 export const LOGIN_API_ENDPOINTS = {
   LOGIN: `${REQUEST_MAPPING}/${LOGIN_UI}/login`
@@ -25,4 +27,12 @@ export const MACHINE_API_ENDPOINTS = {
   EDIT_MACHINE: `${REQUEST_MAPPING}/${MACHINE_LIST_UI}/edit`,
   DISABLE_MACHINE: `${REQUEST_MAPPING}/${MACHINE_LIST_UI}/disable`,
   GET_MACHINE_EVENTS: `${REQUEST_MAPPING}/event/list`,
+}
+
+export const PARAMETER_API_ENDPOINTS = {
+  GET_LINKS: `${REQUEST_MAPPING}/${PARAMETER_UI}/links`,
+}
+
+export const NOTIFICATION_API_ENDPOINTS = {
+  LST_NOTIFICATIONS: `${REQUEST_MAPPING}/${NOTIFICATION_UI}/list`,
 }

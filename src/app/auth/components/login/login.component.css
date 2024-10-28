@@ -20,3 +20,20 @@ button.disabled {
 .colorButton {
   background-color: #2d3c6e;
 }
+
+.app-download {
+  max-width: 400px;
+  min-width: 150px;
+}
+
+.txtGuide {
+  font-family: 'Inter', sans-serif;
+}
+
+.colorTextGuide {
+  color: #2d3c6e;
+}
+
+.chk-remember.ng-valid:not(form).ng-touched {
+  border-left: none; /* Elimina el borde para el checkbox */
+}

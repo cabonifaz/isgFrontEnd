@@ -6,6 +6,7 @@ import {UserFormComponent} from './user-form/user-form.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from '../shared/shared.module';
 import {UsersDashboardComponent} from "./users-dashboard/users-dashboard.component";
+import { NotificationListComponent } from './notifications/notification-list/notification-list.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {UsersDashboardComponent} from "./users-dashboard/users-dashboard.compone
     DashboardComponent,
     MachineEventsComponent,
     UsersDashboardComponent,
-    UserFormComponent
+    UserFormComponent,
+    NotificationListComponent
   ],
   imports: [
     CommonModule,
