@@ -9,6 +9,7 @@ import {AuthGuard} from './core/guards/auth-guard.guard';
 import {UsersDashboardComponent} from "./features/users-dashboard/users-dashboard.component";
 import {NotificationListComponent} from "./features/notifications/notification-list/notification-list.component";
 import {SensorConfigurationComponent} from "./features/sensor-configuration/sensor-configuration.component";
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -29,5 +30,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }]
 })
 export class AppRoutingModule { }
