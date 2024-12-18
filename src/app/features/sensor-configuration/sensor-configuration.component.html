@@ -1,0 +1,36 @@
+<div class="container-configuration flex flex-column align-items-center">
+  <div class="flex flex-row">
+    <div class="col-12">
+      <h1 class="titulo">Configuración de Sensor</h1>
+      <h5>Calibración</h5>
+    </div>
+  </div>
+  <div class="flex flex-row box-configurations">
+    <div class="col-8 flex flex-column justify-content-center">
+      <div class="flex flex-row align-items-center">
+        <label for="maxValue" class="txt-label">Valor Actual</label>
+        <input id="maxValue" type="number" class="value-slider" pInputText [(ngModel)]="sliderRange[0]"
+               [value]="sliderRange[0]"/>
+      </div>
+      <div class="flex flex-row align-items-center mt-3">
+        <label for="colorValue" class="txt-label">Color Actual</label>
+        <p-colorPicker id="colorValue"
+                       [(ngModel)]="color"
+                       [showTransitionOptions]="'0.1s linear'"
+                       [hideTransitionOptions]="'0.1s linear'">
+        </p-colorPicker>
+        <span class="txt-color">{{color}}</span>
+      </div>
+    </div>
+    <div class="col-4 flex flex-column align-items-end">
+      <div [style]="'background-color: ' + color">
+        <p-slider [(ngModel)]="sliderRange[0]"
+                  [min]="0"
+                  [max]="100"
+                  [step]="1"
+                  [orientation]="'vertical'">
+        </p-slider>
+      </div>
+    </div>
+  </div>
+</div>

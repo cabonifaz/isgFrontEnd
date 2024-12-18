@@ -7,6 +7,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from '../shared/shared.module';
 import {UsersDashboardComponent} from "./users-dashboard/users-dashboard.component";
 import { NotificationListComponent } from './notifications/notification-list/notification-list.component';
+import { SensorConfigurationComponent } from './sensor-configuration/sensor-configuration.component';
+import {ColorPickerModule} from "primeng/colorpicker";
+import {SliderModule} from "primeng/slider";
 
 
 @NgModule({
@@ -15,13 +18,16 @@ import { NotificationListComponent } from './notifications/notification-list/not
     MachineEventsComponent,
     UsersDashboardComponent,
     UserFormComponent,
-    NotificationListComponent
+    NotificationListComponent,
+    SensorConfigurationComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    ColorPickerModule,
+    SliderModule
   ],
   exports: [
     DashboardComponent
