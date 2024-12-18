@@ -1,0 +1,55 @@
+.container-configuration {
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  max-height: 100%;
+  padding: 10px;
+}
+
+:host ::ng-deep .p-slider-handle {
+  background-color: #42A948 !important;
+  border: 2px solid #42A948 !important;
+}
+
+:host ::ng-deep .p-slider .p-slider-handle:focus {
+  border-color: green;
+  box-shadow: none;
+  background: none;
+}
+
+
+:host ::ng-deep .p-slider {
+  background-color: transparent;
+  width: 70px;
+}
+
+:host ::ng-deep .p-slider .p-slider-range {
+  background: transparent;
+}
+
+.titulo {
+  padding: 10px 0;
+  color: #42A948
+}
+
+.txt-label {
+  width: auto;
+  max-width: 150px;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.value-slider {
+  width: 100%;
+  max-width: 80px;
+  padding: 10px;
+}
+
+.txt-color {
+  margin-left: 10px;
+}
+
+.box-configurations {
+  width: 100%;
+  max-width: 400px;
+}
