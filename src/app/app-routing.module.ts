@@ -13,7 +13,7 @@ import {SensorConfigurationComponent} from "./features/sensor-configuration/sens
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'config-sensor', component: SensorConfigurationComponent},
+  {path: 'config-sensor', component: SensorConfigurationComponent, pathMatch: 'full'},
   // // { path: 'register', component: SingUpComponent },
   {
     path: 'main', component: MainComponent, canActivate: [AuthGuard], children: [
@@ -28,6 +28,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }
