@@ -7,12 +7,11 @@ import {MachineEventsComponent} from './features/machine-events/machine-events.c
 import {UserFormComponent} from './features/user-form/user-form.component';
 import {AuthGuard} from './core/guards/auth-guard.guard';
 import {UsersDashboardComponent} from "./features/users-dashboard/users-dashboard.component";
-import {SensorConfigurationComponent} from "./features/sensor-configuration/sensor-configuration.component";
+import {NotificationListComponent} from "./features/notifications/notification-list/notification-list.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'sensor-configuration', component: SensorConfigurationComponent},
   // // { path: 'register', component: SingUpComponent },
   {
     path: 'main', component: MainComponent, canActivate: [AuthGuard], children: [
@@ -20,6 +19,7 @@ const routes: Routes = [
       {path: 'machine-events', component: MachineEventsComponent},
       {path: 'user-form', component: UserFormComponent},
       {path: 'users-dashboard', component: UsersDashboardComponent},
+      {path: 'notification-list', component: NotificationListComponent},
     ]
   }
 ];
