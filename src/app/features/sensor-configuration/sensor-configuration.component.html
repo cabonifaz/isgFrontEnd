@@ -8,9 +8,9 @@
   <div class="flex flex-row box-configurations">
     <div class="col-8 flex flex-column justify-content-center">
       <div class="flex flex-row align-items-center">
-        <label for="maxValue" class="txt-label">Valor Actual</label>
-        <input id="maxValue" type="number" class="value-slider" pInputText [(ngModel)]="sliderRange[0]"
-               [value]="sliderRange[0]"/>
+        <label for="maxValue" class="txt-label">Rebotes por minuto</label>
+        <input id="maxValue" type="number" class="value-slider" pInputText [(ngModel)]="numRebotes"
+               [value]="numRebotes"/>
       </div>
       <div class="flex flex-row align-items-center mt-3">
         <label for="colorValue" class="txt-label">Color Actual</label>
@@ -22,15 +22,39 @@
         <span class="txt-color">{{color}}</span>
       </div>
     </div>
-    <div class="col-4 flex flex-column align-items-end">
-      <div [style]="'background-color: ' + color">
-        <p-slider [(ngModel)]="sliderRange[0]"
-                  [min]="0"
-                  [max]="100"
-                  [step]="1"
-                  [orientation]="'vertical'">
-        </p-slider>
-      </div>
-    </div>
+  </div>
+  <div class="col-4 flex flex-column">
+    <label>Ancho de fondo {{sliderTamanio[0]}} %</label>
+    <p-slider class="my-5" [(ngModel)]="sliderTamanio[0]"
+              [min]="0"
+              [max]="100"
+              [step]="1"
+              [orientation]="'horizontal'">
+    </p-slider>
+    <label>Alto de fondo {{sliderTamanio[1]}} %</label>
+    <p-slider class="my-5" [(ngModel)]="sliderTamanio[1]"
+              [min]="0"
+              [max]="100"
+              [step]="1"
+              [orientation]="'horizontal'">
+    </p-slider>
+  </div>
+
+  <button class="btn-actualizar"
+    (click)="actualizarAnimacion()">
+    Actualizar
+  </button>
+  <br>
+  <div class="box-slider-2 mt-5 mb-5"
+       [style.background-color]="color"
+       [style.width.%]="sliderTamanio[0]"
+       [style.height.%]="sliderTamanio[1]"
+  >
+    <p-slider [(ngModel)]="sliderRange[0]"
+              [min]="0"
+              [max]="100"
+              [step]="1"
+              [orientation]="'vertical'">
+    </p-slider>
   </div>
 </div>
