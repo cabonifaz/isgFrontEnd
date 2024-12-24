@@ -6,26 +6,59 @@
   padding: 10px;
 }
 
-:host ::ng-deep .p-slider-handle {
+:host ::ng-deep .box-slider-2 .p-slider-handle {
+  height: 3.143rem;
+  width: 3.143rem;
   background-color: #42A948 !important;
   border: 2px solid #42A948 !important;
 }
 
-:host ::ng-deep .p-slider .p-slider-handle:focus {
+.box-slider-2 {
+  width: 100%;
+  min-width: 430px;
+  max-width: 850px;
+  height: 100%;
+  min-height: 271px;
+  max-height: 415px;
+}
+
+:host ::ng-deep .box-slider-2 .p-slider .p-slider-handle:focus {
   border-color: green;
   box-shadow: none;
   background: none;
 }
 
 
-:host ::ng-deep .p-slider {
+:host ::ng-deep .box-slider-2 .p-slider {
   background-color: transparent;
-  width: 70px;
+  width: 100%;
+  min-width: 430px;
+  max-width: 850px;
+  height: 100%;
 }
 
-:host ::ng-deep .p-slider .p-slider-range {
+:host ::ng-deep .box-slider-2 .p-slider .p-slider-range {
   background: transparent;
 }
+
+:host ::ng-deep .box-slider-2 .p-slider.p-slider-vertical .p-slider-handle {
+  margin-left: -1.5715rem;
+  margin-bottom: -1.5715rem;
+}
+
+
+@keyframes sube-baja-esfera {
+  0% {
+    bottom: 0;
+  }
+  50% {
+    bottom: 100%;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+
 
 .titulo {
   padding: 10px 0;
@@ -51,5 +84,17 @@
 
 .box-configurations {
   width: 100%;
-  max-width: 400px;
+  max-width: 445px;
+}
+
+.btn-actualizar {
+  border: 5px transparent solid;
+  border-radius: 10%;
+  width: 100px;
+  height: 100px;
+  background-color: #3B82F6;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
