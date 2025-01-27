@@ -49,13 +49,16 @@
 
 @keyframes sube-baja-esfera {
   0% {
-    bottom: 0;
-  }
-  50% {
     bottom: 100%;
   }
-  100% {
+  20% {
     bottom: 0;
+  }
+  80% {
+    bottom: 0;
+  }
+  100% {
+    bottom: 100%;
   }
 }
 
