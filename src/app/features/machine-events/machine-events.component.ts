@@ -167,6 +167,11 @@ export class MachineEventsComponent implements OnInit {
     }
   }
 
+  refreshDates(): void {
+    this.desde = new Date(new Date().getTime() - 10 * 60000);
+    this.hasta = new Date(new Date().getTime() + 10 * 60000);
+  }
+
   exportExcel(): void {
     const exportFilter = { ...this.filter, cHoja: 0, nHoja: 0 };
     this.machineService.getMachineEvents(exportFilter).subscribe(

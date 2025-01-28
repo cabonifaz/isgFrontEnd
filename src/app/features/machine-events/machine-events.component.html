@@ -71,6 +71,14 @@
           ></button>
           <button
             pButton
+            class="p-button-secondary p-button-outlined mt-2 sm:mt-0 mr-2"
+            icon="pi pi-refresh"
+            pTooltip="Refrescar lista"
+            tooltipPosition="top"
+            (click)="clearTable(); refreshDates(); setDates(); getEvents()"
+          ></button>
+          <button
+            pButton
             class="p-button-secondary p-button-outlined"
             icon="pi pi-file-excel"
             pTooltip="Exportar a Excel todos los registros"
