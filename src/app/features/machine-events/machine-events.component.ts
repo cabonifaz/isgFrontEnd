@@ -181,22 +181,26 @@ export class MachineEventsComponent implements OnInit {
             EQUIPO: string;
             MODELO: string;
             SERIE: string;
-            MOLDE: string;
             TIPO_EVENTO: string;
             FECHA: string;
             HORA: string;
             CANTIDAD: number;
+            RMIN_RMAX: string;
+            ESTADO_EQUIPO: string;
+            USUARIO:string
           }[] = [];
           machineEvents.eventos.forEach(event => {
             data.push({
               'EQUIPO': machineEvents.equipoInfo.nombreEquipo,
               'MODELO': machineEvents.equipoInfo.modelo,
               'SERIE': machineEvents.equipoInfo.serie,
-              'MOLDE': event.molde,
               'TIPO_EVENTO': event.tipoEvento,
               'FECHA': event.fecha.toString(),
               'HORA': event.hora,
-              'CANTIDAD': event.cantidad
+              'CANTIDAD': event.cantidad,
+              'RMIN_RMAX': event.RMin_RMax,
+              'ESTADO_EQUIPO': event.Estado_Equipo,
+              'USUARIO': event.Usuario
             });
           });
           import("xlsx").then(xlsx => {

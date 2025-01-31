@@ -90,22 +90,26 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th scope="col">Molde</th>
         <th scope="col">Tipo de Evento</th>
         <th scope="col">Fecha</th>
         <th scope="col">Hora</th>
         <th scope="col">Cantidad</th>
+        <th scope="col">R.Min - R.Max</th>
+        <th scope="col">Estado Equipo</th>
+        <th scope="col">Usuario</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-event>
       <tr>
-        <td class="font-medium">{{ event.molde }}</td>
         <td class="font-medium">
           {{ event.tipoEvento }}
         </td>
         <td class="font-medium">{{ event.fecha | date : "dd/MM/yyyy" }}</td>
         <td class="font-medium">{{ event.hora }}</td>
         <td class="font-medium">{{ event.cantidad }}</td>
+        <td class="font-medium">{{ event.RMin_RMax }}</td>
+        <td class="font-medium">{{ event.Estado_Equipo }}</td>
+        <td class="font-medium">{{ event.Usuario }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft">
