@@ -46,11 +46,13 @@ export interface MachineEventResponse {
 }
 
 export interface MachineEvent {
-  fecha: string
-  hora: string
-  tipoEvento: string
-  molde: string
-  cantidad: number
+  fecha: string,
+  hora: string,
+  tipoEvento: string,
+  cantidad: number,
+  RMin_RMax: string,
+  Estado_Equipo: string;
+  Usuario: string;
 }
 
 export interface MachineBaseResponse {
